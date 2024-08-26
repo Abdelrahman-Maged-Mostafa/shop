@@ -12,7 +12,7 @@ const StyledApp = styled.div``;
 //Styled bg
 const StyledContainer = styled.div`
   padding: 0 40px 20px;
-  background: linear-gradient(var(--color-yellow-700), var(--color-yellow-100));
+  background: linear-gradient(var(--color-brand-900), var(--color-grey-100));
 `;
 //style links
 const StyledNav = styled.div`
@@ -35,6 +35,8 @@ const StyledSearch = styled.div`
 
 const PageContainer = styled.div`
   min-height: 400px;
+  background-color: var(--color-grey-100);
+  padding: 25px 40px;
 `;
 function AppLayout() {
   return (
