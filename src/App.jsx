@@ -5,6 +5,7 @@ import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./pages/AppLayout";
 import DarkModeProvider from "./context/DarkModeContext";
 import Dashboard from "./pages/Dashboard";
+import ItemDetails from "./pages/ItemDetails";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -25,6 +26,7 @@ function App() {
           >
             <Route index element={<Navigate replace to="dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="dashboard/:itemId" element={<ItemDetails />} />
             <Route path="cart" element={<Tryed>cart...</Tryed>} />
             <Route path="users" element={<Tryed>users...</Tryed>} />
             <Route path="settings" element={<Tryed>settings...</Tryed>} />

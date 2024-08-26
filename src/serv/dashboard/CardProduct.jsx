@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledCard = styled.div`
@@ -69,7 +70,9 @@ function CardProduct({ data }) {
           {data.price}
         </div>
         <button className="button">Add to Cart</button>
-        <button className="button">Details</button>
+        <Link to={`/dashboard/${data.id}`}>
+          <button className="button">Details</button>
+        </Link>
       </div>
     </StyledCard>
   );

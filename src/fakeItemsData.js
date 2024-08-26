@@ -1,13 +1,22 @@
+import { LuFolderMinus } from "react-icons/lu";
+
 const data = [
   {
+    id: 13,
     name: "Man T-shirt",
     price: 30,
     currency: "$",
     photo: "/images/tshirt-img2.png",
+    detailPhotos: [
+      "/images/tshirt-img2.png",
+      "/images/download-removebg-preview.png",
+      "/images/png-clipart-printed-t-shirt-polo-shirt-clothing-t-shirt-tshirt-fashion-thumbnail-removebg-preview.png",
+    ],
     shortDescription: "This is a short description of the product.",
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 14,
     name: "Man drees",
     price: 80,
     currency: "$",
@@ -16,6 +25,8 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 15,
+
     name: "computer core-i9",
     price: 180,
     currency: "$",
@@ -24,6 +35,8 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 16,
+
     name: "mobile galaxy",
     price: 70,
     currency: "$",
@@ -32,6 +45,8 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 17,
+
     name: "laptop-img.png",
     price: 90,
     currency: "$",
@@ -40,6 +55,8 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 18,
+
     name: "necklace",
     price: 90,
     currency: "$",
@@ -48,6 +65,8 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 19,
+
     name: "kangan",
     price: 90,
     currency: "$",
@@ -56,6 +75,8 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 20,
+
     name: "Man T-shirt",
     price: 30,
     currency: "$",
@@ -64,6 +85,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 21,
     name: "Man drees",
     price: 80,
     currency: "$",
@@ -72,6 +94,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 22,
     name: "computer core-i9",
     price: 180,
     currency: "$",
@@ -80,6 +103,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 23,
     name: "mobile galaxy",
     price: 70,
     currency: "$",
@@ -88,6 +112,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 24,
     name: "laptop-img.png",
     price: 90,
     currency: "$",
@@ -96,6 +121,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 25,
     name: "necklace",
     price: 90,
     currency: "$",
@@ -104,6 +130,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 26,
     name: "kangan",
     price: 90,
     currency: "$",
@@ -112,6 +139,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 27,
     name: "Man T-shirt",
     price: 30,
     currency: "$",
@@ -120,6 +148,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 28,
     name: "Man drees",
     price: 80,
     currency: "$",
@@ -128,6 +157,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 29,
     name: "computer core-i9",
     price: 180,
     currency: "$",
@@ -136,6 +166,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 30,
     name: "mobile galaxy",
     price: 70,
     currency: "$",
@@ -144,6 +175,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 31,
     name: "laptop-img.png",
     price: 90,
     currency: "$",
@@ -152,6 +184,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 32,
     name: "necklace",
     price: 90,
     currency: "$",
@@ -160,6 +193,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 33,
     name: "kangan",
     price: 90,
     currency: "$",
@@ -168,6 +202,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 34,
     name: "Man T-shirt",
     price: 30,
     currency: "$",
@@ -176,6 +211,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 35,
     name: "Man drees",
     price: 80,
     currency: "$",
@@ -184,6 +220,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 36,
     name: "computer core-i9",
     price: 180,
     currency: "$",
@@ -192,6 +229,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 37,
     name: "mobile galaxy",
     price: 70,
     currency: "$",
@@ -200,6 +238,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 38,
     name: "laptop-img.png",
     price: 90,
     currency: "$",
@@ -208,6 +247,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 39,
     name: "necklace",
     price: 90,
     currency: "$",
@@ -216,6 +256,7 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
   {
+    id: 40,
     name: "kangan",
     price: 90,
     currency: "$",
@@ -224,4 +265,20 @@ const data = [
     reviews: [{ name: "Abdelrahman Maged", rate: 4.5, createdAt: Date.now() }],
   },
 ];
-export default data;
+
+export default data.map((el) => {
+  return {
+    id: el.id,
+    name: el.name,
+    price: el.price,
+    currency: el.currency,
+    photo: el.photo,
+    detailPhotos: el.detailPhotos || [el.photo, el.photo, el.photo],
+    avgRating: Math.trunc(Math.random() * 40 + 10) / 10,
+    shortDescription: el.shortDescription,
+    stock: Math.trunc(Math.random() * 250 + 10),
+    reviews: el.reviews,
+    longDescription:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Et molestias dolorum voluptatum quasi consequuntur, omnis libero laudantium ipsam adipisci, eligendi recusandae earum sapiente. Necessitatibus eaque cum provident fugit nostrum accusamus laudantium, fuga ab, suscipit optio, iure minima non molestiae veritatis nam fugiat eos officia. Quisquam ratione, dolores doloribus modi explicabo voluptatum asperiores unde ab doloremque cupiditate impedit, distinctio, nobis aperiam illo perferendis a? Praesentium voluptatum voluptates facilis vitae. Ab maxime recusandae fuga impedit reprehenderit ullam magni doloremque dolorem suscipit. Blanditiis reiciendis animi, illo, dolores sint necessitatibus nihil architecto deserunt quasi cupiditate consequuntur. Repellat cumque minima deleniti culpa ipsum beatae obcaecati consectetur suscipit magni dolore distinctio quis officia vel sed modi ipsa tenetur quisquam commodi, eligendi minus? Aut nobis quaerat ratione.",
+  };
+});
