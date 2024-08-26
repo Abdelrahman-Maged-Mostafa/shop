@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { HiSearch } from "react-icons/hi";
 import styled from "styled-components";
 import Input from "../../ui/Input";
-const StyledForm = styled.form`
+import { useSearchContext } from "../../context/useSearchBlog";
+const StyledForm = styled.div`
   width: 100%;
   position: relative;
   display: flex;
@@ -18,19 +18,15 @@ const StyledForm = styled.form`
   }
 `;
 function InputSearch() {
-  const [blog, setBlog] = useState("");
-  function handelSearch(e) {
-    e.preventDefault();
-    console.log(blog);
-  }
+  const { setBlog } = useSearchContext();
   return (
-    <StyledForm onSubmit={handelSearch}>
+    <StyledForm>
       <Input
         type="text"
         placeholder="Search this blog"
         onChange={(e) => setBlog(e.target.value)}
       />
-      <HiSearch onClick={handelSearch} />
+      <HiSearch />
     </StyledForm>
   );
 }

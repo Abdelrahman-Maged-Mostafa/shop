@@ -7,6 +7,7 @@ import Cart from "../serv/appLayout/Cart";
 import Menu from "../serv/appLayout/Menu";
 import InputSearch from "../serv/appLayout/InputSearch";
 import Footer from "../serv/appLayout/Footer";
+import SearchContextProvider from "../context/SearchContext";
 
 const StyledApp = styled.div``;
 //Styled bg
@@ -41,24 +42,26 @@ const PageContainer = styled.div`
 function AppLayout() {
   return (
     <StyledApp>
-      <StyledContainer>
-        <Links />
-        <Logo />
-        <StyledNav>
-          <StyledBar>
-            <Option />
-            <Cart />
-          </StyledBar>
-          <StyledSearch>
-            <Menu />
-            <InputSearch />
-          </StyledSearch>
-        </StyledNav>
-      </StyledContainer>
-      <PageContainer>
-        <Outlet />
-      </PageContainer>
-      <Footer />
+      <SearchContextProvider>
+        <StyledContainer>
+          <Links />
+          <Logo />
+          <StyledNav>
+            <StyledBar>
+              <Option />
+              <Cart />
+            </StyledBar>
+            <StyledSearch>
+              <Menu />
+              <InputSearch />
+            </StyledSearch>
+          </StyledNav>
+        </StyledContainer>
+        <PageContainer>
+          <Outlet />
+        </PageContainer>
+        <Footer />
+      </SearchContextProvider>
     </StyledApp>
   );
 }
