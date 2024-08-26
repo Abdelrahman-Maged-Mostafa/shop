@@ -6,6 +6,7 @@ import Logo from "../serv/appLayout/Logo";
 import Cart from "../serv/appLayout/Cart";
 import Menu from "../serv/appLayout/Menu";
 import InputSearch from "../serv/appLayout/InputSearch";
+import Footer from "../serv/appLayout/Footer";
 
 const StyledApp = styled.div``;
 //Styled bg
@@ -31,6 +32,10 @@ const StyledSearch = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
+const PageContainer = styled.div`
+  min-height: 400px;
+`;
 function AppLayout() {
   return (
     <StyledApp>
@@ -48,7 +53,10 @@ function AppLayout() {
           </StyledSearch>
         </StyledNav>
       </StyledContainer>
-      <Outlet />
+      <PageContainer>
+        <Outlet />
+      </PageContainer>
+      <Footer />
     </StyledApp>
   );
 }
