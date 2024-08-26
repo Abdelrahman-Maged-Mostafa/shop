@@ -22,6 +22,7 @@ const ProductRating = styled.div`
 `;
 const Bar = styled.div`
   margin-top: 60px;
+  margin-bottom: 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   text-align: center;
@@ -64,7 +65,7 @@ function ItemDetails() {
       </Bar>
       <ProductRating>
         {active === "product" && <p>{curItem.longDescription}</p>}
-        {active === "rating" && <Rating />}
+        {active === "rating" && <Rating reviews={curItem.reviews} />}
       </ProductRating>
     </>
   );

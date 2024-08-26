@@ -20,7 +20,7 @@ const StyledOption = styled.div`
     font-weight: bold;
     cursor: pointer;
     option {
-      background-color: var(--color-yellow-100);
+      background-color: var(--color-grey-100);
       font-weight: bold;
     }
   }
