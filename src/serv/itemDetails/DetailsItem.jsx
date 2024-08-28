@@ -19,6 +19,7 @@ const StyledAddCard = styled.div`
     align-items: center;
     gap: 5px;
     svg {
+      cursor: pointer;
       font-size: 25px;
     }
     p {

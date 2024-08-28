@@ -12,7 +12,7 @@ import { useEffect } from "react";
 const StyledCart = styled.div`
   display: flex;
   justify-content: flex-end;
-  align-items: center;
+  align-items: flex-start;
   gap: 20px;
   font-weight: bold;
   a {
@@ -60,9 +60,9 @@ function Cart() {
         <HiShoppingCart />
         <span>Cart</span>
       </NavLink>
-      <NavLink to="/account">
+      <NavLink to="/login">
         <HiUser />
-        <span>Account</span>
+        <span>Login</span>
       </NavLink>
     </StyledCart>
   );

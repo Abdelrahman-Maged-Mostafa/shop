@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Option from "../serv/appLayout/Option";
 import Links from "../serv/appLayout/Links";
 import Logo from "../serv/appLayout/Logo";
-import Cart from "../serv/appLayout/Cart";
+import Cart from "../serv/appLayout/NavCart";
 import Menu from "../serv/appLayout/Menu";
 import InputSearch from "../serv/appLayout/InputSearch";
 import Footer from "../serv/appLayout/Footer";
