@@ -36,7 +36,14 @@ function PageNotFound() {
         <Heading as="h1">
           The page you are looking for could not be found 😢
         </Heading>
-        <button onClick={moveBack} size="large">
+        <button
+          onClick={moveBack}
+          size="large"
+          style={{
+            color: "var(--color-grey-0)",
+            backgroundColor: "var(--color-grey-900)",
+          }}
+        >
           &larr; Go back
         </button>
       </Box>

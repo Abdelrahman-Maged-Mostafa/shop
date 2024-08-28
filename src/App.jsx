@@ -8,6 +8,9 @@ import Dashboard from "./pages/Dashboard";
 import ItemDetails from "./pages/ItemDetails";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import ForgetPassword from "./pages/ForgetPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -34,11 +37,9 @@ function App() {
             <Route path="settings" element={<Tryed>settings...</Tryed>} />
             <Route path="account" element={<Tryed>account...</Tryed>} />
             <Route path="login" element={<Login />} />
-            <Route path="signup" element={<Tryed>signup...</Tryed>} />
-            <Route
-              path="resetpassword"
-              element={<Tryed>resetpassword</Tryed>}
-            />
+            <Route path="signup" element={<Signup />} />
+            <Route path="forgetPassword" element={<ForgetPassword />} />
+            <Route path="writeNewPasword/:token" element={<ResetPassword />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>

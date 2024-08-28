@@ -79,8 +79,8 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-const Login = () => {
-  const { register, handleSubmit, formState } = useForm();
+const Signup = () => {
+  const { register, handleSubmit, getValues, formState } = useForm();
   const { errors } = formState;
 
   function handleError(data) {
@@ -92,7 +92,23 @@ const Login = () => {
   return (
     <LoginContainer>
       <LoginForm onSubmit={handleSubmit(handelFormSubmit, handleError)}>
-        <h2>Login</h2>
+        <h2>Creat new account</h2>
+        <Input
+          type="text"
+          placeholder="Name"
+          {...register("name", {
+            required: "This field is required ",
+            maxLength: {
+              value: 25,
+              message: "Your name should be less than 25 characters",
+            },
+            minLength: {
+              value: 3,
+              message: "Your name should be at least 3 characters",
+            },
+          })}
+        />
+        {errors?.name?.message && <Error>{errors.name.message}</Error>}
         <Input
           type="email"
           placeholder="Email"
@@ -108,10 +124,35 @@ const Login = () => {
               value: 8,
               message: "Password should be at least 8 characters",
             },
+            maxLength: {
+              value: 25,
+              message: "Password should be less than 25 characters",
+            },
           })}
         />
         {errors?.password?.message && <Error>{errors.password.message}</Error>}
-        <Button type="submit">Login</Button>
+        <Input
+          type="password"
+          placeholder="Password confirm"
+          {...register("passwordconfirm", {
+            required: "This field is required ",
+            minLength: {
+              value: 8,
+              message: "Password should be at least 8 characters",
+            },
+            maxLength: {
+              value: 25,
+              message: "Password should be less than 25 characters",
+            },
+            validate: (value) =>
+              value === getValues().password ||
+              "Password and password Confirm not the same ",
+          })}
+        />
+        {errors?.passwordconfirm?.message && (
+          <Error>{errors.passwordconfirm.message}</Error>
+        )}
+        <Button type="submit">Sign up</Button>
         <StyledP>
           Forgot your password?
           <Link to="/forgetPassword">
@@ -119,9 +160,9 @@ const Login = () => {
           </Link>
         </StyledP>
         <StyledP>
-          Don't have an account?
-          <Link to="/signup">
-            <StyledLink> Sign Up</StyledLink>
+          You have an account?
+          <Link to="/login">
+            <StyledLink> Login</StyledLink>
           </Link>
         </StyledP>
       </LoginForm>
@@ -129,4 +170,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

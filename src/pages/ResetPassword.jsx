@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const LoginContainer = styled.div`
@@ -53,34 +53,15 @@ const Button = styled.button`
   }
 `;
 
-const StyledP = styled.p`
-  margin-top: 10px;
-  @media (max-width: 420px) {
-    font-size: 14px;
-  }
-  @media (max-width: 375px) {
-    font-size: 12px;
-  }
-  @media (max-width: 343px) {
-    font-size: 10px;
-  }
-`;
-const StyledLink = styled.span`
-  color: var(--color-brand-500);
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 const Error = styled.span`
   font-size: 1.4rem;
   color: var(--color-red-700);
 `;
 
-const Login = () => {
-  const { register, handleSubmit, formState } = useForm();
+const ResetPassword = () => {
+  const { token } = useParams();
+  console.log(token);
+  const { register, handleSubmit, formState, getValues } = useForm();
   const { errors } = formState;
 
   function handleError(data) {
@@ -92,13 +73,7 @@ const Login = () => {
   return (
     <LoginContainer>
       <LoginForm onSubmit={handleSubmit(handelFormSubmit, handleError)}>
-        <h2>Login</h2>
-        <Input
-          type="email"
-          placeholder="Email"
-          {...register("email", { required: "This field is required " })}
-        />
-        {errors?.email?.message && <Error>{errors.email.message}</Error>}
+        <h2>New password</h2>
         <Input
           type="password"
           placeholder="Password"
@@ -108,25 +83,38 @@ const Login = () => {
               value: 8,
               message: "Password should be at least 8 characters",
             },
+            maxLength: {
+              value: 25,
+              message: "Password should be less than 25 characters",
+            },
           })}
         />
         {errors?.password?.message && <Error>{errors.password.message}</Error>}
-        <Button type="submit">Login</Button>
-        <StyledP>
-          Forgot your password?
-          <Link to="/forgetPassword">
-            <StyledLink> Reset Password</StyledLink>
-          </Link>
-        </StyledP>
-        <StyledP>
-          Don't have an account?
-          <Link to="/signup">
-            <StyledLink> Sign Up</StyledLink>
-          </Link>
-        </StyledP>
+        <Input
+          type="password"
+          placeholder="Password confirm"
+          {...register("passwordconfirm", {
+            required: "This field is required ",
+            minLength: {
+              value: 8,
+              message: "Password should be at least 8 characters",
+            },
+            maxLength: {
+              value: 25,
+              message: "Password should be less than 25 characters",
+            },
+            validate: (value) =>
+              value === getValues().password ||
+              "Password and password Confirm not the same ",
+          })}
+        />
+        {errors?.passwordconfirm?.message && (
+          <Error>{errors.passwordconfirm.message}</Error>
+        )}
+        <Button type="submit">Change</Button>
       </LoginForm>
     </LoginContainer>
   );
 };
 
-export default Login;
+export default ResetPassword;

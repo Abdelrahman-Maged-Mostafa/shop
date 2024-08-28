@@ -79,7 +79,7 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-const Login = () => {
+const ForgetPassword = () => {
   const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
 
@@ -92,30 +92,18 @@ const Login = () => {
   return (
     <LoginContainer>
       <LoginForm onSubmit={handleSubmit(handelFormSubmit, handleError)}>
-        <h2>Login</h2>
+        <h2>Forget password</h2>
         <Input
           type="email"
           placeholder="Email"
           {...register("email", { required: "This field is required " })}
         />
         {errors?.email?.message && <Error>{errors.email.message}</Error>}
-        <Input
-          type="password"
-          placeholder="Password"
-          {...register("password", {
-            required: "This field is required ",
-            minLength: {
-              value: 8,
-              message: "Password should be at least 8 characters",
-            },
-          })}
-        />
-        {errors?.password?.message && <Error>{errors.password.message}</Error>}
-        <Button type="submit">Login</Button>
+        <Button type="submit">Reset password</Button>
         <StyledP>
-          Forgot your password?
-          <Link to="/forgetPassword">
-            <StyledLink> Reset Password</StyledLink>
+          You have an account?
+          <Link to="/login">
+            <StyledLink> Login</StyledLink>
           </Link>
         </StyledP>
         <StyledP>
@@ -129,4 +117,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgetPassword;
