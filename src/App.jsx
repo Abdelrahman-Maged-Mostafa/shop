@@ -7,6 +7,7 @@ import DarkModeProvider from "./context/DarkModeContext";
 import Dashboard from "./pages/Dashboard";
 import ItemDetails from "./pages/ItemDetails";
 import Cart from "./pages/Cart";
+import Login from "./pages/Login";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -32,8 +33,13 @@ function App() {
             <Route path="users" element={<Tryed>users...</Tryed>} />
             <Route path="settings" element={<Tryed>settings...</Tryed>} />
             <Route path="account" element={<Tryed>account...</Tryed>} />
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<Tryed>signup...</Tryed>} />
+            <Route
+              path="resetpassword"
+              element={<Tryed>resetpassword</Tryed>}
+            />
           </Route>
-          <Route path="login" element={<Tryed>login...</Tryed>} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
