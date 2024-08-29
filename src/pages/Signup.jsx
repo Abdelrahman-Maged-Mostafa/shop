@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { signup } from "../api/user";
+import { useState } from "react";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -80,20 +82,23 @@ const Error = styled.span`
 `;
 
 const Signup = () => {
-  const { register, handleSubmit, getValues, formState } = useForm();
+  const { register, handleSubmit, getValues, reset, formState } = useForm();
   const { errors } = formState;
+  const [isLoading, setIsLoading] = useState(false);
 
-  function handleError(data) {
-    console.log(data);
-  }
-  function handelFormSubmit(error) {
-    console.log(error);
+  async function handelFormSubmit(data) {
+    setIsLoading(true);
+    const getToken = await signup(data);
+    setIsLoading(false);
+    reset();
+    console.log(getToken);
   }
   return (
     <LoginContainer>
-      <LoginForm onSubmit={handleSubmit(handelFormSubmit, handleError)}>
-        <h2>Creat new account</h2>
+      <LoginForm onSubmit={handleSubmit(handelFormSubmit)}>
+        <h2>Create new account</h2>
         <Input
+          disabled={isLoading}
           type="text"
           placeholder="Name"
           {...register("name", {
@@ -110,12 +115,14 @@ const Signup = () => {
         />
         {errors?.name?.message && <Error>{errors.name.message}</Error>}
         <Input
+          disabled={isLoading}
           type="email"
           placeholder="Email"
           {...register("email", { required: "This field is required " })}
         />
         {errors?.email?.message && <Error>{errors.email.message}</Error>}
         <Input
+          disabled={isLoading}
           type="password"
           placeholder="Password"
           {...register("password", {
@@ -132,9 +139,10 @@ const Signup = () => {
         />
         {errors?.password?.message && <Error>{errors.password.message}</Error>}
         <Input
+          disabled={isLoading}
           type="password"
           placeholder="Password confirm"
-          {...register("passwordconfirm", {
+          {...register("passwordConfirm", {
             required: "This field is required ",
             minLength: {
               value: 8,
@@ -149,10 +157,12 @@ const Signup = () => {
               "Password and password Confirm not the same ",
           })}
         />
-        {errors?.passwordconfirm?.message && (
-          <Error>{errors.passwordconfirm.message}</Error>
+        {errors?.passwordConfirm?.message && (
+          <Error>{errors.passwordConfirm.message}</Error>
         )}
-        <Button type="submit">Sign up</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? "Loading..." : "Sign up"}
+        </Button>
         <StyledP>
           Forgot your password?
           <Link to="/forgetPassword">
