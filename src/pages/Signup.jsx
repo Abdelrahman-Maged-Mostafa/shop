@@ -5,7 +5,7 @@ import styled from "styled-components";
 import toast from "react-hot-toast";
 
 import { signup } from "../api/user";
-import { useLogin } from "../context/UseLogin";
+import { useLogin } from "../context/useLogin";
 
 const LoginContainer = styled.div`
   display: flex;
