@@ -42,7 +42,7 @@ const PageContainer = styled.div`
   padding: 25px 40px;
 `;
 function AppLayout() {
-  const { checkLogin, cookies } = useLogin();
+  const { checkLogin } = useLogin();
   useEffect(() => {
     checkLogin();
   }, [checkLogin]);

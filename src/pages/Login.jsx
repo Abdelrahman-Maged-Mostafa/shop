@@ -106,7 +106,7 @@ const Login = () => {
       toast.error(err.message);
     }
     toast.success("Your are login");
-    checkLogin();
+    await checkLogin();
     navigate("/");
     setIsLoading(false);
   }

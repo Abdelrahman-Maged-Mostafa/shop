@@ -10,7 +10,6 @@ function LoginProvider({ children }) {
 
   const checkLogin = useCallback(
     async function checkLogin() {
-      console.log(cookies?.jwt);
       setLogin(() => false);
       if (cookies?.jwt) {
         const logined = await isLogin(cookies?.jwt);

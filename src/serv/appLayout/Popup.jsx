@@ -49,10 +49,10 @@ const Overlay = styled.div`
 const Popup = ({ show, onClose }) => {
   const { removeCookie, setLogin, checkLogin } = useLogin();
 
-  function handleLogout() {
-    removeCookie("jwt", { path: "/" });
+  async function handleLogout() {
+    await removeCookie("jwt", { path: "/" });
+    await checkLogin();
     setLogin(() => false);
-    checkLogin();
   }
   return (
     <>
