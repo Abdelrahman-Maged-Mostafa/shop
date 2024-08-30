@@ -1,8 +1,11 @@
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { signup } from "../api/user";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import toast from "react-hot-toast";
+
+import { signup } from "../api/user";
+import { useLogin } from "../context/UseLogin";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -76,7 +79,7 @@ const StyledLink = styled.span`
   }
 `;
 
-const Error = styled.span`
+const ErrorP = styled.span`
   font-size: 1.4rem;
   color: var(--color-red-700);
 `;
@@ -84,15 +87,32 @@ const Error = styled.span`
 const Signup = () => {
   const { register, handleSubmit, getValues, reset, formState } = useForm();
   const { errors } = formState;
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const { setCookie } = useLogin();
 
   async function handelFormSubmit(data) {
     setIsLoading(true);
-    const getToken = await signup(data);
+    try {
+      const getToken = await signup(data);
+      if (getToken.status === "error")
+        throw new Error("Please write true email");
+      if (getToken.status === "fail")
+        throw new Error("This email is used! please forget your password");
+      setCookie("jwt", getToken.token, {
+        path: "/",
+        secure: true,
+        sameSite: "None",
+      });
+      reset();
+    } catch (err) {
+      toast.error(err.message);
+    }
+    toast.success("Your account ready! Welcome");
+    navigate("/");
     setIsLoading(false);
-    reset();
-    console.log(getToken);
   }
+
   return (
     <LoginContainer>
       <LoginForm onSubmit={handleSubmit(handelFormSubmit)}>
@@ -113,14 +133,14 @@ const Signup = () => {
             },
           })}
         />
-        {errors?.name?.message && <Error>{errors.name.message}</Error>}
+        {errors?.name?.message && <ErrorP>{errors.name.message}</ErrorP>}
         <Input
           disabled={isLoading}
           type="email"
           placeholder="Email"
           {...register("email", { required: "This field is required " })}
         />
-        {errors?.email?.message && <Error>{errors.email.message}</Error>}
+        {errors?.email?.message && <ErrorP>{errors.email.message}</ErrorP>}
         <Input
           disabled={isLoading}
           type="password"
@@ -137,7 +157,9 @@ const Signup = () => {
             },
           })}
         />
-        {errors?.password?.message && <Error>{errors.password.message}</Error>}
+        {errors?.password?.message && (
+          <ErrorP>{errors.password.message}</ErrorP>
+        )}
         <Input
           disabled={isLoading}
           type="password"
@@ -158,7 +180,7 @@ const Signup = () => {
           })}
         />
         {errors?.passwordConfirm?.message && (
-          <Error>{errors.passwordConfirm.message}</Error>
+          <ErrorP>{errors.passwordConfirm.message}</ErrorP>
         )}
         <Button type="submit" disabled={isLoading}>
           {isLoading ? "Loading..." : "Sign up"}

@@ -1,6 +1,10 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useLogin } from "../context/UseLogin";
+import { login } from "../api/user";
+import toast from "react-hot-toast";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -80,27 +84,45 @@ const Error = styled.span`
 `;
 
 const Login = () => {
-  const { register, handleSubmit, formState } = useForm();
+  const { register, handleSubmit, formState, reset } = useForm();
   const { errors } = formState;
+  const [isLoading, setIsLoading] = useState(false);
+  const { setCookie } = useLogin();
+  const navigate = useNavigate();
 
-  function handleError(data) {
-    console.log(data);
-  }
-  function handelFormSubmit(error) {
-    console.log(error);
+  async function handelFormSubmit(data) {
+    setIsLoading(true);
+    try {
+      const getToken = await login(data);
+      if (getToken.status === "error" || getToken.status === "fail")
+        throw new Error("Wrong email or password");
+      setCookie("jwt", getToken.token, {
+        path: "/",
+        secure: true,
+        sameSite: "None",
+      });
+      reset();
+    } catch (err) {
+      toast.error(err.message);
+    }
+    toast.success("Your are login");
+    navigate("/");
+    setIsLoading(false);
   }
   return (
     <LoginContainer>
-      <LoginForm onSubmit={handleSubmit(handelFormSubmit, handleError)}>
+      <LoginForm onSubmit={handleSubmit(handelFormSubmit)}>
         <h2>Login</h2>
         <Input
           type="email"
+          disabled={isLoading}
           placeholder="Email"
           {...register("email", { required: "This field is required " })}
         />
         {errors?.email?.message && <Error>{errors.email.message}</Error>}
         <Input
           type="password"
+          disabled={isLoading}
           placeholder="Password"
           {...register("password", {
             required: "This field is required ",
@@ -111,7 +133,9 @@ const Login = () => {
           })}
         />
         {errors?.password?.message && <Error>{errors.password.message}</Error>}
-        <Button type="submit">Login</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? "Loading..." : "Login"}
+        </Button>
         <StyledP>
           Forgot your password?
           <Link to="/forgetPassword">

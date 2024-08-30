@@ -7,15 +7,28 @@ import {
 } from "react-icons/hi";
 import styled from "styled-components";
 import { useDarkMode } from "../../context/useDarkMode";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useLogin } from "../../context/UseLogin";
+import Popup from "./Popup";
+import { IoMdSettings } from "react-icons/io";
 
 const StyledCart = styled.div`
+  .account {
+    .ico {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+  }
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
   gap: 20px;
   font-weight: bold;
-  a {
+  a,
+  div {
+    font-size: 16px;
+    cursor: pointer;
     @media screen and (max-width: 420px) {
       span {
         display: none;
@@ -23,7 +36,9 @@ const StyledCart = styled.div`
     }
   }
   a:hover,
-  a.active {
+  a.active,
+  div:hover,
+  div.active {
     color: var(--color-brand-600);
   }
   div {
@@ -37,7 +52,10 @@ const StyledCart = styled.div`
 `;
 
 function Cart() {
+  const { login } = useLogin();
   const { darkMode, setDarkMode } = useDarkMode();
+  const [showPopup, setShowPopup] = useState("false");
+
   useEffect(
     function () {
       if (darkMode) {
@@ -60,10 +78,20 @@ function Cart() {
         <HiShoppingCart />
         <span>Cart</span>
       </NavLink>
-      <NavLink to="/login">
-        <HiUser />
-        <span>Login</span>
-      </NavLink>
+      {login ? (
+        <div className="account">
+          <div className="ico">
+            <IoMdSettings onClick={() => setShowPopup("true")} />
+            <span onClick={() => setShowPopup("true")}>Settings</span>
+          </div>
+          <Popup show={showPopup} onClose={() => setShowPopup("false")} />
+        </div>
+      ) : (
+        <NavLink to="/login">
+          <HiUser />
+          <span>Login</span>
+        </NavLink>
+      )}
     </StyledCart>
   );
 }
