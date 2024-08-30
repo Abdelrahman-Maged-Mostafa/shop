@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useLogin } from "../context/UseLogin";
+import { useLogin } from "../context/useLogin";
 import { login } from "../api/user";
 import toast from "react-hot-toast";
 
