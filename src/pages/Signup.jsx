@@ -105,11 +105,11 @@ const Signup = () => {
         sameSite: "None",
       });
       reset();
+      toast.success("Your account ready! Welcome");
+      navigate("/");
     } catch (err) {
       toast.error(err.message);
     }
-    toast.success("Your account ready! Welcome");
-    navigate("/");
     setIsLoading(false);
   }
 

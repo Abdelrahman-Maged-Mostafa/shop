@@ -102,12 +102,12 @@ const Login = () => {
         sameSite: "None",
       });
       reset();
+      toast.success("Your are login");
+      await checkLogin();
+      navigate("/");
     } catch (err) {
       toast.error(err.message);
     }
-    toast.success("Your are login");
-    await checkLogin();
-    navigate("/");
     setIsLoading(false);
   }
   return (
