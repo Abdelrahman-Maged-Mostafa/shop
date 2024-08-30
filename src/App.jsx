@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { useEffect } from "react";
 
 import GlobalStyles from "./styles/GlobalStyles";
 import PageNotFound from "./pages/PageNotFound";
@@ -15,27 +14,12 @@ import Signup from "./pages/Signup";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import LoginProvider from "./context/LoginContext";
-import { useLogin } from "./context/useLogin";
-import { isLogin } from "./api/user";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
   background-color: var(--color-brand-900);
 `;
 function App() {
-  const { cookies, setLogin } = useLogin();
-  useEffect(
-    () =>
-      async function () {
-        console.log(cookies?.jwt);
-        setLogin(() => false);
-        if (!cookies?.jwt) return;
-        const logined = await isLogin(cookies?.jwt);
-        setLogin(() => logined);
-      },
-    [cookies, setLogin]
-  );
-
   return (
     <DarkModeProvider>
       <LoginProvider>
