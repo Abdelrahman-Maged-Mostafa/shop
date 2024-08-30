@@ -10,7 +10,6 @@ import Footer from "../serv/appLayout/Footer";
 import SearchContextProvider from "../context/SearchContext";
 import { useLogin } from "../context/useLogin";
 import { useEffect } from "react";
-import { isLogin } from "../api/user";
 
 const StyledApp = styled.div``;
 //Styled bg
@@ -43,18 +42,10 @@ const PageContainer = styled.div`
   padding: 25px 40px;
 `;
 function AppLayout() {
-  const { cookies, setLogin } = useLogin();
-  useEffect(
-    () =>
-      async function () {
-        console.log(cookies?.jwt);
-        setLogin(() => false);
-        if (!cookies?.jwt) return;
-        const logined = await isLogin(cookies?.jwt);
-        setLogin(() => logined);
-      },
-    [cookies, setLogin]
-  );
+  const { checkLogin, cookies } = useLogin();
+  useEffect(() => {
+    checkLogin();
+  }, [checkLogin]);
 
   return (
     <StyledApp>

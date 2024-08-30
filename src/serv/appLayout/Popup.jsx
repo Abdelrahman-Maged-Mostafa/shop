@@ -47,15 +47,12 @@ const Overlay = styled.div`
 `;
 
 const Popup = ({ show, onClose }) => {
-  const { setCookie, setLogin } = useLogin();
+  const { removeCookie, setLogin, checkLogin } = useLogin();
 
   function handleLogout() {
-    setCookie("jwt", false, {
-      path: "/",
-      secure: true,
-      sameSite: "None",
-    });
-    setLogin(false);
+    removeCookie("jwt", { path: "/" });
+    setLogin(() => false);
+    checkLogin();
   }
   return (
     <>

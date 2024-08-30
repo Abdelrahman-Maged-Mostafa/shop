@@ -87,7 +87,7 @@ const Login = () => {
   const { register, handleSubmit, formState, reset } = useForm();
   const { errors } = formState;
   const [isLoading, setIsLoading] = useState(false);
-  const { setCookie } = useLogin();
+  const { setCookie, checkLogin } = useLogin();
   const navigate = useNavigate();
 
   async function handelFormSubmit(data) {
@@ -106,6 +106,7 @@ const Login = () => {
       toast.error(err.message);
     }
     toast.success("Your are login");
+    checkLogin();
     navigate("/");
     setIsLoading(false);
   }
