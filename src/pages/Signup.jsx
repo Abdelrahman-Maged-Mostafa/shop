@@ -98,7 +98,9 @@ const Signup = () => {
       if (getToken.status === "error")
         throw new Error("Please write true email");
       if (getToken.status === "fail")
-        throw new Error("This email is used! please forget your password");
+        throw new Error(
+          "You already have an account. Please reset your password."
+        );
       setCookie("jwt", getToken.token, {
         path: "/",
         secure: true,
