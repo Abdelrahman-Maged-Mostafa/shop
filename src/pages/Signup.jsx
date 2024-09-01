@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 
 import { signup } from "../api/user";
 import { useLogin } from "../context/useLogin";
+import SpinnerMini from "../ui/SpinnerMini";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -185,7 +186,7 @@ const Signup = () => {
           <ErrorP>{errors.passwordConfirm.message}</ErrorP>
         )}
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? "Loading..." : "Sign up"}
+          {isLoading ? <SpinnerMini /> : "Sign up"}
         </Button>
         <StyledP>
           Forgot your password?

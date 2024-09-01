@@ -1,6 +1,11 @@
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { resetPassword } from "../api/user";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useLogin } from "../context/useLogin";
+import SpinnerMini from "../ui/SpinnerMini";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -53,29 +58,46 @@ const Button = styled.button`
   }
 `;
 
-const Error = styled.span`
+const ErrorStyle = styled.span`
   font-size: 1.4rem;
   color: var(--color-red-700);
 `;
 
 const ResetPassword = () => {
   const { token } = useParams();
-  console.log(token);
   const { register, handleSubmit, formState, getValues } = useForm();
+  const { setCookie, checkLogin } = useLogin();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const { errors } = formState;
 
-  function handleError(data) {
+  async function handelFormSubmit(data) {
     console.log(data);
-  }
-  function handelFormSubmit(error) {
-    console.log(error);
+    try {
+      setIsLoading(true);
+      const getToken = await resetPassword(data, token);
+      if (getToken.status !== "success")
+        throw new Error("There was an error please send other link!");
+      setCookie("jwt", getToken.token, {
+        path: "/",
+        secure: true,
+        sameSite: "None",
+      });
+      await checkLogin();
+      navigate("/");
+      toast.success("Password changed!You are login now.");
+    } catch (err) {
+      toast.error(err.message);
+    }
+    setIsLoading(false);
   }
   return (
     <LoginContainer>
-      <LoginForm onSubmit={handleSubmit(handelFormSubmit, handleError)}>
+      <LoginForm onSubmit={handleSubmit(handelFormSubmit)}>
         <h2>New password</h2>
         <Input
           type="password"
+          disabled={isLoading}
           placeholder="Password"
           {...register("password", {
             required: "This field is required ",
@@ -89,11 +111,14 @@ const ResetPassword = () => {
             },
           })}
         />
-        {errors?.password?.message && <Error>{errors.password.message}</Error>}
+        {errors?.password?.message && (
+          <ErrorStyle>{errors.password.message}</ErrorStyle>
+        )}
         <Input
           type="password"
           placeholder="Password confirm"
-          {...register("passwordconfirm", {
+          disabled={isLoading}
+          {...register("passwordConfirm", {
             required: "This field is required ",
             minLength: {
               value: 8,
@@ -108,10 +133,12 @@ const ResetPassword = () => {
               "Password and password Confirm not the same ",
           })}
         />
-        {errors?.passwordconfirm?.message && (
-          <Error>{errors.passwordconfirm.message}</Error>
+        {errors?.passwordConfirm?.message && (
+          <ErrorStyle>{errors.passwordConfirm.message}</ErrorStyle>
         )}
-        <Button type="submit">Change</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? <SpinnerMini /> : "Change"}
+        </Button>
       </LoginForm>
     </LoginContainer>
   );

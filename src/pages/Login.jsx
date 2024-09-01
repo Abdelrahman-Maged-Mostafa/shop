@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { useLogin } from "../context/useLogin";
 import { login } from "../api/user";
 import toast from "react-hot-toast";
+import SpinnerMini from "../ui/SpinnerMini";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -78,7 +79,7 @@ const StyledLink = styled.span`
   }
 `;
 
-const Error = styled.span`
+const ErrorStyle = styled.span`
   font-size: 1.4rem;
   color: var(--color-red-700);
 `;
@@ -120,7 +121,9 @@ const Login = () => {
           placeholder="Email"
           {...register("email", { required: "This field is required " })}
         />
-        {errors?.email?.message && <Error>{errors.email.message}</Error>}
+        {errors?.email?.message && (
+          <ErrorStyle>{errors.email.message}</ErrorStyle>
+        )}
         <Input
           type="password"
           disabled={isLoading}
@@ -133,9 +136,11 @@ const Login = () => {
             },
           })}
         />
-        {errors?.password?.message && <Error>{errors.password.message}</Error>}
+        {errors?.password?.message && (
+          <ErrorStyle>{errors.password.message}</ErrorStyle>
+        )}
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? "Loading..." : "Login"}
+          {isLoading ? <SpinnerMini /> : "Login"}
         </Button>
         <StyledP>
           Forgot your password?

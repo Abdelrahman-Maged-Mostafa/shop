@@ -4,7 +4,7 @@ import LinksFooter from "./LinksFooter";
 import Subscribe from "./Subscribe";
 
 const StyledFooter = styled.div`
-  background-color: var(--color-grey-300);
+  background-color: var(--color-grey-0);
   padding: 20px 40px 20px;
   text-align: center;
 `;

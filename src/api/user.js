@@ -29,3 +29,23 @@ export async function isLogin(token) {
   if (data.token === "True valid") return true;
   return false;
 }
+
+export async function forgetPassword(body) {
+  const res = await fetch(`${URL}/api/v1/users/forgetPassword`, {
+    method: "POST",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  return data;
+}
+
+export async function resetPassword(body, token) {
+  const res = await fetch(`${URL}/api/v1/users/resetPassword/${token}`, {
+    method: "PATCH",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  return data;
+}

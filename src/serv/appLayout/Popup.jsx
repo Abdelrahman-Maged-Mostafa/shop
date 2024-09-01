@@ -53,13 +53,14 @@ const Popup = ({ show, onClose }) => {
     await removeCookie("jwt", { path: "/" });
     await checkLogin();
     setLogin(() => false);
+    onClose();
   }
   return (
     <>
       <Overlay show={show} onClick={onClose} />
       <PopupContainer show={show}>
         <ul>
-          <li>
+          <li onClick={onClose}>
             <Link to={"/account"}>
               <HiUser />
               <p>Account</p>

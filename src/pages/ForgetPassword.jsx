@@ -1,6 +1,10 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { forgetPassword } from "../api/user";
+import toast from "react-hot-toast";
+import { useState } from "react";
+import SpinnerMini from "../ui/SpinnerMini";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -74,32 +78,45 @@ const StyledLink = styled.span`
   }
 `;
 
-const Error = styled.span`
+const ErrorStyle = styled.span`
   font-size: 1.4rem;
   color: var(--color-red-700);
 `;
 
 const ForgetPassword = () => {
   const { register, handleSubmit, formState } = useForm();
+  const [isLoading, setIsLoading] = useState(false);
   const { errors } = formState;
-
-  function handleError(data) {
-    console.log(data);
-  }
-  function handelFormSubmit(error) {
-    console.log(error);
+  const navigate = useNavigate();
+  async function handelFormSubmit(body) {
+    setIsLoading(true);
+    try {
+      const data = await forgetPassword(body);
+      if (data.status === "fail" || data.status === "error")
+        throw new Error(data.message);
+      toast.success(data.message);
+      navigate("/forgetPassword/success");
+    } catch (err) {
+      toast.error(err.message);
+    }
+    setIsLoading(false);
   }
   return (
     <LoginContainer>
-      <LoginForm onSubmit={handleSubmit(handelFormSubmit, handleError)}>
+      <LoginForm onSubmit={handleSubmit(handelFormSubmit)}>
         <h2>Forget password</h2>
         <Input
           type="email"
           placeholder="Email"
+          disabled={isLoading}
           {...register("email", { required: "This field is required " })}
         />
-        {errors?.email?.message && <Error>{errors.email.message}</Error>}
-        <Button type="submit">Reset password</Button>
+        {errors?.email?.message && (
+          <ErrorStyle>{errors.email.message}</ErrorStyle>
+        )}
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? <SpinnerMini /> : "Reset password"}
+        </Button>
         <StyledP>
           You have an account?
           <Link to="/login">

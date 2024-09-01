@@ -15,7 +15,7 @@ const StyledApp = styled.div``;
 //Styled bg
 const StyledContainer = styled.div`
   padding: 0 40px 20px;
-  background: linear-gradient(var(--color-brand-900), var(--color-grey-100));
+  background: linear-gradient(var(--color-grey-0), var(--color-grey-100));
 `;
 //style links
 const StyledNav = styled.div`

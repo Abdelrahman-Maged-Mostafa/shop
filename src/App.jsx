@@ -14,6 +14,7 @@ import Signup from "./pages/Signup";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import LoginProvider from "./context/LoginContext";
+import SuccesForgetPassword from "./pages/SuccesForgetPassword";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -43,6 +44,10 @@ function App() {
               <Route path="login" element={<Login />} />
               <Route path="signup" element={<Signup />} />
               <Route path="forgetPassword" element={<ForgetPassword />} />
+              <Route
+                path="forgetPassword/success"
+                element={<SuccesForgetPassword />}
+              />
               <Route
                 path="writeNewPasword/:token"
                 element={<ResetPassword />}
