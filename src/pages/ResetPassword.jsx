@@ -72,7 +72,6 @@ const ResetPassword = () => {
   const { errors } = formState;
 
   async function handelFormSubmit(data) {
-    console.log(data);
     try {
       setIsLoading(true);
       const getToken = await resetPassword(data, token);
