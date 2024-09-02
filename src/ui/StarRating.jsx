@@ -39,7 +39,7 @@ export default function StarRating({
         {Array.from({ length: maxRating }, (_, i) => (
           <Star
             key={i}
-            full={defaultRating > i + 1}
+            full={defaultRating >= i + 1}
             color={color}
             size={size}
           />

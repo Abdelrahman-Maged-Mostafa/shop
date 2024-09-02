@@ -6,9 +6,10 @@ import { useState } from "react";
 const ReviewCard = styled.div`
   border: 1px solid var(--color-grey-50);
   border-radius: 10px;
-  padding: 15px;
+  padding: 15px 15px 20px 15px;
   background-color: var(--color-grey-50);
   box-shadow: var(--shadow-lg);
+  position: relative;
 
   .review-name {
     font-size: 1.2em;
@@ -23,9 +24,11 @@ const ReviewCard = styled.div`
   }
 
   .review-date {
+    position: absolute;
     font-size: 0.8em;
     color: var(--color-grey-500);
-    text-align: right;
+    bottom: 5px;
+    right: 10px;
   }
 `;
 const StyledPage = styled.div`
@@ -68,10 +71,10 @@ function Rating({ reviews }) {
         />
         {reviewsInPage.map((review, i) => (
           <ReviewCard key={i}>
-            <div className="review-name">{review.name}</div>
+            <div className="review-name">{review.user.name}</div>
             <StarRating
               size={20}
-              defaultRating={review.rate}
+              defaultRating={review.rating}
               color={"var(--color-yellow-700)"}
             />
             <div className="review-text">{review.review}</div>

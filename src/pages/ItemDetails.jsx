@@ -1,10 +1,13 @@
 import { useParams } from "react-router-dom";
-import data from "../fakeItemsData";
 import styled from "styled-components";
 import Photos from "../serv/itemDetails/Photos";
 import DetailsItem from "../serv/itemDetails/DetailsItem";
 import { useState } from "react";
 import Rating from "../serv/itemDetails/Rating";
+import { useQuery } from "@tanstack/react-query";
+import { getOneItems } from "../api/items";
+import Spinner from "../ui/Spinner";
+
 const ProductCard = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -39,10 +42,17 @@ const Bar = styled.div`
     }
   }
 `;
+
 function ItemDetails() {
-  const [active, setActive] = useState("product");
   const { itemId } = useParams();
-  const curItem = data.find((el) => `${el.id}` === itemId);
+  const { data: item, isLoading } = useQuery({
+    queryKey: ["item"],
+    queryFn: () => getOneItems(itemId),
+  });
+
+  const [active, setActive] = useState("product");
+  const curItem = item?.data?.doc;
+  if (isLoading) return <Spinner />;
   return (
     <>
       <ProductCard>
@@ -64,8 +74,8 @@ function ItemDetails() {
         </p>
       </Bar>
       <ProductRating>
-        {active === "product" && <p>{curItem.longDescription}</p>}
-        {active === "rating" && <Rating reviews={curItem.reviews} />}
+        {active === "product" && <p>{curItem?.longDescription}</p>}
+        {active === "rating" && <Rating reviews={curItem?.reviews} />}
       </ProductRating>
     </>
   );

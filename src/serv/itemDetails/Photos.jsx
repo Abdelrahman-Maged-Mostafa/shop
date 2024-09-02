@@ -53,11 +53,11 @@ const StyledPhoto = styled.div`
 `;
 
 function Photos({ curItem }) {
-  const [photo, setPhoto] = useState(curItem.detailPhotos[0]);
+  const [photo, setPhoto] = useState(curItem?.images[0]);
   return (
     <StyledPhoto>
       <div>
-        {curItem.detailPhotos?.map((el, i) => (
+        {curItem?.images?.map((el, i) => (
           <div
             style={{
               border: photo === el ? "1px solid var(--color-grey-400)" : "none",
@@ -67,12 +67,12 @@ function Photos({ curItem }) {
             }}
             key={i}
           >
-            <img src={el} alt={curItem.name} />
+            <img src={el} alt={curItem?.name} />
           </div>
         ))}
       </div>
       <div>
-        <img src={photo} alt={curItem.name} />
+        <img src={photo} alt={curItem?.name} />
       </div>
     </StyledPhoto>
   );

@@ -45,18 +45,15 @@ function DetailsItem({ curItem }) {
   const [quantity, setQuantity] = useState(1);
   return (
     <StyledDetails>
-      <h1>{curItem.name}</h1>
+      <h1>{curItem?.name}</h1>
       <StarRating
         size={20}
-        defaultRating={curItem.avgRating}
+        defaultRating={curItem?.ratingsAverage}
         color={"var(--color-yellow-700)"}
       />
-      <h1>
-        {curItem.currency}
-        {curItem.price}
-      </h1>
-      <p>{curItem.shortDescription}</p>
-      <p>Stock:{curItem.stock}</p>
+      <h1>${curItem?.price}</h1>
+      <p>{curItem?.shortDescription}</p>
+      <p>Stock:{curItem?.stock}</p>
       <StyledAddCard>
         <div>
           <HiMinusCircle

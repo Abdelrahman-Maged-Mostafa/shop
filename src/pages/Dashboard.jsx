@@ -1,9 +1,11 @@
 import styled from "styled-components";
-import data from "../fakeItemsData";
+import { useQuery } from "@tanstack/react-query";
 import CardProduct from "../serv/dashboard/CardProduct";
 import { useState } from "react";
 import Pagination from "../serv/dashboard/Pagination";
 import { useSearchContext } from "../context/useSearchBlog";
+import { getAllItems } from "../api/items";
+import Spinner from "../ui/Spinner";
 
 const StyledDashboard = styled.div`
   display: grid;
@@ -12,10 +14,16 @@ const StyledDashboard = styled.div`
   padding: 40px 0;
   position: relative;
 `;
+
 function Dashboard() {
+  const { data: items, isLoading } = useQuery({
+    queryKey: ["items"],
+    queryFn: getAllItems,
+  });
+
   const [page, setPage] = useState(1);
   const { blog } = useSearchContext();
-  const filterData = data.filter(
+  const filterData = items?.data?.filter?.(
     (el) =>
       el.name.toLowerCase().includes(blog.toLowerCase()) ||
       el.shortDescription.toLowerCase().includes(blog.toLowerCase())
@@ -23,9 +31,10 @@ function Dashboard() {
   const numItemInPage = 10;
   const startItem = (page - 1) * numItemInPage;
   const endItem = page * numItemInPage;
-  const numPages = Math.ceil(filterData.length / numItemInPage);
-  const myData = filterData.slice(startItem, endItem);
+  const numPages = Math.ceil(filterData?.length / numItemInPage);
+  const myData = filterData?.slice(startItem, endItem);
 
+  if (isLoading) return <Spinner />;
   return (
     <StyledDashboard>
       <Pagination
@@ -34,7 +43,7 @@ function Dashboard() {
         numPages={numPages}
         top="-10px"
       />
-      {myData.map((el, i) => (
+      {myData?.map((el, i) => (
         <CardProduct data={el} key={i} />
       ))}
     </StyledDashboard>

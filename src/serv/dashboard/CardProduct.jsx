@@ -60,15 +60,12 @@ function CardProduct({ data }) {
   return (
     <StyledCard>
       <div className="product-image">
-        <img src={data.photo} alt="Product" />
+        <img src={data.imageCover} alt="Product" />
       </div>
       <div className="product-details">
         <h2 className="product-title">{data.name}</h2>
         <p className="product-description">{data.shortDescription}</p>
-        <div className="product-price">
-          {data.currency}
-          {data.price}
-        </div>
+        <div className="product-price">${data.price}</div>
         <button className="button">Add to Cart</button>
         <Link to={`/dashboard/${data.id}`}>
           <button className="button">Details</button>
