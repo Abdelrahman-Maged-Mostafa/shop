@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Photos from "../serv/itemDetails/Photos";
 import DetailsItem from "../serv/itemDetails/DetailsItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Rating from "../serv/itemDetails/Rating";
 import { useQuery } from "@tanstack/react-query";
 import { getOneItems } from "../api/items";
@@ -46,7 +46,7 @@ const Bar = styled.div`
 function ItemDetails() {
   const { itemId } = useParams();
   const { data: item, isLoading } = useQuery({
-    queryKey: ["item"],
+    queryKey: ["item", itemId],
     queryFn: () => getOneItems(itemId),
   });
 
