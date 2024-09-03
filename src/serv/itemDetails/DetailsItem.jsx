@@ -1,13 +1,11 @@
 import styled from "styled-components";
 import StarRating from "../../ui/StarRating";
-import { HiMiniPlusCircle } from "react-icons/hi2";
-import { HiMinusCircle } from "react-icons/hi";
 import { useState } from "react";
 import { addToCart } from "../../api/cart";
-import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { useLogin } from "../../context/useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const StyledDetails = styled.div`
   > * {
@@ -16,21 +14,8 @@ const StyledDetails = styled.div`
 `;
 const StyledAddCard = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  > div {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 5px;
-    svg {
-      cursor: pointer;
-      font-size: 25px;
-    }
-    p {
-      font-size: 25px;
-    }
-  }
   button {
     width: 110px;
     background-color: var(--color-brand-500);
@@ -48,14 +33,25 @@ const StyledAddCard = styled.div`
   }
 `;
 function DetailsItem({ curItem }) {
-  const [quantity, setQuantity] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const { cookies } = useLogin();
   const navigate = useNavigate();
-  async function handelAddToCart() {
+  const queryClint = useQueryClient();
+  const { isLoading: isDeleting, mutate } = useMutation({
+    mutationFn: ({ id, token }) => addToCart(id, token),
+    onSuccess: (val) => {
+      queryClint.invalidateQueries({ queryKey: ["user"] });
+      if (val) navigate("/cart");
+      if(!val){
+        localStorage.setItem('cartId',JSON.stringify(curItem.id))
+        navigate("/login")
+      }
+    },
+  });
+
+  function handelAddToCart() {
     setIsLoading(true);
-    const added = await addToCart(curItem.id, cookies.jwt);
-    if (added) navigate("/cart");
+    mutate({ id: curItem.id, token: cookies.jwt });
     setIsLoading(false);
   }
 
@@ -71,17 +67,8 @@ function DetailsItem({ curItem }) {
       <p>{curItem?.shortDescription}</p>
       <p>Stock:{curItem?.stock}</p>
       <StyledAddCard>
-        <div>
-          <HiMinusCircle
-            onClick={() => setQuantity((el) => (el > 1 ? el - 1 : el))}
-          />
-          <p>{quantity}</p>
-          <HiMiniPlusCircle
-            onClick={() => setQuantity((el) => (el < 5 ? el + 1 : el))}
-          />
-        </div>
-        <button onClick={handelAddToCart} disabled={isLoading}>
-          {isLoading ? <SpinnerMini /> : "Add to Cart"}
+        <button onClick={handelAddToCart} disabled={isLoading || isDeleting}>
+          {isLoading || isDeleting ? <SpinnerMini /> : "Add to Cart"}
         </button>
       </StyledAddCard>
     </StyledDetails>

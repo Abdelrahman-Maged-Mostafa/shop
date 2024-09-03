@@ -72,9 +72,13 @@ function CardProduct({ data }) {
   const queryClint = useQueryClient();
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: ({ id, token }) => addToCart(id, token),
-    onSuccess: () => {
+    onSuccess: (val) => {
       queryClint.invalidateQueries({ queryKey: ["user"] });
-      navigate("/cart");
+      if (val) navigate("/cart");
+      if (!val) {
+        localStorage.setItem("cartId", JSON.stringify(data.id));
+        navigate("/login");
+      }
     },
   });
 

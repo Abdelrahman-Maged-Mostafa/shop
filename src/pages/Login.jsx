@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -6,6 +6,9 @@ import { useLogin } from "../context/useLogin";
 import { login } from "../api/user";
 import toast from "react-hot-toast";
 import SpinnerMini from "../ui/SpinnerMini";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addToCart } from "../api/cart";
+import Spinner from "../ui/Spinner";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -88,8 +91,33 @@ const Login = () => {
   const { register, handleSubmit, formState, reset } = useForm();
   const { errors } = formState;
   const [isLoading, setIsLoading] = useState(false);
-  const { setCookie, checkLogin } = useLogin();
+  const { setCookie, checkLogin, cookies, login: isLogin } = useLogin();
+  const queryClint = useQueryClient();
+  const { isLoading: isAdding, mutate } = useMutation({
+    mutationFn: ({ id, token }) => addToCart(id, token),
+    onSuccess: (val) => {
+      queryClint.invalidateQueries({ queryKey: ["user"] });
+      if (val) navigate("/cart");
+    },
+  });
   const navigate = useNavigate();
+  useEffect(() => {
+    function handleAddCartItem() {
+      mutate({
+        id: JSON.parse(localStorage.getItem("cartId")),
+        token: cookies.jwt,
+      });
+      localStorage.removeItem("cartId");
+    }
+
+    if (isLogin) {
+      if (localStorage.getItem("cartId")) {
+        handleAddCartItem();
+      } else {
+        navigate("/");
+      }
+    }
+  }, [cookies.jwt, isLogin, mutate, navigate]);
 
   async function handelFormSubmit(data) {
     setIsLoading(true);
@@ -97,7 +125,7 @@ const Login = () => {
       const getToken = await login(data);
       if (getToken.status === "error" || getToken.status === "fail")
         throw new Error("Wrong email or password");
-      setCookie("jwt", getToken.token, {
+      await setCookie("jwt", getToken.token, {
         path: "/",
         secure: true,
         sameSite: "None",
@@ -105,12 +133,13 @@ const Login = () => {
       reset();
       toast.success("Your are login");
       await checkLogin();
-      navigate("/");
     } catch (err) {
       toast.error(err.message);
     }
     setIsLoading(false);
   }
+
+  if (isAdding) return <Spinner />;
   return (
     <LoginContainer>
       <LoginForm onSubmit={handleSubmit(handelFormSubmit)}>

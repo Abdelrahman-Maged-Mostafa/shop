@@ -2,6 +2,10 @@ import { useState } from "react";
 import { HiMinusCircle, HiOutlineTrash } from "react-icons/hi";
 import { HiMiniPlusCircle } from "react-icons/hi2";
 import styled from "styled-components";
+import { useLogin } from "../../context/useLogin";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { removeFromCart } from "../../api/cart";
+import SpinnerMini from "../../ui/SpinnerMini";
 
 const CartItem = styled.div`
   display: flex;
@@ -95,6 +99,19 @@ function CartItems({ item, setCartItems, index }) {
       return newItems;
     });
   }
+  //remove item
+  const { cookies } = useLogin();
+  const queryClint = useQueryClient();
+  const { isLoading: isDeleting, mutate } = useMutation({
+    mutationFn: ({ id, token }) => removeFromCart(id, token),
+    onSuccess: () => {
+      queryClint.invalidateQueries({ queryKey: ["user"] });
+    },
+  });
+
+  function handleRemoveFromCart() {
+    mutate({ id: CurItem.id, token: cookies.jwt });
+  }
 
   return (
     <CartItem>
@@ -112,8 +129,8 @@ function CartItems({ item, setCartItems, index }) {
           </QuantityButton>
         </ItemQuantity>
       </ItemDetails>
-      <RemoveButton>
-        <HiOutlineTrash />
+      <RemoveButton onClick={handleRemoveFromCart}>
+        {isDeleting ? <SpinnerMini /> : <HiOutlineTrash />}
       </RemoveButton>
     </CartItem>
   );
