@@ -30,6 +30,15 @@ export async function isLogin(token) {
   return false;
 }
 
+export async function getMe(token) {
+  const res = await fetch(`${URL}/api/v1/users/me`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const data = await res.json();
+
+  return data;
+}
+
 export async function forgetPassword(body) {
   const res = await fetch(`${URL}/api/v1/users/forgetPassword`, {
     method: "POST",

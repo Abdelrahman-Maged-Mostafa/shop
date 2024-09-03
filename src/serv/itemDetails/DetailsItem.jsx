@@ -3,6 +3,11 @@ import StarRating from "../../ui/StarRating";
 import { HiMiniPlusCircle } from "react-icons/hi2";
 import { HiMinusCircle } from "react-icons/hi";
 import { useState } from "react";
+import { addToCart } from "../../api/cart";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
+import { useLogin } from "../../context/useLogin";
+import SpinnerMini from "../../ui/SpinnerMini";
 
 const StyledDetails = styled.div`
   > * {
@@ -27,6 +32,7 @@ const StyledAddCard = styled.div`
     }
   }
   button {
+    width: 110px;
     background-color: var(--color-brand-500);
     color: var(--color-grey-100);
     border: none;
@@ -43,6 +49,16 @@ const StyledAddCard = styled.div`
 `;
 function DetailsItem({ curItem }) {
   const [quantity, setQuantity] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const { cookies } = useLogin();
+  const navigate = useNavigate();
+  async function handelAddToCart() {
+    setIsLoading(true);
+    const added = await addToCart(curItem.id, cookies.jwt);
+    if (added) navigate("/cart");
+    setIsLoading(false);
+  }
+
   return (
     <StyledDetails>
       <h1>{curItem?.name}</h1>
@@ -64,7 +80,9 @@ function DetailsItem({ curItem }) {
             onClick={() => setQuantity((el) => (el < 5 ? el + 1 : el))}
           />
         </div>
-        <button>Add to Cart</button>
+        <button onClick={handelAddToCart} disabled={isLoading}>
+          {isLoading ? <SpinnerMini /> : "Add to Cart"}
+        </button>
       </StyledAddCard>
     </StyledDetails>
   );

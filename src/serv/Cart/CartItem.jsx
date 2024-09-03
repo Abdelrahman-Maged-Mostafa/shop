@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { HiMinusCircle, HiOutlineTrash } from "react-icons/hi";
 import { HiMiniPlusCircle } from "react-icons/hi2";
 import styled from "styled-components";
@@ -76,23 +77,38 @@ const RemoveButton = styled.div`
   }
 `;
 
-function CartItems(item) {
-  const CurItem = item.item;
+function CartItems({ item, setCartItems, index }) {
+  const CurItem = item;
+  function handlePlus() {
+    if (CurItem.quantity > 4) return;
+    setCartItems((cartItems) => {
+      const newItems = [...cartItems];
+      newItems[index].quantity = CurItem.quantity + 1;
+      return newItems;
+    });
+    console.log(1);
+  }
+  function handleMinus() {
+    if (CurItem.quantity < 2) return;
+    setCartItems((cartItems) => {
+      const newItems = [...cartItems];
+      newItems[index].quantity -= 1;
+      return newItems;
+    });
+  }
+
   return (
     <CartItem>
-      <ItemImage src={CurItem.photo} alt="Product" />
+      <ItemImage src={CurItem.imageCover} alt="Product" />
       <ItemDetails>
         <ItemName>{CurItem.name}</ItemName>
-        <ItemPrice>
-          {CurItem.currency}
-          {CurItem.price}
-        </ItemPrice>
+        <ItemPrice>${CurItem.price}</ItemPrice>
         <ItemQuantity>
-          <QuantityButton>
+          <QuantityButton onClick={handleMinus}>
             <HiMinusCircle />
           </QuantityButton>
           <span>{CurItem.quantity}</span>
-          <QuantityButton>
+          <QuantityButton onClick={handlePlus}>
             <HiMiniPlusCircle />
           </QuantityButton>
         </ItemQuantity>

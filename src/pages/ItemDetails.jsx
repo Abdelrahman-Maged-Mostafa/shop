@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Photos from "../serv/itemDetails/Photos";
 import DetailsItem from "../serv/itemDetails/DetailsItem";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Rating from "../serv/itemDetails/Rating";
 import { useQuery } from "@tanstack/react-query";
 import { getOneItems } from "../api/items";
