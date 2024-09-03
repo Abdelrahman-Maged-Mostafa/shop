@@ -33,7 +33,7 @@ function Cart() {
 
   const realCartIems = useCallback(() => {
     return items?.data
-      .filter((el) => itemsIds?.data.doc.cartItems.includes(el.id))
+      .filter((el) => itemsIds?.data?.doc?.cartItems?.includes(el.id))
       .map((el) => {
         return { ...el, quantity: 1 };
       });
@@ -49,7 +49,8 @@ function Cart() {
     0
   );
   if (isLoading || isGotten) return <Spinner />;
-  if (!login) return <StyledP>Please Login to see your cart items.</StyledP>;
+  if (!login || !itemsIds?.data?.doc)
+    return <StyledP>Please Login to see your cart items.</StyledP>;
   if (!cartIems || cartIems.length === 0) return <Empty resource={"cart"} />;
   return (
     <CartContainer>
