@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useLogin } from "../../context/useLogin";
 import { addToCart } from "../../api/cart";
 import SpinnerMini from "../../ui/SpinnerMini";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const StyledCard = styled.div`
   width: 100%;
@@ -68,13 +69,21 @@ function CardProduct({ data }) {
   const [isLoading, setIsLoading] = useState(false);
   const { cookies } = useLogin();
   const navigate = useNavigate();
+  const queryClint = useQueryClient();
+  const { isLoading: isDeleting, mutate } = useMutation({
+    mutationFn: ({ id, token }) => addToCart(id, token),
+    onSuccess: () => {
+      queryClint.invalidateQueries({ queryKey: ["user"] });
+      navigate("/cart");
+    },
+  });
 
-  async function handelAddToCart() {
+  function handelAddToCart() {
     setIsLoading(true);
-    const added = await addToCart(data.id, cookies.jwt);
-    if (added) navigate("/cart");
+    mutate({ id: data.id, token: cookies.jwt });
     setIsLoading(false);
   }
+
   return (
     <StyledCard>
       <div className="product-image">
@@ -87,9 +96,9 @@ function CardProduct({ data }) {
         <button
           className="button cart"
           onClick={handelAddToCart}
-          disabled={isLoading}
+          disabled={isLoading || isDeleting}
         >
-          {isLoading ? <SpinnerMini /> : "Add to Cart"}
+          {isLoading || isDeleting ? <SpinnerMini /> : "Add to Cart"}
         </button>
         <Link to={`/dashboard/${data.id}`}>
           <button className="button">Details</button>

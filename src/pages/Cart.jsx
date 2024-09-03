@@ -48,6 +48,7 @@ function Cart() {
     (cur, el) => cur + el.quantity * el.price,
     0
   );
+
   if (isLoading || isGotten) return <Spinner />;
   if (!login || !itemsIds?.data?.doc)
     return <StyledP>Please Login to see your cart items.</StyledP>;

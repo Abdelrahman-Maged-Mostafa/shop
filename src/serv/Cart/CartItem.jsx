@@ -86,7 +86,6 @@ function CartItems({ item, setCartItems, index }) {
       newItems[index].quantity = CurItem.quantity + 1;
       return newItems;
     });
-    console.log(1);
   }
   function handleMinus() {
     if (CurItem.quantity < 2) return;
