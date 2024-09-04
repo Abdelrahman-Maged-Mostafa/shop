@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -7,6 +7,9 @@ import toast from "react-hot-toast";
 import { signup } from "../api/user";
 import { useLogin } from "../context/useLogin";
 import SpinnerMini from "../ui/SpinnerMini";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addToCart } from "../api/cart";
+import Spinner from "../ui/Spinner";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -90,7 +93,34 @@ const Signup = () => {
   const { errors } = formState;
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const { setCookie } = useLogin();
+  const { setCookie, cookies, login } = useLogin();
+  const queryClint = useQueryClient();
+
+  const { isLoading: isAdding, mutate } = useMutation({
+    mutationFn: ({ id, token }) => addToCart(id, token),
+    onSuccess: (val) => {
+      queryClint.invalidateQueries({ queryKey: ["user"] });
+      if (val) navigate("/cart");
+    },
+  });
+
+  useEffect(() => {
+    function handleAddCartItem() {
+      mutate({
+        id: JSON.parse(localStorage.getItem("cartId")),
+        token: cookies.jwt,
+      });
+      localStorage.removeItem("cartId");
+    }
+
+    if (login) {
+      if (localStorage.getItem("cartId")) {
+        handleAddCartItem();
+      } else {
+        navigate("/");
+      }
+    }
+  }, [cookies.jwt, login, mutate, navigate]);
 
   async function handelFormSubmit(data) {
     setIsLoading(true);
@@ -109,13 +139,12 @@ const Signup = () => {
       });
       reset();
       toast.success("Your account ready! Welcome");
-      navigate("/");
     } catch (err) {
       toast.error(err.message);
     }
     setIsLoading(false);
   }
-
+  if (isAdding) return <Spinner />;
   return (
     <LoginContainer>
       <LoginForm onSubmit={handleSubmit(handelFormSubmit)}>

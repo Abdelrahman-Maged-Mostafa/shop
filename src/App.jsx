@@ -1,5 +1,6 @@
-import styled from "styled-components";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import styled from "styled-components";
 import { Toaster } from "react-hot-toast";
 
 import GlobalStyles from "./styles/GlobalStyles";
@@ -15,7 +16,8 @@ import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import LoginProvider from "./context/LoginContext";
 import SuccesForgetPassword from "./pages/SuccesForgetPassword";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Account from "./pages/Account";
+import PersonalInfo from "./serv/account/PersonalInfo";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -47,7 +49,21 @@ function App() {
                 <Route path="cart" element={<Cart />} />
                 <Route path="users" element={<Tryed>users...</Tryed>} />
                 <Route path="settings" element={<Tryed>settings...</Tryed>} />
-                <Route path="account" element={<Tryed>account...</Tryed>} />
+                <Route path="account" element={<Account />}>
+                  <Route
+                    index
+                    element={<Navigate replace to="personal-info" />}
+                  />
+                  <Route path="personal-info" element={<PersonalInfo />} />
+                  <Route
+                    path="order-history"
+                    element={<Tryed>order-history...</Tryed>}
+                  />
+                  <Route
+                    path="active-orders"
+                    element={<Tryed>active-orders...</Tryed>}
+                  />
+                </Route>
                 <Route path="login" element={<Login />} />
                 <Route path="signup" element={<Signup />} />
                 <Route path="forgetPassword" element={<ForgetPassword />} />
