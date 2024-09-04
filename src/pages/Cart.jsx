@@ -26,7 +26,6 @@ function Cart() {
     queryKey: ["user"],
     queryFn: () => getMe(cookies.jwt),
   });
-  console.log(itemsIds);
   const { data: items, isLoading: isGotten } = useQuery({
     queryKey: ["items"],
     queryFn: getAllItems,

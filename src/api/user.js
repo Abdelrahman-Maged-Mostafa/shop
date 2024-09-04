@@ -58,3 +58,16 @@ export async function resetPassword(body, token) {
   const data = await res.json();
   return data;
 }
+
+export async function updateMe(body, token, path) {
+  const res = await fetch(`${URL}/api/v1/users/${path}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  return data;
+}

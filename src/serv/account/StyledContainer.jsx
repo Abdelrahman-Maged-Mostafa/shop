@@ -65,6 +65,9 @@ const StyledContainer = styled.div`
     &::placeholder {
       color: var(--color-grey-600);
     }
+    &:focus {
+      outline: none;
+    }
   }
 
   .form-section button {

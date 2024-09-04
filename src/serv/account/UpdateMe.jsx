@@ -1,6 +1,11 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import InputPhone from "./InputPhone";
+import { useLogin } from "../../context/useLogin";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateMe } from "../../api/user";
+import toast from "react-hot-toast";
+import SpinnerMini from "../../ui/SpinnerMini";
 
 const ErrorStyle = styled.span`
   font-size: 1.4rem;
@@ -8,6 +13,7 @@ const ErrorStyle = styled.span`
 `;
 
 function UpdateMe({ user }) {
+  const { cookies } = useLogin();
   const {
     register,
     control,
@@ -22,8 +28,18 @@ function UpdateMe({ user }) {
     },
   });
 
+  const queryClint = useQueryClient();
+  const { isLoading: isAdding, mutate } = useMutation({
+    mutationFn: ({ data, token, path }) => updateMe(data, token, path),
+    onSuccess: (val) => {
+      queryClint.invalidateQueries({ queryKey: ["user"] });
+      if (val.status === "success") toast.success("Your information updated.");
+      else toast.error(val.message);
+    },
+  });
+
   const onSubmit = (data) => {
-    console.log(data);
+    mutate({ data, token: cookies.jwt, path: "updateMe" });
   };
 
   return (
@@ -33,6 +49,7 @@ function UpdateMe({ user }) {
         <input
           {...register("name", { required: "This field is required " })}
           placeholder="Name"
+          disabled={isAdding}
         />
         {errors.name && <ErrorStyle>{errors.name.message}</ErrorStyle>}
         <input
@@ -41,14 +58,21 @@ function UpdateMe({ user }) {
             required: "This field is required ",
           })}
           placeholder="Email"
+          disabled={isAdding}
         />
         {errors.email && <ErrorStyle>{errors.email.message}</ErrorStyle>}
         {/* <input type="tel" {...register("phone", {})} placeholder="Phone" />
         {errors.phone && <ErrorStyle>{errors.phone.message}</ErrorStyle>} */}
-        <InputPhone control={control} errors={errors} />
-        <input {...register("address", {})} placeholder="Address" />
+        <InputPhone control={control} errors={errors} disabled={isAdding} />
+        <input
+          {...register("address", {})}
+          placeholder="Address"
+          disabled={isAdding}
+        />
         {errors.address && <ErrorStyle>{errors.address.message}</ErrorStyle>}
-        <button type="submit">Update Info</button>
+        <button type="submit" disabled={isAdding}>
+          {isAdding ? <SpinnerMini /> : "Update Info"}
+        </button>
       </div>
     </form>
   );

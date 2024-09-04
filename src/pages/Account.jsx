@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { getMe } from "../api/user";
 import { useQuery } from "@tanstack/react-query";
 import Spinner from "../ui/Spinner";
+import { useEffect } from "react";
 
 const StyledP = styled.p`
   text-align: center;
@@ -17,10 +18,11 @@ function Account() {
     queryKey: ["user"],
     queryFn: () => getMe(cookies.jwt),
   });
+
   const user = userData?.data?.doc;
   if (isLoading) return <Spinner />;
   if (!login || !userData?.data?.doc)
-    return <StyledP>Please Login to see your cart items.</StyledP>;
+    return <StyledP>Please Login to see your profile.</StyledP>;
   return (
     <StyledContainer>
       <Sidebar />
