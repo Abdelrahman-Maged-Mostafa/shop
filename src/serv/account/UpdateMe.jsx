@@ -1,30 +1,53 @@
 import { useForm } from "react-hook-form";
+import styled from "styled-components";
+import InputPhone from "./InputPhone";
 
-function UpdateMe() {
+const ErrorStyle = styled.span`
+  font-size: 1.4rem;
+  color: var(--color-red-700);
+`;
+
+function UpdateMe({ user }) {
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: user.name,
+      email: user.email,
+      phone: user.phone || "",
+      address: user.address || "",
+    },
+  });
 
   const onSubmit = (data) => {
     console.log(data);
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="form-section">
         <h2>Update Personal Information</h2>
-        <input {...register("name", { required: true })} placeholder="Name" />
-        {errors.name && <span>Name is required</span>}
-        <input {...register("email", { required: true })} placeholder="Email" />
-        {errors.email && <span>Email is required</span>}
-        <input {...register("phone", { required: true })} placeholder="Phone" />
-        {errors.phone && <span>Phone is required</span>}
         <input
-          {...register("address", { required: true })}
-          placeholder="Address"
+          {...register("name", { required: "This field is required " })}
+          placeholder="Name"
         />
-        {errors.address && <span>Address is required</span>}
+        {errors.name && <ErrorStyle>{errors.name.message}</ErrorStyle>}
+        <input
+          type="email"
+          {...register("email", {
+            required: "This field is required ",
+          })}
+          placeholder="Email"
+        />
+        {errors.email && <ErrorStyle>{errors.email.message}</ErrorStyle>}
+        {/* <input type="tel" {...register("phone", {})} placeholder="Phone" />
+        {errors.phone && <ErrorStyle>{errors.phone.message}</ErrorStyle>} */}
+        <InputPhone control={control} errors={errors} />
+        <input {...register("address", {})} placeholder="Address" />
+        {errors.address && <ErrorStyle>{errors.address.message}</ErrorStyle>}
         <button type="submit">Update Info</button>
       </div>
     </form>

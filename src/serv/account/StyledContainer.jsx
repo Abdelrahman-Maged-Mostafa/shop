@@ -11,6 +11,10 @@ const StyledContainer = styled.div`
     background-color: var(--color-brand-900);
     padding: 20px;
     text-align: center;
+    max-height: 102px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border-radius: 0 0 9px 9px;
   }
 
   .sidebar a {
@@ -83,14 +87,13 @@ const StyledContainer = styled.div`
     .sidebar {
       width: 250px;
       text-align: left;
+      max-height: 10000px;
+      margin-bottom: 0;
+      border-radius: 0 0 0 0;
     }
 
     .content {
       padding: 40px;
-    }
-
-    .form-section div {
-      width: 48%;
     }
   }
 
