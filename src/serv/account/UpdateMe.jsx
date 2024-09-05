@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateMe } from "../../api/user";
 import toast from "react-hot-toast";
 import SpinnerMini from "../../ui/SpinnerMini";
+import { useEffect, useState } from "react";
 
 const ErrorStyle = styled.span`
   font-size: 1.4rem;
@@ -14,6 +15,7 @@ const ErrorStyle = styled.span`
 
 function UpdateMe({ user }) {
   const { cookies } = useLogin();
+  const [curUser, setCurUser] = useState(user);
   const {
     register,
     control,
@@ -21,12 +23,15 @@ function UpdateMe({ user }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: user.name,
-      email: user.email,
-      phone: user.phone || "",
-      address: user.address || "",
+      name: curUser.name,
+      email: curUser.email,
+      phone: curUser.phone || "",
+      address: curUser.address || "",
     },
   });
+  useEffect(() => {
+    setCurUser(user);
+  }, [user]);
 
   const queryClint = useQueryClient();
   const { isLoading: isAdding, mutate } = useMutation({
