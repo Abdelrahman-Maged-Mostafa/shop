@@ -111,11 +111,10 @@ const Login = () => {
     }
 
     if (isLogin) {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
-
       if (localStorage.getItem("cartId")) {
         handleAddCartItem();
       } else {
+        queryClient.invalidateQueries({ queryKey: ["user"] });
         navigate("/");
       }
     }

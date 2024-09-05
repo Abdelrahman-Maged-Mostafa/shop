@@ -1,6 +1,6 @@
+import { useOutletContext } from "react-router";
 import UpdateMe from "./UpdateMe";
 import ChangePassword from "./ChangePassword";
-import { useOutletContext } from "react-router";
 
 const PersonalInfo = () => {
   const { user } = useOutletContext();
