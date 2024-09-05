@@ -76,6 +76,7 @@ const StyledContainer = styled.div`
     color: var(--color-grey-0);
     border: none;
     border-radius: 4px;
+    width: 180px;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
@@ -131,6 +132,7 @@ const StyledContainer = styled.div`
     .form-section button {
       padding: 15px 30px;
       font-size: 1.1em;
+      width: 210px;
     }
   }
 `;

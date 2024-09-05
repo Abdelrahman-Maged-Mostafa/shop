@@ -24,6 +24,16 @@ const SidebarStyled = styled.div`
   a {
     order: -1;
   }
+  p {
+    color: var(--color-brand-50);
+    text-align: center;
+    order: -1;
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: uppercase;
+    text-decoration: underline;
+    margin: 20px;
+  }
 `;
 
 const StyledMore = styled.div`
@@ -38,7 +48,7 @@ const StyledMore = styled.div`
   }
 `;
 
-const Sidebar = () => {
+const Sidebar = ({ user }) => {
   const [open, setOpen] = useState(false);
   return (
     <SidebarStyled
@@ -59,14 +69,38 @@ const Sidebar = () => {
           }}
         />
       </StyledMore>
-      <NavLink to="/account/active-orders">
-        <MdWorkHistory />
-        <span>Active Orders</span>
-      </NavLink>
-      <NavLink to="/account/order-history">
-        <MdWork />
-        <span>Order History</span>
-      </NavLink>
+      {user.role === "admin" ? (
+        <>
+          <p>Admin list</p>
+          <NavLink to="/account/manage-items">
+            {/* <MdWork /> */}
+            <span>Manage items</span>
+          </NavLink>
+          <NavLink to="/account/manage-orders-active">
+            <MdWork />
+            <span>Manage orders active</span>
+          </NavLink>
+          <NavLink to="/account/manage-orders-history">
+            <MdWorkHistory />
+            <span>Manage orders history</span>
+          </NavLink>
+          <NavLink to="/account/change-style">
+            {/* <MdWork /> */}
+            <span>Change style</span>
+          </NavLink>
+        </>
+      ) : (
+        <>
+          <NavLink to="/account/active-orders">
+            <MdWorkHistory />
+            <span>Active Orders</span>
+          </NavLink>
+          <NavLink to="/account/order-history">
+            <MdWork />
+            <span>Order History</span>
+          </NavLink>
+        </>
+      )}
     </SidebarStyled>
   );
 };

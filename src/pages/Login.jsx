@@ -92,11 +92,11 @@ const Login = () => {
   const { errors } = formState;
   const [isLoading, setIsLoading] = useState(false);
   const { setCookie, checkLogin, cookies, login: isLogin } = useLogin();
-  const queryClint = useQueryClient();
+  const queryClient = useQueryClient();
   const { isLoading: isAdding, mutate } = useMutation({
     mutationFn: ({ id, token }) => addToCart(id, token),
     onSuccess: (val) => {
-      queryClint.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: ["user"] });
       if (val) navigate("/cart");
     },
   });
@@ -111,13 +111,15 @@ const Login = () => {
     }
 
     if (isLogin) {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+
       if (localStorage.getItem("cartId")) {
         handleAddCartItem();
       } else {
         navigate("/");
       }
     }
-  }, [cookies.jwt, isLogin, mutate, navigate]);
+  }, [cookies.jwt, isLogin, mutate, navigate, queryClient]);
 
   async function handelFormSubmit(data) {
     setIsLoading(true);
