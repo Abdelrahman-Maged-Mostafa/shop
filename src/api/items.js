@@ -15,3 +15,13 @@ export async function getOneItems(id) {
     throw new Error("Some thing wrong! Please try again");
   return data;
 }
+
+export async function deleteOneItems(id, token) {
+  const res = await fetch(`${URL}/api/v1/items/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) throw new Error("Some thing wrong! Please try again");
+}

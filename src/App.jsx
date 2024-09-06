@@ -20,6 +20,7 @@ import Account from "./pages/Account";
 import PersonalInfo from "./serv/account/PersonalInfo";
 import ProtectRoute from "./pages/ProtectRoute";
 import ManageItems from "./pages/ManageItems";
+import EditItem from "./pages/EditItem";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -53,6 +54,14 @@ function App() {
                 <Route path="settings" element={<Tryed>settings...</Tryed>} />
                 <Route path="account" element={<Account />}>
                   <Route
+                    path="order-history"
+                    element={<Tryed>order-history...</Tryed>}
+                  />
+                  <Route
+                    path="active-orders"
+                    element={<Tryed>active-orders...</Tryed>}
+                  />
+                  <Route
                     index
                     element={<Navigate replace to="personal-info" />}
                   />
@@ -65,6 +74,14 @@ function App() {
                       </ProtectRoute>
                     }
                   />
+                  <Route
+                    path="manage-items/editItem/:itemId"
+                    element={
+                      <ProtectRoute>
+                        <EditItem />
+                      </ProtectRoute>
+                    }
+                  />
                   <Route path="change-style" element={<p>change-style</p>} />
                   <Route
                     path="manage-orders-active"
@@ -73,14 +90,6 @@ function App() {
                   <Route
                     path="manage-orders-history"
                     element={<p>manage-orders-history</p>}
-                  />
-                  <Route
-                    path="order-history"
-                    element={<Tryed>order-history...</Tryed>}
-                  />
-                  <Route
-                    path="active-orders"
-                    element={<Tryed>active-orders...</Tryed>}
                   />
                 </Route>
                 <Route path="login" element={<Login />} />

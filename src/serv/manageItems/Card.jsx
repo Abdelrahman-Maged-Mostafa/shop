@@ -1,4 +1,11 @@
 import styled from "styled-components";
+import { useLogin } from "../../context/useLogin";
+import { useState } from "react";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteOneItems } from "../../api/items";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const CardStyle = styled.div`
   background: var(--color-grey-0);
@@ -78,14 +85,47 @@ const DeleteButton = styled(Button)`
 `;
 
 function Card({ item }) {
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const navigate = useNavigate();
+  const { cookies } = useLogin();
+  const queryClient = useQueryClient();
+
+  const { isLoading: isDeleting, mutate } = useMutation({
+    mutationFn: ({ id, token }) => deleteOneItems(id, token),
+    onSuccess: (val) => {
+      queryClient.invalidateQueries({ queryKey: ["items"] });
+      toast.success("Item successfully deleted.");
+    },
+    onError: (err) => {
+      console.log(err);
+      toast.error(err.message);
+    },
+  });
+
+  function hnadleDeletItem() {
+    mutate({ id: item.id, token: cookies.jwt });
+  }
+
   return (
     <CardStyle>
+      {confirmDelete && (
+        <ConfirmDelete
+          onConfirm={hnadleDeletItem}
+          resourceName={item.name}
+          close={() => setConfirmDelete(false)}
+          disabled={isDeleting}
+        />
+      )}
       <Photo src={item.imageCover} alt={item.name} />
       <Info>
         <Name>{item.name}</Name>
         <ButtonContainer>
-          <EditButton>Edit</EditButton>
-          <DeleteButton>Delete</DeleteButton>
+          <EditButton onClick={() => navigate(`editItem/${item.id}`)}>
+            Edit
+          </EditButton>
+          <DeleteButton onClick={() => setConfirmDelete(true)}>
+            Delete
+          </DeleteButton>
         </ButtonContainer>
       </Info>
     </CardStyle>
