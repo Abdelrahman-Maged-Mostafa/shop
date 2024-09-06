@@ -18,6 +18,7 @@ import LoginProvider from "./context/LoginContext";
 import SuccesForgetPassword from "./pages/SuccesForgetPassword";
 import Account from "./pages/Account";
 import PersonalInfo from "./serv/account/PersonalInfo";
+import ProtectRoute from "./pages/ProtectRoute";
 import ManageItems from "./pages/ManageItems";
 
 const Tryed = styled.div`
@@ -56,7 +57,14 @@ function App() {
                     element={<Navigate replace to="personal-info" />}
                   />
                   <Route path="personal-info" element={<PersonalInfo />} />
-                  <Route path="manage-items" element={<ManageItems />} />
+                  <Route
+                    path="manage-items"
+                    element={
+                      <ProtectRoute>
+                        <ManageItems />
+                      </ProtectRoute>
+                    }
+                  />
                   <Route path="change-style" element={<p>change-style</p>} />
                   <Route
                     path="manage-orders-active"

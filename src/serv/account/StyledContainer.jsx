@@ -38,6 +38,7 @@ const StyledContainer = styled.div`
   .content {
     flex: 1;
     background-color: var(--color-grey-0);
+    padding: 15px;
   }
 
   .form-section {

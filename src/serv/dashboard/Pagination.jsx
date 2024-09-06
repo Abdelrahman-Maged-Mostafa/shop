@@ -25,7 +25,7 @@ const StayledPage = styled.div`
     color: var(--color-grey-500);
   }
 `;
-function Pagination({ top, page, setPage, numPages }) {
+function Pagination({ style, page, setPage, numPages }) {
   function handelNext() {
     setPage((page) => page + 1);
   }
@@ -33,7 +33,7 @@ function Pagination({ top, page, setPage, numPages }) {
     setPage((page) => page - 1);
   }
   return (
-    <StayledPage style={{ top }}>
+    <StayledPage style={style}>
       <button onClick={handelBack} disabled={page === 1}>
         &laquo;
       </button>

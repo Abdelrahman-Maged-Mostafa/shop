@@ -41,7 +41,7 @@ function Dashboard() {
         setPage={setPage}
         page={page}
         numPages={numPages}
-        top="-10px"
+        style={{ top: "-10px" }}
       />
       {myData?.map((el, i) => (
         <CardProduct data={el} key={i} />

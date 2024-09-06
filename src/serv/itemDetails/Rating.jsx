@@ -67,7 +67,7 @@ function Rating({ reviews }) {
           setPage={setPage}
           page={page}
           numPages={Math.ceil(reviews.length / numReviewInPage)}
-          top="-70px"
+          style={{ top: "-70px" }}
         />
         {reviewsInPage.map((review, i) => (
           <ReviewCard key={i}>
