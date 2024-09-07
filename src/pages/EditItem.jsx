@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { useForm } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { getOneItems } from "../api/items";
 import Spinner from "../ui/Spinner";
-import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
 
 // Styled components
 const Container = styled.div`
@@ -12,13 +12,13 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #f0f0f0;
+  background-color: var(--color-grey-100);
   min-height: 100vh;
 `;
 
 const Form = styled.form`
-  background: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: var(--color-grey-0);
+  box-shadow: var(--shadow-md);
   border-radius: 8px;
   padding: 20px;
   width: 100%;
@@ -39,29 +39,35 @@ const Label = styled.label`
 const Input = styled.input`
   padding: 10px;
   margin-bottom: 20px;
-  border: 1px solid #ccc;
+  border: none;
+  border-bottom: 1px solid var(--color-grey-400);
   border-radius: 4px;
   width: 100%;
+  background-color: var(--color-grey-0);
 `;
 
 const TextArea = styled.textarea`
   padding: 10px;
   margin-bottom: 20px;
-  border: 1px solid #ccc;
+  border: none;
+  border-bottom: 1px solid var(--color-grey-400);
   border-radius: 4px;
   width: 100%;
+  background-color: var(--color-grey-0);
 `;
 
 const ImagePreview = styled.img`
   width: 100px;
+  display: block;
   height: 100px;
   object-fit: cover;
   margin-bottom: 10px;
+  margin-top: 10px;
 `;
 
 const Button = styled.button`
-  background-color: #007bff;
-  color: white;
+  background-color: var(--color-brand-500);
+  color: var(--color-grey-0);
   border: none;
   padding: 10px 20px;
   margin-top: 10px;
@@ -70,7 +76,7 @@ const Button = styled.button`
   font-size: 1em;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: var(--color-brand-700);
   }
 `;
 
@@ -129,7 +135,10 @@ const EditItem = () => {
         <Title>Edit Product</Title>
         {curItems?.images?.map((image, index) => (
           <div key={index}>
-            <Label>Image {index + 1}</Label>
+            <Label>
+              Image {index + 1}
+              {index === 0 ? " & cover image" : ""}
+            </Label>
             <ImagePreview src={image} alt={`Product Image ${index + 1}`} />
             <Input
               type="file"
