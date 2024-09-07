@@ -25,3 +25,27 @@ export async function deleteOneItems(id, token) {
   });
   if (!res.ok) throw new Error("Some thing wrong! Please try again");
 }
+
+export async function updateOneItems(id, body, token) {
+  const formData = new FormData();
+  // Append all fields from the body to the formData
+  for (const key of Object.keys(body)) {
+    if (key === "images")
+      body.images.forEach((value, i) => {
+        formData.append(`images[${i}]`, value);
+      });
+    else {
+      if (key.startsWith("imagesType")) formData.append(key, body[key][0]);
+      else formData.append(key, body[key]);
+    }
+  }
+  //send req
+  const res = await fetch(`${URL}/api/v1/items/${id}`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+  if (!res.ok) throw new Error("Some thing wrong! Please try again");
+}

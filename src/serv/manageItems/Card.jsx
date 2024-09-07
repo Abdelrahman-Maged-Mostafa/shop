@@ -97,7 +97,6 @@ function Card({ item }) {
       toast.success("Item successfully deleted.");
     },
     onError: (err) => {
-      console.log(err);
       toast.error(err.message);
     },
   });

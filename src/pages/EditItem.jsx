@@ -1,10 +1,13 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { getOneItems } from "../api/items";
+import { getOneItems, updateOneItems } from "../api/items";
 import Spinner from "../ui/Spinner";
+import toast from "react-hot-toast";
+import { useLogin } from "../context/useLogin";
+import SpinnerMini from "../ui/SpinnerMini";
 
 // Styled components
 const Container = styled.div`
@@ -84,9 +87,23 @@ const Button = styled.button`
 const EditItem = () => {
   const { itemId } = useParams();
   const [curItems, setCurItems] = useState({});
+  const { cookies } = useLogin();
+  const queryClient = useQueryClient();
   const { data: item, isLoading } = useQuery({
     queryKey: ["item", itemId],
     queryFn: () => getOneItems(itemId),
+  });
+
+  const { isLoading: isUpdated, mutate } = useMutation({
+    mutationFn: ({ id, body, token }) => updateOneItems(id, body, token),
+    onSuccess: (val) => {
+      toast.success("Item successfully updated.");
+      queryClient.invalidateQueries({ queryKey: ["items"] });
+      queryClient.invalidateQueries({ queryKey: ["item", itemId] });
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
   });
 
   const { register, handleSubmit, reset } = useForm({
@@ -124,7 +141,7 @@ const EditItem = () => {
   };
 
   const submitSuccess = (data) => {
-    console.log(data);
+    mutate({ id: itemId, body: data, token: cookies.jwt });
   };
 
   if (isLoading) return <Spinner />;
@@ -141,25 +158,29 @@ const EditItem = () => {
             </Label>
             <ImagePreview src={image} alt={`Product Image ${index + 1}`} />
             <Input
+              disabled={isUpdated}
               type="file"
               accept="image/*"
-              {...register(`image[${index + 1}]`, {})}
+              {...register(`imagesType${index}`)}
               onChange={(e) => handleImageChange(e, index)}
             />
           </div>
         ))}
         <Label>Name</Label>
         <Input
+          disabled={isUpdated}
           type="text"
           {...register("name", { required: "This field is required " })}
         />
         <Label>Price</Label>
         <Input
+          disabled={isUpdated}
           type="number"
           {...register("price", { required: "This field is required " })}
         />
         <Label>Short Description</Label>
         <TextArea
+          disabled={isUpdated}
           name="shortDescription"
           {...register("shortDescription", {
             required: "This field is required ",
@@ -167,16 +188,20 @@ const EditItem = () => {
         />
         <Label>Stock</Label>
         <Input
+          disabled={isUpdated}
           type="number"
           {...register("stock", { required: "This field is required " })}
         />
         <Label>Long Description</Label>
         <TextArea
+          disabled={isUpdated}
           {...register("longDescription", {
             required: "This field is required ",
           })}
         />
-        <Button type="submit">Save Changes</Button>
+        <Button type="submit" disabled={isUpdated}>
+          {isUpdated ? <SpinnerMini /> : "Save Changes"}
+        </Button>
       </Form>
     </Container>
   );
