@@ -84,7 +84,7 @@ const DeleteButton = styled(Button)`
   }
 `;
 
-function Card({ item }) {
+function Card({ item, type = "item" }) {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const navigate = useNavigate();
   const { cookies } = useLogin();
@@ -119,12 +119,21 @@ function Card({ item }) {
       <Info>
         <Name>{item.name}</Name>
         <ButtonContainer>
-          <EditButton onClick={() => navigate(`editItem/${item.id}`)}>
-            Edit
-          </EditButton>
-          <DeleteButton onClick={() => setConfirmDelete(true)}>
-            Delete
-          </DeleteButton>
+          {type === "item" && (
+            <>
+              <EditButton onClick={() => navigate(`editItem/${item.id}`)}>
+                Edit
+              </EditButton>
+              <DeleteButton onClick={() => setConfirmDelete(true)}>
+                Delete
+              </DeleteButton>
+            </>
+          )}
+          {type === "review" && (
+            <EditButton onClick={() => navigate(`reviews-item/${item.id}`)}>
+              All reviews
+            </EditButton>
+          )}
         </ButtonContainer>
       </Info>
     </CardStyle>

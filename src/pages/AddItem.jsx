@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { createOneItems } from "../api/items";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 // Styled components
 const Container = styled.div`
@@ -83,6 +84,7 @@ const Button = styled.button`
 
 function AddItem() {
   const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
   const { cookies } = useLogin();
   const queryClient = useQueryClient();
   const [images, setImages] = useState([0, 0, 0]);
@@ -92,6 +94,7 @@ function AddItem() {
     onSuccess: (val) => {
       toast.success("Item successfully added.");
       queryClient.invalidateQueries({ queryKey: ["items"] });
+      navigate("/account/manage-items");
     },
     onError: (err) => {
       toast.error(err.message);

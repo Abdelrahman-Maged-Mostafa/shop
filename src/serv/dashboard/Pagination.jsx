@@ -32,6 +32,7 @@ function Pagination({ style, page, setPage, numPages }) {
   function handelBack() {
     setPage((page) => page - 1);
   }
+  if (numPages === 1 || !numPages) return <></>;
   return (
     <StayledPage style={style}>
       <button onClick={handelBack} disabled={page === 1}>

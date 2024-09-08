@@ -75,3 +75,13 @@ export async function createOneItems(body, token) {
   const data = await res.json();
   if (!res.ok) throw new Error(data.message);
 }
+
+export async function deleteOneReview(id, token) {
+  const res = await fetch(`${URL}/api/v1/reviews/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) throw new Error("Some thing wrong! Please try again");
+}

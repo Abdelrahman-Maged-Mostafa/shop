@@ -22,6 +22,8 @@ import ProtectRoute from "./pages/ProtectRoute";
 import ManageItems from "./pages/ManageItems";
 import EditItem from "./pages/EditItem";
 import AddItem from "./pages/AddItem";
+import ManageReviews from "./pages/ManageReviews";
+import ItemReview from "./pages/ItemReview";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -88,6 +90,22 @@ function App() {
                     element={
                       <ProtectRoute>
                         <AddItem />
+                      </ProtectRoute>
+                    }
+                  />
+                  <Route
+                    path="manage-reviews"
+                    element={
+                      <ProtectRoute>
+                        <ManageReviews />
+                      </ProtectRoute>
+                    }
+                  />
+                  <Route
+                    path="manage-reviews/reviews-item/:itemId"
+                    element={
+                      <ProtectRoute>
+                        <ItemReview />
                       </ProtectRoute>
                     }
                   />

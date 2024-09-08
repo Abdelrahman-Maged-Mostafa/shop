@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -86,6 +86,7 @@ const Button = styled.button`
 // React component
 const EditItem = () => {
   const { itemId } = useParams();
+  const navigate = useNavigate();
   const [curItems, setCurItems] = useState({});
   const { cookies } = useLogin();
   const queryClient = useQueryClient();
@@ -100,6 +101,7 @@ const EditItem = () => {
       toast.success("Item successfully updated.");
       queryClient.invalidateQueries({ queryKey: ["items"] });
       queryClient.invalidateQueries({ queryKey: ["item", itemId] });
+      navigate("/account/manage-items");
     },
     onError: (err) => {
       toast.error(err.message);

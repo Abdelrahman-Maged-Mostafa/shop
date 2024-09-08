@@ -76,6 +76,10 @@ const Sidebar = ({ user }) => {
             {/* <MdWork /> */}
             <span>Manage items</span>
           </NavLink>
+          <NavLink to="/account/manage-reviews">
+            {/* <MdWork /> */}
+            <span>Manage reviews</span>
+          </NavLink>
           <NavLink to="/account/manage-orders-active">
             <MdWork />
             <span>Manage orders active</span>
