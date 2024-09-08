@@ -5,6 +5,8 @@ import { getAllItems } from "../api/items";
 import Card from "../serv/manageItems/card";
 import Pagination from "../serv/dashboard/Pagination";
 import { useState } from "react";
+import Button from "../ui/Button";
+import { Link } from "react-router-dom";
 
 // Styled components
 const StyledAll = styled.div`
@@ -21,6 +23,16 @@ const Container = styled.div`
   background-color: var(--color-grey-100);
   gap: 10px;
   padding: 20px;
+`;
+
+const Fotter = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  @media screen and (max-width: 450px) {
+    flex-direction: column-reverse;
+    gap: 20px;
+  }
 `;
 
 function ManageItems({ user }) {
@@ -43,16 +55,21 @@ function ManageItems({ user }) {
           <Card item={item} key={i} />
         ))}
       </Container>
-      <Pagination
-        setPage={setPage}
-        page={page}
-        numPages={numPages}
-        style={{
-          right: "-15px",
-          bottom: "0",
-          position: "relative",
-        }}
-      />
+      <Fotter>
+        <Pagination
+          setPage={setPage}
+          page={page}
+          numPages={numPages}
+          style={{
+            right: "-15px",
+            bottom: "0",
+            position: "relative",
+          }}
+        />
+        <Link to="/account/manage-items/addItem">
+          <Button>Add new</Button>
+        </Link>
+      </Fotter>
     </StyledAll>
   );
 }

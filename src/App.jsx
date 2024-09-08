@@ -21,6 +21,7 @@ import PersonalInfo from "./serv/account/PersonalInfo";
 import ProtectRoute from "./pages/ProtectRoute";
 import ManageItems from "./pages/ManageItems";
 import EditItem from "./pages/EditItem";
+import AddItem from "./pages/AddItem";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -79,6 +80,14 @@ function App() {
                     element={
                       <ProtectRoute>
                         <EditItem />
+                      </ProtectRoute>
+                    }
+                  />
+                  <Route
+                    path="manage-items/addItem"
+                    element={
+                      <ProtectRoute>
+                        <AddItem />
                       </ProtectRoute>
                     }
                   />

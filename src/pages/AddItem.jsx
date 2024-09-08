@@ -1,13 +1,11 @@
-import { useParams } from "react-router-dom";
-import styled from "styled-components";
-import { useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import { useEffect, useState } from "react";
-import { getOneItems, updateOneItems } from "../api/items";
-import Spinner from "../ui/Spinner";
 import { useLogin } from "../context/useLogin";
 import SpinnerMini from "../ui/SpinnerMini";
+import styled from "styled-components";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { useState } from "react";
+import { createOneItems } from "../api/items";
+import { useForm } from "react-hook-form";
 
 // Styled components
 const Container = styled.div`
@@ -83,85 +81,54 @@ const Button = styled.button`
   }
 `;
 
-// React component
-const EditItem = () => {
-  const { itemId } = useParams();
-  const [curItems, setCurItems] = useState({});
+function AddItem() {
+  const { register, handleSubmit } = useForm();
   const { cookies } = useLogin();
   const queryClient = useQueryClient();
-  const { data: item, isLoading } = useQuery({
-    queryKey: ["item", itemId],
-    queryFn: () => getOneItems(itemId),
-  });
+  const [images, setImages] = useState([0, 0, 0]);
 
   const { isLoading: isUpdated, mutate } = useMutation({
-    mutationFn: ({ id, body, token }) => updateOneItems(id, body, token),
+    mutationFn: ({ body, token }) => createOneItems(body, token),
     onSuccess: (val) => {
-      toast.success("Item successfully updated.");
+      toast.success("Item successfully added.");
       queryClient.invalidateQueries({ queryKey: ["items"] });
-      queryClient.invalidateQueries({ queryKey: ["item", itemId] });
     },
     onError: (err) => {
       toast.error(err.message);
     },
   });
 
-  const { register, handleSubmit, reset } = useForm({
-    defaultValues: {
-      name: "",
-      price: "",
-      shortDescription: "",
-      stock: "",
-      longDescription: "",
-    },
-  });
-
-  useEffect(() => {
-    if (item) {
-      setCurItems(item.data.doc);
-      reset({
-        name: item.data.doc.name,
-        price: item.data.doc.price,
-        shortDescription: item.data.doc.shortDescription,
-        stock: item.data.doc.stock,
-        longDescription: item.data.doc.longDescription,
-        images: item.data.doc.images,
-        imageCover: item.data.doc.imageCover,
-      });
-    }
-  }, [item, reset]);
-
   const handleImageChange = (e, index) => {
     const files = e.target.files;
     if (files && files[0]) {
-      const newImages = [...curItems.images];
+      const newImages = [...images];
       newImages[index] = URL.createObjectURL(files[0]);
-      setCurItems({ ...curItems, images: newImages });
+      setImages(newImages);
     }
   };
-
-  const submitSuccess = (data) => {
-    mutate({ id: itemId, body: data, token: cookies.jwt });
-  };
-
-  if (isLoading) return <Spinner />;
-
+  function submitSuccess(data) {
+    mutate({ body: data, token: cookies.jwt });
+  }
   return (
     <Container>
       <Form onSubmit={handleSubmit(submitSuccess)}>
         <Title>Edit Product</Title>
-        {curItems?.images?.map((image, index) => (
+        {images.map((image, index) => (
           <div key={index}>
             <Label>
               Image {index + 1}
               {index === 0 ? " & cover image" : ""}
             </Label>
-            <ImagePreview src={image} alt={`Product Image ${index + 1}`} />
+            {image !== 0 && (
+              <ImagePreview src={image} alt={`Product Image ${index + 1}`} />
+            )}
             <Input
               disabled={isUpdated}
               type="file"
               accept="image/*"
-              {...register(`imagesType${index}`)}
+              {...register(`imagesType${index}`, {
+                required: "This field is required ",
+              })}
               onChange={(e) => handleImageChange(e, index)}
             />
           </div>
@@ -200,10 +167,11 @@ const EditItem = () => {
           })}
         />
         <Button type="submit" disabled={isUpdated}>
-          {isUpdated ? <SpinnerMini /> : "Save Changes"}
+          {isUpdated ? <SpinnerMini /> : "Add item"}
         </Button>
       </Form>
     </Container>
   );
-};
-export default EditItem;
+}
+
+export default AddItem;
