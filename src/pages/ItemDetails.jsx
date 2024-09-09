@@ -43,6 +43,10 @@ const Bar = styled.div`
   }
 `;
 
+const StyledLongDetail = styled.pre`
+  white-space: pre-wrap;
+`;
+
 function ItemDetails() {
   const { itemId } = useParams();
   const { data: item, isLoading } = useQuery({
@@ -74,7 +78,9 @@ function ItemDetails() {
         </p>
       </Bar>
       <ProductRating>
-        {active === "product" && <p>{curItem?.longDescription}</p>}
+        {active === "product" && (
+          <StyledLongDetail>{curItem?.longDescription}</StyledLongDetail>
+        )}
         {active === "rating" && <Rating reviews={curItem?.reviews} />}
       </ProductRating>
     </>

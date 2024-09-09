@@ -14,6 +14,7 @@ const StyledPhoto = styled.div`
     display: flex;
     gap: 10px;
     flex-direction: column;
+    justify-content: space-between;
     @media screen and (max-width: 767px) {
       display: flex;
       flex-direction: row;
@@ -22,7 +23,7 @@ const StyledPhoto = styled.div`
 
     div {
       width: 100px;
-      height: 120px;
+      height: 100px;
       cursor: pointer;
       box-shadow: var(--shadow-md);
       padding: 0 4px 4px;
@@ -44,7 +45,8 @@ const StyledPhoto = styled.div`
     border-radius: var(--border-radius-lg);
     min-width: 300px;
     img {
-      height: 100%;
+      width: 300px;
+      height: 300px;
       @media screen and (max-width: 767px) {
         height: 300px;
       }

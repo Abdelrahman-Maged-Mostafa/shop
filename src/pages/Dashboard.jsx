@@ -9,7 +9,7 @@ import Spinner from "../ui/Spinner";
 
 const StyledDashboard = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   gap: 25px;
   padding: 40px 0;
   position: relative;

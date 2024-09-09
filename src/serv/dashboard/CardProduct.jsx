@@ -7,6 +7,8 @@ import SpinnerMini from "../../ui/SpinnerMini";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const StyledCard = styled.div`
+  display: grid;
+  grid-template-rows: auto 1fr;
   width: 100%;
   border: 1px solid var(--color-grey-100);
   border-radius: 10px;
@@ -27,6 +29,9 @@ const StyledCard = styled.div`
   .product-details {
     padding: 15px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .product-title {
@@ -65,6 +70,7 @@ const StyledCard = styled.div`
     background-color: var(--color-brand-700);
   }
 `;
+
 function CardProduct({ data }) {
   const [isLoading, setIsLoading] = useState(false);
   const { cookies } = useLogin();
@@ -97,16 +103,18 @@ function CardProduct({ data }) {
         <h2 className="product-title">{data.name}</h2>
         <p className="product-description">{data.shortDescription}</p>
         <div className="product-price">${data.price}</div>
-        <button
-          className="button cart"
-          onClick={handelAddToCart}
-          disabled={isLoading || isDeleting}
-        >
-          {isLoading || isDeleting ? <SpinnerMini /> : "Add to Cart"}
-        </button>
-        <Link to={`/dashboard/${data.id}`}>
-          <button className="button">Details</button>
-        </Link>
+        <div>
+          <button
+            className="button cart"
+            onClick={handelAddToCart}
+            disabled={isLoading || isDeleting}
+          >
+            {isLoading || isDeleting ? <SpinnerMini /> : "Add to Cart"}
+          </button>
+          <Link to={`/dashboard/${data.id}`}>
+            <button className="button">Details</button>
+          </Link>
+        </div>
       </div>
     </StyledCard>
   );
