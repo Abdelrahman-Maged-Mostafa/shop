@@ -152,7 +152,7 @@ function DetailsItem({ curItem }) {
       )}
       {curItem?.color?.[curColor]?.size?.length !== 0 && (
         <StyledSizes>
-          {curItem?.color[curColor].size.map((size, i) => (
+          {curItem?.color[curColor]?.size.map((size, i) => (
             <p
               key={i}
               className={i === curSize ? "active" : ""}

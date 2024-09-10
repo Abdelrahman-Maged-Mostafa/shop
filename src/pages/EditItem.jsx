@@ -8,7 +8,7 @@ import { getOneItems, updateOneItems } from "../api/items";
 import Spinner from "../ui/Spinner";
 import { useLogin } from "../context/useLogin";
 import SpinnerMini from "../ui/SpinnerMini";
-// import ColorSizeForm from "../serv/account/ColorSizeForm";
+import ColorSizeForm from "../serv/account/ColorSizeForm";
 
 // Styled components
 const Container = styled.div`
@@ -144,8 +144,8 @@ const EditItem = () => {
   };
 
   const submitSuccess = (data) => {
-    mutate({ id: itemId, body: data, token: cookies.jwt });
-    // console.log(data);
+    // mutate({ id: itemId, body: data, token: cookies.jwt });
+    console.log(data);
   };
 
   if (isLoading) return <Spinner />;
@@ -176,7 +176,7 @@ const EditItem = () => {
           type="text"
           {...register("name", { required: "This field is required " })}
         />
-        {/* <ColorSizeForm register={register} /> */}
+        <ColorSizeForm register={register} />
         <Label>Price</Label>
         <Input
           disabled={isUpdated}

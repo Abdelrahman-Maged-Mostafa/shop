@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { HiTrash } from "react-icons/hi2";
 import styled from "styled-components";
 
@@ -11,15 +10,13 @@ const StyledSet = styled.div`
     font-size: 60px;
     color: var(--color-red-700);
     cursor: pointer;
+    @media screen and (max-width: 500px) {
+      font-size: 80px;
+    }
     &:hover {
       color: var(--color-red-800);
     }
   }
-`;
-
-const Label = styled.label`
-  margin-bottom: 10px;
-  font-weight: bold;
 `;
 
 const Input = styled.input`
@@ -32,39 +29,73 @@ const Input = styled.input`
   background-color: var(--color-grey-0);
 `;
 
-function SizeForm({ setNumSizes, index }) {
-  const [size, setSize] = useState("");
-  const [price, setPrice] = useState("");
-  const [stock, setStock] = useState("");
+const ButtonMore = styled.div`
+  margin: 0 auto;
+  width: fit-content;
+  background-color: var(--color-grey-400);
+  padding: 6px 9px;
+  border-radius: 6px;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--color-brand-500);
+  }
+`;
+
+const SizeForm = ({ size, setSize }) => {
+  const handleAddSize = () => {
+    setSize([...size, { name: "", stock: "", price: "" }]);
+  };
+  const handleRemoveSize = (sizeIndex) => {
+    setSize(size.filter((_, index) => index !== sizeIndex));
+  };
+
+  const handleSizeChange = (event, sizeIndex) => {
+    setSize(
+      size.map((size, index) => {
+        if (index === sizeIndex) {
+          return { ...size, [event.target.name]: event.target.value };
+        }
+        return size;
+      })
+    );
+  };
+
   return (
-    <StyledSet>
-      <Input
-        type="text"
-        placeholder="Size"
-        value={size}
-        onChange={(e) => setSize(e.target.value)}
-      />
-      <Input
-        type="text"
-        placeholder="Price"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-      />
-      <Input
-        type="text"
-        placeholder="Stock"
-        value={stock}
-        onChange={(e) => setStock(e.target.value)}
-      />
-      <HiTrash
-        onClick={() => {
-          setNumSizes((prevNumSizes) =>
-            prevNumSizes.filter((_, i) => i !== index)
-          );
-        }}
-      />
-    </StyledSet>
+    <>
+      <div>
+        <ButtonMore type="button" onClick={() => handleAddSize()}>
+          Add Size
+        </ButtonMore>
+      </div>
+
+      {size.map((size, sizeIndex) => (
+        <StyledSet key={sizeIndex}>
+          <Input
+            placeholder="Size"
+            type="text"
+            name="name"
+            value={size.name}
+            onChange={(event) => handleSizeChange(event, sizeIndex)}
+          />
+          <Input
+            placeholder="Stock"
+            type="text"
+            name="stock"
+            value={size.stock}
+            onChange={(event) => handleSizeChange(event, sizeIndex)}
+          />
+          <Input
+            placeholder="Price"
+            type="text"
+            name="price"
+            value={size.price}
+            onChange={(event) => handleSizeChange(event, sizeIndex)}
+          />
+          <HiTrash onClick={() => handleRemoveSize(sizeIndex)} />
+        </StyledSet>
+      ))}
+    </>
   );
-}
+};
 
 export default SizeForm;

@@ -1,44 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 import SizeForm from "./SizeForm";
-
-const StyledAdd = styled.div`
-  background-color: var(--color-grey-500);
-  color: var(--color-grey-0);
-  border: none;
-  width: 100px;
-  padding: 6px 9px;
-  margin-top: 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1em;
-  &:hover {
-    background-color: var(--color-grey-700);
-  }
-`;
-
-const StyledSet = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 10px 0;
-`;
-
-const Label = styled.label`
-  margin-bottom: 10px;
-  font-weight: bold;
-`;
-
-const ButtonMore = styled.div`
-  margin: 0 auto;
-  background-color: var(--color-grey-400);
-  padding: 6px 9px;
-  border-radius: 6px;
-  cursor: pointer;
-  &:hover {
-    background-color: var(--color-brand-500);
-  }
-`;
+import AddColorAndSize from "./AddColorAndSize";
+import ColorForm from "./ColorForm";
 
 const StyledBar = styled.div`
   display: flex;
@@ -46,6 +10,7 @@ const StyledBar = styled.div`
   align-items: center;
   margin: 20px 0;
   > p {
+    text-align: center;
     border-radius: 6px;
     background-color: var(--color-grey-100);
     padding: 6px 9px;
@@ -60,12 +25,23 @@ const StyledBar = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
+    > p {
+      font-size: 14px;
+    }
+  }
+  @media screen and (max-width: 400px) {
+    > p {
+      font-size: 12px;
+    }
   }
 `;
 
 const ColorSizeForm = ({ register }) => {
   const [choose, setChoose] = useState("NoOne");
-  const [numSizes, setNumSizes] = useState([0]);
+  const [size, setSize] = useState([]);
+  const [colors, setColors] = useState([]);
+  const [colorsAndSize, setColorsAndSize] = useState([]);
+  console.log(colorsAndSize, size, colors);
   return (
     <>
       <StyledBar>
@@ -94,17 +70,12 @@ const ColorSizeForm = ({ register }) => {
           No one
         </p>
       </StyledBar>
-      {choose === "Size" && (
-        <>
-          {numSizes.map((el, index) => (
-            <SizeForm key={el} index={index} setNumSizes={setNumSizes} />
-          ))}
-          <ButtonMore
-            onClick={() => setNumSizes((num) => [...num, Date.now()])}
-          >
-            More size
-          </ButtonMore>
-        </>
+      {choose === "Size" && <SizeForm size={size} setSize={setSize} />}
+      {choose === "Color" && (
+        <ColorForm colors={colors} setColors={setColors} />
+      )}
+      {choose === "Color&Size" && (
+        <AddColorAndSize colors={colorsAndSize} setColors={setColorsAndSize} />
       )}
     </>
   );
