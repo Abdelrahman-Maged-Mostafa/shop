@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import Spinner from "../ui/Spinner";
 import { getAllItems } from "../api/items";
-import Card from "../serv/ManageItems/Card";
+import Card from "../serv/manage-items/Card";
 import Pagination from "../serv/dashboard/Pagination";
 import { useState } from "react";
 import Button from "../ui/Button";
