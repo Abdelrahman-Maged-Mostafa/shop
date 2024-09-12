@@ -77,7 +77,7 @@ function CardProduct({ data }) {
   const navigate = useNavigate();
   const queryClint = useQueryClient();
   const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: ({ id, token }) => addToCart(id, token),
+    mutationFn: ({ body, token }) => addToCart(body, token),
     onSuccess: (val) => {
       queryClint.invalidateQueries({ queryKey: ["user"] });
       if (val) navigate("/cart");
@@ -90,7 +90,10 @@ function CardProduct({ data }) {
 
   function handelAddToCart() {
     setIsLoading(true);
-    mutate({ id: data.id, token: cookies.jwt });
+    mutate({
+      body: { item: data.id, properties: { price: data.price } },
+      token: cookies.jwt,
+    });
     setIsLoading(false);
   }
 
@@ -103,18 +106,25 @@ function CardProduct({ data }) {
         <h2 className="product-title">{data.name}</h2>
         <p className="product-description">{data.shortDescription}</p>
         <div className="product-price">${data.price}</div>
-        <div>
-          <button
-            className="button cart"
-            onClick={handelAddToCart}
-            disabled={isLoading || isDeleting}
-          >
-            {isLoading || isDeleting ? <SpinnerMini /> : "Add to Cart"}
-          </button>
+        {Object.values(data?.properties)?.find((el) => el?.length > 0)?.length >
+        0 ? (
           <Link to={`/dashboard/${data.id}`}>
-            <button className="button">Details</button>
+            <button className="button">More Details</button>
           </Link>
-        </div>
+        ) : (
+          <div>
+            <button
+              className="button cart"
+              onClick={handelAddToCart}
+              disabled={isLoading || isDeleting}
+            >
+              {isLoading || isDeleting ? <SpinnerMini /> : "Add to Cart"}
+            </button>
+            <Link to={`/dashboard/${data.id}`}>
+              <button className="button">Details</button>
+            </Link>
+          </div>
+        )}
       </div>
     </StyledCard>
   );

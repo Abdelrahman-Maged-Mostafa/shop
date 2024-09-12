@@ -41,7 +41,6 @@ function Cart() {
     });
   }, [items?.data, itemsIds]);
 
-  console.log(cartIems);
   useEffect(() => {
     setCartItems(realCartIems);
   }, [realCartIems]);
