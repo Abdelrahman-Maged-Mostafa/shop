@@ -46,17 +46,20 @@ const ItemName = styled.h3`
 
 const ItemPrice = styled.span`
   color: var(--color-grey-600);
+  font-weight: bold;
+  font-size: 18px;
 `;
 
 const ItemColor = styled.span`
   color: var(--color-grey-600);
   display: flex;
   gap: 10px;
+  align-items: center;
   span {
     display: block;
-    width: 20px;
+    border: 3px solid var(--color-grey-900);
+    width: 40px;
     height: 20px;
-    border-radius: 50%;
   }
 `;
 
