@@ -32,20 +32,26 @@ function Cart() {
   });
 
   const realCartIems = useCallback(() => {
-    return items?.data
-      .filter((el) => itemsIds?.data?.doc?.cartItems?.includes(el.id))
-      .map((el) => {
-        return { ...el, quantity: 1 };
-      });
+    return itemsIds?.data?.doc?.cartItems?.map((item) => {
+      return {
+        ...item,
+        item: items?.data?.find((el) => el.id === item?.item),
+        properties: { ...item.properties, quantity: 1 },
+      };
+    });
   }, [items?.data, itemsIds]);
 
+  console.log(cartIems);
   useEffect(() => {
     setCartItems(realCartIems);
   }, [realCartIems]);
 
-  const numItems = cartIems?.reduce((cur, el) => cur + el.quantity, 0);
+  const numItems = cartIems?.reduce(
+    (cur, el) => cur + el?.properties?.quantity,
+    0
+  );
   const priceItems = cartIems?.reduce(
-    (cur, el) => cur + el.quantity * el.price,
+    (cur, el) => cur + el?.properties?.quantity * el?.properties?.price,
     0
   );
 

@@ -38,18 +38,13 @@ function DetailsItem({ curItem }) {
   const [isLoading, setIsLoading] = useState(false);
   const [curColor, setCurColor] = useState(0);
   const [curSize, setCurSize] = useState(0);
-  const [price, setPrice] = useState(
-    curItem?.color?.[0]?.size?.[0]?.price || curItem?.price
-  );
-  const [stock, setStock] = useState(
-    curItem?.color?.[0]?.size?.[0]?.stock || curItem?.stock
-  );
-  console.log(curItem, curItem?.color?.[curColor]?.size?.length);
+  const [price, setPrice] = useState(curItem?.price);
+  const [stock, setStock] = useState(curItem?.stock);
   const { cookies } = useLogin();
   const navigate = useNavigate();
   const queryClint = useQueryClient();
   const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: ({ id, token }) => addToCart(id, token),
+    mutationFn: ({ body, token }) => addToCart(body, token),
     onSuccess: (val) => {
       queryClint.invalidateQueries({ queryKey: ["user"] });
       if (val) navigate("/cart");
@@ -61,8 +56,18 @@ function DetailsItem({ curItem }) {
   });
 
   function handelAddToCart() {
+    const properties = {
+      color:
+        curItem?.properties?.colors?.[curColor]?.name ||
+        curItem?.properties?.colorsAndSize?.[curColor]?.name,
+      size:
+        curItem?.properties.colorsAndSize?.[curColor]?.sizes?.[curSize]?.name ||
+        curItem?.properties?.sizes?.[curSize]?.name,
+      price,
+    };
+    const body = { item: curItem.id, properties };
     setIsLoading(true);
-    mutate({ id: curItem.id, token: cookies.jwt });
+    mutate({ body, token: cookies.jwt });
     setIsLoading(false);
   }
   useEffect(() => {

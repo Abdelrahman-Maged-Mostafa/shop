@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { HiMinusCircle, HiOutlineTrash } from "react-icons/hi";
 import { HiMiniPlusCircle } from "react-icons/hi2";
 import styled from "styled-components";
@@ -49,6 +48,25 @@ const ItemPrice = styled.span`
   color: var(--color-grey-600);
 `;
 
+const ItemColor = styled.span`
+  color: var(--color-grey-600);
+  display: flex;
+  gap: 10px;
+  span {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+`;
+
+const ItemSize = styled.span`
+  color: var(--color-grey-600);
+  span {
+    text-transform: uppercase;
+  }
+`;
+
 const ItemQuantity = styled.div`
   display: flex;
   align-items: start;
@@ -82,20 +100,20 @@ const RemoveButton = styled.div`
 `;
 
 function CartItems({ item, setCartItems, index }) {
-  const CurItem = item;
+  const CurItem = item.item;
   function handlePlus() {
-    if (CurItem.quantity > 4) return;
+    if (item.properties.quantity > 4) return;
     setCartItems((cartItems) => {
       const newItems = [...cartItems];
-      newItems[index].quantity = CurItem.quantity + 1;
+      newItems[index].properties.quantity += 1;
       return newItems;
     });
   }
   function handleMinus() {
-    if (CurItem.quantity < 2) return;
+    if (item.properties.quantity < 2) return;
     setCartItems((cartItems) => {
       const newItems = [...cartItems];
-      newItems[index].quantity -= 1;
+      newItems[index].properties.quantity -= 1;
       return newItems;
     });
   }
@@ -110,7 +128,7 @@ function CartItems({ item, setCartItems, index }) {
   });
 
   function handleRemoveFromCart() {
-    mutate({ id: CurItem.id, token: cookies.jwt });
+    mutate({ id: item._id, token: cookies.jwt });
   }
 
   return (
@@ -118,12 +136,22 @@ function CartItems({ item, setCartItems, index }) {
       <ItemImage src={CurItem.imageCover} alt="Product" />
       <ItemDetails>
         <ItemName>{CurItem.name}</ItemName>
-        <ItemPrice>${CurItem.price}</ItemPrice>
+        <ItemPrice>${item.properties.price}</ItemPrice>
+        {item.properties.color && (
+          <ItemColor>
+            Color : <span style={{ background: item.properties.color }}></span>
+          </ItemColor>
+        )}
+        {item.properties.size && (
+          <ItemSize>
+            Size : <span>{item.properties.size}</span>
+          </ItemSize>
+        )}
         <ItemQuantity>
           <QuantityButton onClick={handleMinus}>
             <HiMinusCircle />
           </QuantityButton>
-          <span>{CurItem.quantity}</span>
+          <span>{item.properties.quantity}</span>
           <QuantityButton onClick={handlePlus}>
             <HiMiniPlusCircle />
           </QuantityButton>

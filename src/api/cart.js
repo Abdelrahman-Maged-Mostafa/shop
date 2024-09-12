@@ -1,11 +1,15 @@
 import toast from "react-hot-toast";
 import { URL } from "../../URL(LINK)";
 
-export async function addToCart(itemId, token) {
+export async function addToCart(body, token) {
   try {
-    const res = await fetch(`${URL}/api/v1/users/addToCart/${itemId}`, {
+    const res = await fetch(`${URL}/api/v1/users/addToCart`, {
       method: "PATCH",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
     });
     if (res.status === 401)
       throw new Error("Please login to add item to your cart");
