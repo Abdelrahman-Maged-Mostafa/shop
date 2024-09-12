@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { useLogin } from "../../context/useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import ColorsAndSizes from "./ColorsAndSizes";
 
 const StyledDetails = styled.div`
   > * {
@@ -30,51 +31,6 @@ const StyledAddCard = styled.div`
 
   button:hover {
     background-color: var(--color-brand-700);
-  }
-`;
-
-const StyledColors = styled.div`
-  display: flex;
-  gap: 10px;
-  > p {
-    width: 28px;
-    height: 28px;
-    padding: 4px;
-    border-radius: 50%;
-    cursor: pointer;
-    background: var(--color-grey-0);
-    &.active {
-      background: var(--color-grey-400);
-    }
-    > span {
-      display: block;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-    }
-  }
-`;
-
-const StyledSizes = styled.div`
-  display: flex;
-  gap: 10px;
-  > p {
-    width: 28px;
-    height: 28px;
-    padding: 4px;
-    cursor: pointer;
-    background: var(--color-grey-0);
-    text-align: center;
-    &.active {
-      background: var(--color-grey-400);
-    }
-
-    > span {
-      text-transform: uppercase;
-      display: block;
-      width: 20px;
-      height: 20px;
-    }
   }
 `;
 
@@ -110,12 +66,23 @@ function DetailsItem({ curItem }) {
     setIsLoading(false);
   }
   useEffect(() => {
-    setPrice(
-      curItem?.color?.[curColor]?.size?.[curSize]?.price || curItem?.price
-    );
-    setStock(
-      curItem?.color?.[curColor]?.size?.[curSize]?.stock || curItem?.stock
-    );
+    if (curItem?.properties?.colors?.length) {
+      setPrice(curItem?.properties?.colors?.[curColor]?.price);
+      setStock(curItem?.properties.colors?.[curColor]?.stock);
+    } else if (curItem?.properties?.colorsAndSize?.length) {
+      setPrice(
+        curItem?.properties?.colorsAndSize?.[curColor]?.sizes?.[curSize]?.price
+      );
+      setStock(
+        curItem?.properties.colorsAndSize?.[curColor]?.sizes?.[curSize]?.stock
+      );
+    } else if (curItem?.properties?.sizes?.length) {
+      setPrice(curItem?.properties?.sizes?.[curSize]?.price);
+      setStock(curItem?.properties.sizes?.[curSize]?.stock);
+    } else {
+      setPrice(curItem?.price);
+      setStock(curItem?.stock);
+    }
   }, [curColor, curSize, curItem]);
   return (
     <StyledDetails>
@@ -127,42 +94,17 @@ function DetailsItem({ curItem }) {
       />
       <h1>${price}</h1>
       <p>{curItem?.shortDescription}</p>
-      {curItem?.color?.length !== 0 && (
-        <StyledColors>
-          {curItem?.color.map((color, i) => (
-            <p
-              key={i}
-              className={i === curColor ? "active" : ""}
-              onClick={() => {
-                setCurColor(i);
-                setCurSize(0);
-              }}
-            >
-              <span style={{ backgroundColor: color.color }}></span>
-            </p>
-          ))}
-        </StyledColors>
+      {Object.values(curItem?.properties)?.find((el) => el?.length > 0)
+        ?.length > 0 && (
+        <ColorsAndSizes
+          data={curItem?.properties}
+          setCurColor={setCurColor}
+          setCurSize={setCurSize}
+          curColor={curColor}
+          curSize={curSize}
+        />
       )}
-      {curItem?.size?.length !== 0 && (
-        <StyledSizes>
-          {curItem?.size.map((size, i) => (
-            <p key={i}>{size.size}</p>
-          ))}
-        </StyledSizes>
-      )}
-      {curItem?.color?.[curColor]?.size?.length !== 0 && (
-        <StyledSizes>
-          {curItem?.color[curColor]?.size.map((size, i) => (
-            <p
-              key={i}
-              className={i === curSize ? "active" : ""}
-              onClick={() => setCurSize(i)}
-            >
-              <span>{size.size}</span>
-            </p>
-          ))}
-        </StyledSizes>
-      )}
+
       <p>Stock: {stock}</p>
       <StyledAddCard>
         <button onClick={handelAddToCart} disabled={isLoading || isDeleting}>

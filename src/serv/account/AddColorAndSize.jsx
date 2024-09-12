@@ -57,7 +57,7 @@ const StyledInputColor = styled.div`
 
 const AddColorAndSize = ({ colors, setColors }) => {
   const handleAddColor = () => {
-    setColors([...colors, { name: "", sizes: [] }]);
+    setColors([...colors, { name: "black", sizes: [] }]);
   };
   const handleRemoveColor = (colorIndex) => {
     setColors(colors.filter((_, index) => index !== colorIndex));
@@ -145,6 +145,7 @@ const AddColorAndSize = ({ colors, setColors }) => {
           {color.sizes.map((size, sizeIndex) => (
             <StyledSet key={sizeIndex}>
               <Input
+                required
                 placeholder="Size"
                 type="text"
                 name="name"
@@ -154,6 +155,7 @@ const AddColorAndSize = ({ colors, setColors }) => {
                 }
               />
               <Input
+                required
                 placeholder="Stock"
                 type="text"
                 name="stock"
@@ -163,6 +165,7 @@ const AddColorAndSize = ({ colors, setColors }) => {
                 }
               />
               <Input
+                required
                 placeholder="Price"
                 type="text"
                 name="price"

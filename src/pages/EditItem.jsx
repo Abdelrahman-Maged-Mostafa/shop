@@ -89,6 +89,7 @@ const EditItem = () => {
   const { itemId } = useParams();
   const navigate = useNavigate();
   const [curItems, setCurItems] = useState({});
+  const [properties, setProperties] = useState({});
   const { cookies } = useLogin();
   const queryClient = useQueryClient();
   const { data: item, isLoading } = useQuery({
@@ -144,8 +145,8 @@ const EditItem = () => {
   };
 
   const submitSuccess = (data) => {
-    // mutate({ id: itemId, body: data, token: cookies.jwt });
-    console.log(data);
+    data.properties = JSON.stringify(properties);
+    mutate({ id: itemId, body: data, token: cookies.jwt });
   };
 
   if (isLoading) return <Spinner />;
@@ -176,7 +177,7 @@ const EditItem = () => {
           type="text"
           {...register("name", { required: "This field is required " })}
         />
-        <ColorSizeForm register={register} />
+        <ColorSizeForm item={item.data.doc} setProperties={setProperties} />
         <Label>Price</Label>
         <Input
           disabled={isUpdated}

@@ -79,6 +79,7 @@ const ColorForm = ({ colors, setColors }) => {
               onChange={(event) => handleColorChange(event, colorIndex)}
             />
             <Input
+              required
               placeholder="Stock"
               type="text"
               name="stock"
@@ -86,6 +87,7 @@ const ColorForm = ({ colors, setColors }) => {
               onChange={(event) => handleColorChange(event, colorIndex)}
             />
             <Input
+              required
               placeholder="Price"
               type="text"
               name="price"

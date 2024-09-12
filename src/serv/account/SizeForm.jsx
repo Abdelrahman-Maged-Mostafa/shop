@@ -71,6 +71,7 @@ const SizeForm = ({ size, setSize }) => {
       {size.map((size, sizeIndex) => (
         <StyledSet key={sizeIndex}>
           <Input
+            required
             placeholder="Size"
             type="text"
             name="name"
@@ -78,6 +79,7 @@ const SizeForm = ({ size, setSize }) => {
             onChange={(event) => handleSizeChange(event, sizeIndex)}
           />
           <Input
+            required
             placeholder="Stock"
             type="text"
             name="stock"
@@ -85,6 +87,7 @@ const SizeForm = ({ size, setSize }) => {
             onChange={(event) => handleSizeChange(event, sizeIndex)}
           />
           <Input
+            required
             placeholder="Price"
             type="text"
             name="price"

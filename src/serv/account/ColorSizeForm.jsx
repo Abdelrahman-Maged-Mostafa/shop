@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import SizeForm from "./SizeForm";
 import AddColorAndSize from "./AddColorAndSize";
@@ -36,12 +36,38 @@ const StyledBar = styled.div`
   }
 `;
 
-const ColorSizeForm = ({ register }) => {
-  const [choose, setChoose] = useState("NoOne");
-  const [size, setSize] = useState([]);
-  const [colors, setColors] = useState([]);
-  const [colorsAndSize, setColorsAndSize] = useState([]);
-  console.log(colorsAndSize, size, colors);
+const ColorSizeForm = ({ item, setProperties }) => {
+  const [choose, setChoose] = useState(
+    item?.properties?.colors?.length
+      ? "Color"
+      : item?.properties?.colorsAndSize?.length
+      ? "Color&Size"
+      : item?.properties?.sizes?.length
+      ? "Size"
+      : "NoOne"
+  );
+  const [sizes, setSizes] = useState(item?.properties?.sizes || []);
+  const [colors, setColors] = useState(item?.properties?.colors || []);
+  const [colorsAndSize, setColorsAndSize] = useState(
+    item?.properties?.colorsAndSize || []
+  );
+  useEffect(
+    function () {
+      if (choose === "NoOne") {
+        setProperties({});
+      }
+      if (choose === "Size") {
+        setProperties({ sizes });
+      }
+      if (choose === "Color") {
+        setProperties({ colors });
+      }
+      if (choose === "Color&Size") {
+        setProperties({ colorsAndSize });
+      }
+    },
+    [choose, setProperties, colorsAndSize, colors, sizes]
+  );
   return (
     <>
       <StyledBar>
@@ -70,7 +96,7 @@ const ColorSizeForm = ({ register }) => {
           No one
         </p>
       </StyledBar>
-      {choose === "Size" && <SizeForm size={size} setSize={setSize} />}
+      {choose === "Size" && <SizeForm size={sizes} setSize={setSizes} />}
       {choose === "Color" && (
         <ColorForm colors={colors} setColors={setColors} />
       )}

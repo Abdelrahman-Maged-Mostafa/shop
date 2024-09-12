@@ -51,7 +51,7 @@ function ManageItems({ user }) {
   return (
     <StyledAll>
       <Container>
-        {myData.map((item, i) => (
+        {myData?.map((item, i) => (
           <Card item={item} key={i} />
         ))}
       </Container>

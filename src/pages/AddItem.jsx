@@ -7,6 +7,7 @@ import { useState } from "react";
 import { createOneItems } from "../api/items";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import ColorSizeForm from "../serv/account/ColorSizeForm";
 
 // Styled components
 const Container = styled.div`
@@ -88,6 +89,7 @@ function AddItem() {
   const { cookies } = useLogin();
   const queryClient = useQueryClient();
   const [images, setImages] = useState([0, 0, 0]);
+  const [properties, setProperties] = useState({});
 
   const { isLoading: isUpdated, mutate } = useMutation({
     mutationFn: ({ body, token }) => createOneItems(body, token),
@@ -110,6 +112,7 @@ function AddItem() {
     }
   };
   function submitSuccess(data) {
+    data.properties = JSON.stringify(properties);
     mutate({ body: data, token: cookies.jwt });
   }
   return (
@@ -142,6 +145,8 @@ function AddItem() {
           type="text"
           {...register("name", { required: "This field is required " })}
         />
+        <ColorSizeForm setProperties={setProperties} />
+
         <Label>Price</Label>
         <Input
           disabled={isUpdated}
