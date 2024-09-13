@@ -82,7 +82,10 @@ function CardProduct({ data }) {
       queryClint.invalidateQueries({ queryKey: ["user"] });
       if (val) navigate("/cart");
       if (!val) {
-        localStorage.setItem("cartId", JSON.stringify(data.id));
+        localStorage.setItem(
+          "cartItem",
+          JSON.stringify({ item: data.id, properties: { price: data.price } })
+        );
         navigate("/login");
       }
     },
@@ -105,7 +108,13 @@ function CardProduct({ data }) {
       <div className="product-details">
         <h2 className="product-title">{data.name}</h2>
         <p className="product-description">{data.shortDescription}</p>
-        <div className="product-price">${data.price}</div>
+        <div className="product-price">
+          $
+          {data?.properties?.colors?.[0]?.price ||
+            data?.properties?.sizes?.[0]?.price ||
+            data?.properties?.colorsAndSize?.[0]?.sizes?.[0]?.price ||
+            data?.price}
+        </div>
         {Object.values(data?.properties)?.find((el) => el?.length > 0)?.length >
         0 ? (
           <Link to={`/dashboard/${data.id}`}>

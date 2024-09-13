@@ -49,7 +49,17 @@ function DetailsItem({ curItem }) {
       queryClint.invalidateQueries({ queryKey: ["user"] });
       if (val) navigate("/cart");
       if (!val) {
-        localStorage.setItem("cartId", JSON.stringify(curItem.id));
+        const properties = {
+          color:
+            curItem?.properties?.colors?.[curColor]?.name ||
+            curItem?.properties?.colorsAndSize?.[curColor]?.name,
+          size:
+            curItem?.properties.colorsAndSize?.[curColor]?.sizes?.[curSize]
+              ?.name || curItem?.properties?.sizes?.[curSize]?.name,
+          price,
+        };
+        const body = { item: curItem.id, properties };
+        localStorage.setItem("cartItem", JSON.stringify(body));
         navigate("/login");
       }
     },

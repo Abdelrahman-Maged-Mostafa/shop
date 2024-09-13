@@ -97,7 +97,7 @@ const Signup = () => {
   const queryClint = useQueryClient();
 
   const { isLoading: isAdding, mutate } = useMutation({
-    mutationFn: ({ id, token }) => addToCart(id, token),
+    mutationFn: ({ body, token }) => addToCart(body, token),
     onSuccess: (val) => {
       queryClint.invalidateQueries({ queryKey: ["user"] });
       if (val) navigate("/cart");
@@ -107,14 +107,14 @@ const Signup = () => {
   useEffect(() => {
     function handleAddCartItem() {
       mutate({
-        id: JSON.parse(localStorage.getItem("cartId")),
+        body: JSON.parse(localStorage.getItem("cartItem")),
         token: cookies.jwt,
       });
-      localStorage.removeItem("cartId");
+      localStorage.removeItem("cartItem");
     }
 
     if (login) {
-      if (localStorage.getItem("cartId")) {
+      if (localStorage.getItem("cartItem")) {
         handleAddCartItem();
       } else {
         navigate("/");

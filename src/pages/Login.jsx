@@ -94,7 +94,7 @@ const Login = () => {
   const { setCookie, checkLogin, cookies, login: isLogin } = useLogin();
   const queryClient = useQueryClient();
   const { isLoading: isAdding, mutate } = useMutation({
-    mutationFn: ({ id, token }) => addToCart(id, token),
+    mutationFn: ({ body, token }) => addToCart(body, token),
     onSuccess: (val) => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
       if (val) navigate("/cart");
@@ -104,14 +104,14 @@ const Login = () => {
   useEffect(() => {
     function handleAddCartItem() {
       mutate({
-        id: JSON.parse(localStorage.getItem("cartId")),
+        body: JSON.parse(localStorage.getItem("cartItem")),
         token: cookies.jwt,
       });
-      localStorage.removeItem("cartId");
+      localStorage.removeItem("cartItem");
     }
 
     if (isLogin) {
-      if (localStorage.getItem("cartId")) {
+      if (localStorage.getItem("cartItem")) {
         handleAddCartItem();
       } else {
         queryClient.invalidateQueries({ queryKey: ["user"] });
