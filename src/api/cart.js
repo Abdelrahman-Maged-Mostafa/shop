@@ -36,3 +36,14 @@ export async function removeFromCart(itemId, token) {
     toast.error(err.message);
   }
 }
+
+export async function removeAllCart(token) {
+  const res = await fetch(`${URL}/api/v1/users/removeFromCart`, {
+    method: "PATCH",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (res.status === 401)
+    throw new Error("Please login to add item to your cart");
+  if (!res.ok) throw new Error("Some thing wrong! Please try again");
+  return true;
+}

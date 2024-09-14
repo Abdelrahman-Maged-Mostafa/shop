@@ -64,7 +64,11 @@ function Cart() {
         <CartItems item={el} key={i} setCartItems={setCartItems} index={i} />
       ))}
       {/* Add more CartItem components as needed */}
-      <CardTotal numItems={numItems} priceItems={priceItems} />
+      <CardTotal
+        numItems={numItems}
+        priceItems={priceItems}
+        cartIems={cartIems}
+      />
     </CartContainer>
   );
 }

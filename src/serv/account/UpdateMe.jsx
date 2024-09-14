@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateMe } from "../../api/user";
 import toast from "react-hot-toast";
 import SpinnerMini from "../../ui/SpinnerMini";
+import { useEffect } from "react";
 
 const ErrorStyle = styled.span`
   font-size: 1.4rem;
@@ -17,6 +18,7 @@ function UpdateMe({ user }) {
   const {
     register,
     control,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -37,7 +39,16 @@ function UpdateMe({ user }) {
       else toast.error(val.message);
     },
   });
-
+  useEffect(() => {
+    if (user) {
+      reset({
+        name: user?.name,
+        email: user?.email,
+        phone: user?.phone || "",
+        address: user?.address || "",
+      });
+    }
+  }, [user, reset]);
   const onSubmit = (data) => {
     mutate({ data, token: cookies.jwt, path: "updateMe" });
   };

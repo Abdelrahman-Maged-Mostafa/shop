@@ -133,14 +133,13 @@ function CartItems({ item, setCartItems, index }) {
   function handleRemoveFromCart() {
     mutate({ id: item._id, token: cookies.jwt });
   }
-
   return (
     <CartItem>
-      <ItemImage src={CurItem.imageCover} alt="Product" />
+      <ItemImage src={CurItem?.imageCover} alt="Product" />
       <ItemDetails>
-        <ItemName>{CurItem.name}</ItemName>
-        <ItemPrice>${item.properties.price}</ItemPrice>
-        {item.properties.color && (
+        <ItemName>{CurItem?.name}</ItemName>
+        <ItemPrice>${item?.properties?.price}</ItemPrice>
+        {item?.properties?.color && (
           <ItemColor>
             Color : <span style={{ background: item.properties.color }}></span>
           </ItemColor>

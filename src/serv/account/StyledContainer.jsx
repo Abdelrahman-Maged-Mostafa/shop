@@ -47,6 +47,9 @@ const StyledContainer = styled.div`
     padding: 20px;
     border-radius: 8px;
     box-shadow: var(--shadow-md);
+    .PhoneInputCountrySelect {
+      background-color: var(--color-grey-100);
+    }
   }
 
   .form-section h2 {

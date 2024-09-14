@@ -24,6 +24,7 @@ import EditItem from "./pages/EditItem";
 import AddItem from "./pages/AddItem";
 import ManageReviews from "./pages/ManageReviews";
 import ItemReview from "./pages/ItemReview";
+import OrderForm from "./pages/OrderForm";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -52,6 +53,7 @@ function App() {
                 <Route index element={<Navigate replace to="dashboard" />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="dashboard/:itemId" element={<ItemDetails />} />
+                <Route path="check-out" element={<OrderForm />} />
                 <Route path="cart" element={<Cart />} />
                 <Route path="users" element={<Tryed>users...</Tryed>} />
                 <Route path="settings" element={<Tryed>settings...</Tryed>} />

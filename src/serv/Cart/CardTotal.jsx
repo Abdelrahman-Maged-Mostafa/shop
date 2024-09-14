@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const TotalCard = styled.div`
@@ -32,12 +33,17 @@ const CheckoutButton = styled.button`
   }
 `;
 
-function CardTotal({ priceItems, numItems }) {
+function CardTotal({ priceItems, numItems, cartIems }) {
+  function handleCheckOut() {
+    localStorage.setItem("itemsCheckOut", JSON.stringify(cartIems));
+  }
   return (
     <TotalCard>
       <TotalText>Total: ${priceItems}</TotalText>
       <TotalText>Items: {numItems}</TotalText>
-      <CheckoutButton>Checkout</CheckoutButton>
+      <Link to="/check-out" onClick={handleCheckOut}>
+        <CheckoutButton>Checkout</CheckoutButton>
+      </Link>
     </TotalCard>
   );
 }
