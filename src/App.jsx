@@ -25,6 +25,7 @@ import AddItem from "./pages/AddItem";
 import ManageReviews from "./pages/ManageReviews";
 import ItemReview from "./pages/ItemReview";
 import OrderForm from "./pages/OrderForm";
+import ManageOrdersActive from "./pages/ManageOrdersActive";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -114,7 +115,7 @@ function App() {
                   <Route path="change-style" element={<p>change-style</p>} />
                   <Route
                     path="manage-orders-active"
-                    element={<p>manage-orders-active</p>}
+                    element={<ManageOrdersActive />}
                   />
                   <Route
                     path="manage-orders-history"
