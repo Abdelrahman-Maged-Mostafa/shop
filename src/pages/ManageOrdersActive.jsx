@@ -121,9 +121,11 @@ function ManageOrdersActive({
       return { ...order, price: calculateTotalPrice(order?.items) };
     });
 
-  const ordersHistoryFilter = orders?.data?.data?.filter(
-    (order) => order.status === "completedOrder"
-  );
+  const ordersHistoryFilter = orders?.data?.data
+    ?.filter((order) => order.status === "completedOrder")
+    ?.map((order) => {
+      return { ...order, price: calculateTotalPrice(order?.items) };
+    });
 
   const numItemInPage = 5;
   const startItem = (page - 1) * numItemInPage;
