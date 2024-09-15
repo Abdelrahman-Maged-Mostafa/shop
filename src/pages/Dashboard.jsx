@@ -44,7 +44,7 @@ function Dashboard() {
         style={{ top: "-10px" }}
       />
       {myData?.map((el, i) => (
-        <CardProduct data={el} key={i} />
+        <CardProduct data={el} key={i} index={i} />
       ))}
     </StyledDashboard>
   );

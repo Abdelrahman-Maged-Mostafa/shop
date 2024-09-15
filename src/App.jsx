@@ -26,6 +26,14 @@ import ManageReviews from "./pages/ManageReviews";
 import ItemReview from "./pages/ItemReview";
 import OrderForm from "./pages/OrderForm";
 import ManageOrdersActive from "./pages/ManageOrdersActive";
+import OrderDetails from "./pages/OrderDetails";
+import ScrollToUp from "./hooks/ScrollToUp";
+import {
+  getAllOrders,
+  getAllUserOrders,
+  getOrderById,
+  getUserOrderById,
+} from "./api/orders";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -43,6 +51,7 @@ function App() {
         <LoginProvider>
           <GlobalStyles />
           <BrowserRouter>
+            <ScrollToUp />
             <Routes>
               <Route
                 element={
@@ -61,11 +70,31 @@ function App() {
                 <Route path="account" element={<Account />}>
                   <Route
                     path="order-history"
-                    element={<Tryed>order-history...</Tryed>}
+                    element={
+                      <ManageOrdersActive
+                        active={false}
+                        orderFunction={getAllUserOrders}
+                        linkTo={"order-history"}
+                      />
+                    }
                   />
                   <Route
                     path="active-orders"
-                    element={<Tryed>active-orders...</Tryed>}
+                    element={
+                      <ManageOrdersActive
+                        active={true}
+                        orderFunction={getAllUserOrders}
+                        linkTo={"active-orders"}
+                      />
+                    }
+                  />
+                  <Route
+                    path="active-orders/:orderId"
+                    element={<OrderDetails orderFunction={getUserOrderById} />}
+                  />
+                  <Route
+                    path="order-history/:orderId"
+                    element={<OrderDetails orderFunction={getUserOrderById} />}
                   />
                   <Route
                     index
@@ -115,7 +144,22 @@ function App() {
                   <Route path="change-style" element={<p>change-style</p>} />
                   <Route
                     path="manage-orders-active"
-                    element={<ManageOrdersActive />}
+                    element={
+                      <ProtectRoute>
+                        <ManageOrdersActive
+                          active={true}
+                          orderFunction={getAllOrders}
+                        />
+                      </ProtectRoute>
+                    }
+                  />
+                  <Route
+                    path="manage-orders-active/:orderId"
+                    element={
+                      <ProtectRoute>
+                        <OrderDetails orderFunction={getOrderById} />
+                      </ProtectRoute>
+                    }
                   />
                   <Route
                     path="manage-orders-history"

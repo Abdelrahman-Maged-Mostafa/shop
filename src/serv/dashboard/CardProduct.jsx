@@ -5,8 +5,9 @@ import { useLogin } from "../../context/useLogin";
 import { addToCart } from "../../api/cart";
 import SpinnerMini from "../../ui/SpinnerMini";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 
-const StyledCard = styled.div`
+const StyledCard = styled(motion.div)`
   display: grid;
   grid-template-rows: auto 1fr;
   width: 100%;
@@ -71,7 +72,7 @@ const StyledCard = styled.div`
   }
 `;
 
-function CardProduct({ data }) {
+function CardProduct({ data, index }) {
   const [isLoading, setIsLoading] = useState(false);
   const { cookies } = useLogin();
   const navigate = useNavigate();
@@ -101,7 +102,11 @@ function CardProduct({ data }) {
   }
 
   return (
-    <StyledCard>
+    <StyledCard
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: index / 3 }}
+    >
       <div className="product-image">
         <img src={data.imageCover} alt="Product" />
       </div>

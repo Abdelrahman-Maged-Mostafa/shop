@@ -155,8 +155,6 @@ const OrderForm = () => {
       navigate("/");
     }
     setIsLoading(false);
-
-    console.log(order);
   }
 
   if (isLoading) return <Spinner />;

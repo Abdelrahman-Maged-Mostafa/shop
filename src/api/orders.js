@@ -65,6 +65,41 @@ export async function getAllOrders(token) {
   });
   const data = await res.json();
   if (data.status === "fail" || data.status === "error")
-    throw new Error("Some thing wrong! Please try again");
+    throw new Error(data.message);
+  return data;
+}
+export async function getAllUserOrders(token) {
+  const res = await fetch(`${URL}/api/v1/orders/userOrder`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+  if (data.status === "fail" || data.status === "error")
+    throw new Error(data.message);
+  return data;
+}
+
+export async function getUserOrderById(id, token) {
+  const res = await fetch(`${URL}/api/v1/orders/userOrder/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+  if (data.status === "fail" || data.status === "error")
+    throw new Error(data.message);
+  return data;
+}
+
+export async function getOrderById(id, token) {
+  const res = await fetch(`${URL}/api/v1/orders/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+  if (data.status === "fail" || data.status === "error")
+    throw new Error(data.message);
   return data;
 }
