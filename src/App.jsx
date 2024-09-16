@@ -157,13 +157,30 @@ function App() {
                     path="manage-orders-active/:orderId"
                     element={
                       <ProtectRoute>
-                        <OrderDetails orderFunction={getOrderById} />
+                        <OrderDetails
+                          orderFunction={getOrderById}
+                          admin={true}
+                        />
                       </ProtectRoute>
                     }
                   />
                   <Route
                     path="manage-orders-history"
-                    element={<p>manage-orders-history</p>}
+                    element={
+                      <ManageOrdersActive
+                        active={false}
+                        orderFunction={getAllOrders}
+                        linkTo={"manage-orders-history"}
+                      />
+                    }
+                  />
+                  <Route
+                    path="manage-orders-history/:orderId"
+                    element={
+                      <ProtectRoute>
+                        <OrderDetails orderFunction={getOrderById} />
+                      </ProtectRoute>
+                    }
                   />
                 </Route>
                 <Route path="login" element={<Login />} />

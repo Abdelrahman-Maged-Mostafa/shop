@@ -29,8 +29,14 @@ const FilterButton = styled.button`
   padding: 0.44rem 0.8rem;
   transition: all 0.3s;
   @media (max-width: 420px) {
-    font-size: 0.8rem;
+    font-size: 1.3rem;
     flex-direction: column;
+  }
+  @media (max-width: 390px) {
+    font-size: 1.2rem;
+  }
+  @media (max-width: 375px) {
+    font-size: 1rem;
   }
 
   &:hover:not(:disabled) {

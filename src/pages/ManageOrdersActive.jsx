@@ -24,7 +24,7 @@ const OrderCard = styled(motion(Link))`
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 20px;
-  padding: 20px;
+  padding: 40px 10px 20px;
   width: 100%;
   text-decoration: none;
   color: inherit;
@@ -45,6 +45,7 @@ const OrderDetail = styled.p`
   font-size: 1em;
   color: var(--color-grey-900);
   display: flex;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
   .status {

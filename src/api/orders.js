@@ -103,3 +103,25 @@ export async function getOrderById(id, token) {
     throw new Error(data.message);
   return data;
 }
+
+export async function deleteOneOrder(id, token) {
+  const res = await fetch(`${URL}/api/v1/orders/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) throw new Error("Some thing wrong! Please try again");
+}
+
+export async function updateOneOrder(id, token) {
+  const res = await fetch(`${URL}/api/v1/orders/${id}`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+  if (data.status !== "success") throw new Error(data.message);
+  return data;
+}

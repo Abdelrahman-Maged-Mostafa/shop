@@ -1,10 +1,17 @@
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLogin } from "../context/useLogin";
 import { motion } from "framer-motion";
 import CardItemsOrder from "../serv/order-form/CardItemsOrder";
 import Spinner from "../ui/Spinner";
+import Button from "../ui/Button";
+import ConfirmDelete from "../ui/ConfirmDelete";
+import { useState } from "react";
+import { deleteOneOrder, updateOneOrder } from "../api/orders";
+import toast from "react-hot-toast";
+import SpinnerMini from "../ui/SpinnerMini";
+import ConfirmUpdate from "../ui/ConfirmUpdate";
 
 const Container = styled.div`
   display: flex;
@@ -65,6 +72,11 @@ const Value = styled.span`
   color: var(--color-grey-900);
   text-transform: capitalize;
 `;
+const StyledButoton = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 25px;
+`;
 
 const ItemCard = styled(motion.div)`
   background: var(--color-grey-0);
@@ -92,25 +104,77 @@ const Price = styled(motion.span)`
   display: inline-block;
 `;
 
-function OrderDetails({ orderFunction }) {
+const calculateTotalPrice = (items) => {
+  return items.reduce(
+    (total, item) => total + item.properties.price * item.properties.quantity,
+    0
+  );
+};
+function OrderDetails({ orderFunction, admin = false }) {
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [confirmUpdate, setConfirmUpdate] = useState(false);
+  const navigate = useNavigate();
   const { orderId } = useParams();
   const { cookies } = useLogin();
+  const queryClient = useQueryClient();
   const { data: orderApi, isLoading } = useQuery({
     queryKey: ["order", orderId],
     queryFn: () => orderFunction(orderId, cookies.jwt),
   });
 
-  const calculateTotalPrice = (items) => {
-    return items.reduce(
-      (total, item) => total + item.properties.price * item.properties.quantity,
-      0
-    );
-  };
+  const { isLoading: isDeleting, mutate } = useMutation({
+    mutationFn: ({ id, token }) => deleteOneOrder(id, token),
+    onSuccess: async (val) => {
+      await queryClient.invalidateQueries({ queryKey: ["ordersActive"] });
+      toast.success("Order successfully deleted.");
+      navigate(-1);
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+
+  const { isLoading: isUpdated, mutate: updateOrder } = useMutation({
+    mutationFn: ({ id, token }) => updateOneOrder(id, token),
+    onSuccess: async (val) => {
+      await queryClient.invalidateQueries({ queryKey: ["ordersActive"] });
+      await queryClient.invalidateQueries({ queryKey: ["ordersHistory"] });
+      await queryClient.invalidateQueries({ queryKey: ["order", orderId] });
+      toast.success("Order successfully updated.");
+      navigate(-1);
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
 
   const order = orderApi?.data?.data;
+
+  function hnadleDeleteOrder() {
+    mutate({ id: order?._id, token: cookies?.jwt });
+  }
+  function hnadleUpdateOrder() {
+    updateOrder({ id: order?._id, token: cookies?.jwt });
+  }
   if (isLoading) return <Spinner />;
   return (
     <Container>
+      {confirmDelete && (
+        <ConfirmDelete
+          onConfirm={hnadleDeleteOrder}
+          resourceName={`order id: ${order._id}`}
+          close={() => setConfirmDelete(false)}
+          disabled={isDeleting}
+        />
+      )}
+      {confirmUpdate && (
+        <ConfirmUpdate
+          onConfirm={hnadleUpdateOrder}
+          resourceName={`order id: ${order._id}`}
+          close={() => setConfirmUpdate(false)}
+          disabled={isUpdated}
+        />
+      )}
       <DetailsCard
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -189,6 +253,29 @@ function OrderDetails({ orderFunction }) {
             <CardItemsOrder item={item} index={index} />
           </ItemCard>
         ))}
+        {admin && order.status !== "completedOrder" && (
+          <StyledButoton>
+            <Button
+              variation={"danger"}
+              onClick={() => setConfirmDelete(true)}
+              disabled={isUpdated || isDeleting}
+            >
+              {isDeleting ? <SpinnerMini /> : "Delete"}
+            </Button>
+            <Button
+              disabled={isUpdated || isDeleting}
+              onClick={() => setConfirmUpdate(true)}
+            >
+              {isUpdated ? (
+                <SpinnerMini />
+              ) : order.status === "underReview" ? (
+                "Payment Successful"
+              ) : (
+                "Order Complete"
+              )}
+            </Button>
+          </StyledButoton>
+        )}
       </DetailsCard>
     </Container>
   );

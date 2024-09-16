@@ -89,15 +89,28 @@ const StyledP = styled.p`
 
 const OrderForm = () => {
   const itemsCart = JSON.parse(localStorage.getItem("itemsCheckOut"));
-  const [isAdded, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [payment, setPayment] = useState("vcash");
-  const queryClint = useQueryClient();
+  const queryClient = useQueryClient();
   const { login, cookies } = useLogin();
   const { mutate } = useMutation({
     mutationFn: (token) => removeAllCart(token),
     onSuccess: () => {
-      queryClint.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+    },
+  });
+  const { isLoading: isAdded, mutate: addOrder } = useMutation({
+    mutationFn: ({ body, token }) => createOneOrder(body, token),
+    onSuccess: async (val) => {
+      if (val.status === "success") {
+        await queryClient.invalidateQueries({ queryKey: ["ordersActive"] });
+        toast.success("Your order has been successfully submitted.");
+        localStorage.removeItem("itemsCheckOut");
+        mutate(cookies.jwt);
+        navigate("/");
+      }
+      if (val.status === "fail" || val.status === "error")
+        toast.error("Something went wrong. Please try again.");
     },
   });
   const { data: userData, isLoading } = useQuery({
@@ -140,21 +153,11 @@ const OrderForm = () => {
   );
 
   async function handleSuccessfulySubmit(data) {
-    setIsLoading(true);
     data.items = itemsCart.map((it) => {
       delete it._id;
       return { ...it, item: it.item._id };
     });
-    const order = await createOneOrder(JSON.stringify(data), cookies.jwt);
-    if (order.status === "fail" || order.status === "error")
-      toast.error("Something went wrong. Please try again.");
-    if (order.status === "success") {
-      toast.success("Your order has been successfully submitted.");
-      localStorage.removeItem("itemsCheckOut");
-      mutate(cookies.jwt);
-      navigate("/");
-    }
-    setIsLoading(false);
+    addOrder({ body: JSON.stringify(data), token: cookies.jwt });
   }
 
   if (isLoading) return <Spinner />;
