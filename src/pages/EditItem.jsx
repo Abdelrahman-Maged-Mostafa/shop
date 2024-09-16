@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import { getOneItems, updateOneItems } from "../api/items";
+import { getAllItems, updateOneItems } from "../api/items";
 import Spinner from "../ui/Spinner";
 import { useLogin } from "../context/useLogin";
 import SpinnerMini from "../ui/SpinnerMini";
@@ -92,9 +92,9 @@ const EditItem = () => {
   const [properties, setProperties] = useState({});
   const { cookies } = useLogin();
   const queryClient = useQueryClient();
-  const { data: item, isLoading } = useQuery({
-    queryKey: ["item", itemId],
-    queryFn: () => getOneItems(itemId),
+  const { data: items, isLoading } = useQuery({
+    queryKey: ["items"],
+    queryFn: getAllItems,
   });
 
   const { isLoading: isUpdated, mutate } = useMutation({
@@ -102,7 +102,6 @@ const EditItem = () => {
     onSuccess: (val) => {
       toast.success("Item successfully updated.");
       queryClient.invalidateQueries({ queryKey: ["items"] });
-      queryClient.invalidateQueries({ queryKey: ["item", itemId] });
       navigate("/account/manage-items");
     },
     onError: (err) => {
@@ -119,21 +118,21 @@ const EditItem = () => {
       longDescription: "",
     },
   });
-
+  const curItem = items?.data?.find((item) => item._id === itemId);
   useEffect(() => {
-    if (item) {
-      setCurItems(item.data.doc);
+    if (curItem) {
+      setCurItems(curItem);
       reset({
-        name: item.data.doc.name,
-        price: item.data.doc.price,
-        shortDescription: item.data.doc.shortDescription,
-        stock: item.data.doc.stock,
-        longDescription: item.data.doc.longDescription,
-        images: item.data.doc.images,
-        imageCover: item.data.doc.imageCover,
+        name: curItem?.name,
+        price: curItem?.price,
+        shortDescription: curItem?.shortDescription,
+        stock: curItem?.stock,
+        longDescription: curItem?.longDescription,
+        images: curItem?.images,
+        imageCover: curItem?.imageCover,
       });
     }
-  }, [item, reset]);
+  }, [curItem, reset]);
 
   const handleImageChange = (e, index) => {
     const files = e.target.files;
@@ -177,7 +176,7 @@ const EditItem = () => {
           type="text"
           {...register("name", { required: "This field is required " })}
         />
-        <ColorSizeForm item={item.data.doc} setProperties={setProperties} />
+        <ColorSizeForm item={curItem} setProperties={setProperties} />
         <Label>Price</Label>
         <Input
           disabled={isUpdated}

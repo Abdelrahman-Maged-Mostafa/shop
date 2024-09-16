@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Rating from "../serv/itemDetails/Rating";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteOneReview, getOneItems } from "../api/items";
+import { deleteOneReview, getAllItems } from "../api/items";
 import Spinner from "../ui/Spinner";
 import toast from "react-hot-toast";
 import { useLogin } from "../context/useLogin";
@@ -28,22 +28,23 @@ function ItemReview() {
   const { itemId } = useParams();
   const queryClient = useQueryClient();
   const { cookies } = useLogin();
-  const { data: item, isLoading } = useQuery({
-    queryKey: ["item", itemId],
-    queryFn: () => getOneItems(itemId),
+  const { data: items, isLoading } = useQuery({
+    queryKey: ["items"],
+    queryFn: getAllItems,
   });
+
   const { isLoading: isDeleted, mutate } = useMutation({
     mutationFn: ({ id, token }) => deleteOneReview(id, token),
     onSuccess: (val) => {
       toast.success("Review successfully deleted.");
-      queryClient.invalidateQueries({ queryKey: ["item", itemId] });
+      queryClient.invalidateQueries({ queryKey: ["items"] });
     },
     onError: (err) => {
       toast.error(err.message);
     },
   });
 
-  const curItem = item?.data?.doc;
+  const curItem = items?.data?.find((item) => item._id === itemId);
   function handleDeleteReview(id) {
     mutate({ id, token: cookies.jwt });
   }

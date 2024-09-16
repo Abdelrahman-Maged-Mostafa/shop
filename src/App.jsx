@@ -28,12 +28,7 @@ import OrderForm from "./pages/OrderForm";
 import ManageOrdersActive from "./pages/ManageOrdersActive";
 import OrderDetails from "./pages/OrderDetails";
 import ScrollToUp from "./hooks/ScrollToUp";
-import {
-  getAllOrders,
-  getAllUserOrders,
-  getOrderById,
-  getUserOrderById,
-} from "./api/orders";
+import { getAllOrders, getAllUserOrders } from "./api/orders";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -90,11 +85,11 @@ function App() {
                   />
                   <Route
                     path="active-orders/:orderId"
-                    element={<OrderDetails orderFunction={getUserOrderById} />}
+                    element={<OrderDetails orderFunction={getAllUserOrders} />}
                   />
                   <Route
                     path="order-history/:orderId"
-                    element={<OrderDetails orderFunction={getUserOrderById} />}
+                    element={<OrderDetails orderFunction={getAllUserOrders} />}
                   />
                   <Route
                     index
@@ -158,7 +153,7 @@ function App() {
                     element={
                       <ProtectRoute>
                         <OrderDetails
-                          orderFunction={getOrderById}
+                          orderFunction={getAllOrders}
                           admin={true}
                         />
                       </ProtectRoute>
@@ -178,7 +173,7 @@ function App() {
                     path="manage-orders-history/:orderId"
                     element={
                       <ProtectRoute>
-                        <OrderDetails orderFunction={getOrderById} />
+                        <OrderDetails orderFunction={getAllOrders} />
                       </ProtectRoute>
                     }
                   />

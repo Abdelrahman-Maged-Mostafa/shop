@@ -117,15 +117,15 @@ function OrderDetails({ orderFunction, admin = false }) {
   const { orderId } = useParams();
   const { cookies } = useLogin();
   const queryClient = useQueryClient();
-  const { data: orderApi, isLoading } = useQuery({
-    queryKey: ["order", orderId],
-    queryFn: () => orderFunction(orderId, cookies.jwt),
+  const { data: orders, isLoading } = useQuery({
+    queryKey: ["orders"],
+    queryFn: () => orderFunction(cookies.jwt),
   });
 
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: ({ id, token }) => deleteOneOrder(id, token),
     onSuccess: async (val) => {
-      await queryClient.invalidateQueries({ queryKey: ["ordersActive"] });
+      await queryClient.invalidateQueries({ queryKey: ["orders"] });
       toast.success("Order successfully deleted.");
       navigate(-1);
     },
@@ -137,9 +137,7 @@ function OrderDetails({ orderFunction, admin = false }) {
   const { isLoading: isUpdated, mutate: updateOrder } = useMutation({
     mutationFn: ({ id, token }) => updateOneOrder(id, token),
     onSuccess: async (val) => {
-      await queryClient.invalidateQueries({ queryKey: ["ordersActive"] });
-      await queryClient.invalidateQueries({ queryKey: ["ordersHistory"] });
-      await queryClient.invalidateQueries({ queryKey: ["order", orderId] });
+      await queryClient.invalidateQueries({ queryKey: ["orders"] });
       toast.success("Order successfully updated.");
       navigate(-1);
     },
@@ -147,8 +145,7 @@ function OrderDetails({ orderFunction, admin = false }) {
       toast.error(err.message);
     },
   });
-
-  const order = orderApi?.data?.data;
+  const order = orders?.data?.data?.find((order) => order._id === orderId);
 
   function hnadleDeleteOrder() {
     mutate({ id: order?._id, token: cookies?.jwt });

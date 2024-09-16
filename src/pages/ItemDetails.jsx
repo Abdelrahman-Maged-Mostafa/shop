@@ -5,7 +5,7 @@ import DetailsItem from "../serv/itemDetails/DetailsItem";
 import { useState } from "react";
 import Rating from "../serv/itemDetails/Rating";
 import { useQuery } from "@tanstack/react-query";
-import { getOneItems } from "../api/items";
+import { getAllItems } from "../api/items";
 import Spinner from "../ui/Spinner";
 
 const ProductCard = styled.div`
@@ -49,13 +49,13 @@ const StyledLongDetail = styled.pre`
 
 function ItemDetails() {
   const { itemId } = useParams();
-  const { data: item, isLoading } = useQuery({
-    queryKey: ["item", itemId],
-    queryFn: () => getOneItems(itemId),
+  const { data: items, isLoading } = useQuery({
+    queryKey: ["items"],
+    queryFn: getAllItems,
   });
 
   const [active, setActive] = useState("product");
-  const curItem = item?.data?.doc;
+  const curItem = items?.data?.find((item) => item._id === itemId);
   if (isLoading) return <Spinner />;
   return (
     <>

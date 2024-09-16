@@ -113,9 +113,10 @@ function ManageOrdersActive({
   const sortBy = searchParams.get("sortBy") || "createdAt-desc";
   const [field, direction] = sortBy?.split("-");
   const { data: orders, isLoading } = useQuery({
-    queryKey: active ? ["ordersActive"] : ["ordersHistory"],
+    queryKey: ["orders"],
     queryFn: () => orderFunction(cookies.jwt),
   });
+
   const ordersActiveFilter = orders?.data?.data
     ?.filter((order) => order.status !== "completedOrder")
     ?.map((order) => {
