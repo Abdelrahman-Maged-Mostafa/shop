@@ -25,10 +25,10 @@ function FilterAndSortedOrders() {
 
       <SortBy
         options={[
+          { value: "createdAt-desc", label: "Sort by Date (Newest First)" },
+          { value: "createdAt-asc", label: "Sort by Date (Oldest First)" },
           { value: "price-asc", label: "Sort by Price (Low to High)" },
           { value: "price-desc", label: "Sort by Price (High to Low)" },
-          { value: "createdAt-asc", label: "Sort by Date (Oldest First)" },
-          { value: "createdAt-desc", label: "Sort by Date (Newest First)" },
         ]}
       />
     </TableOperations>

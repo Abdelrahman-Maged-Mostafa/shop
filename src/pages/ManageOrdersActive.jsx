@@ -15,7 +15,7 @@ const Container = styled.div`
   padding: 20px;
   position: relative;
   @media screen and (max-width: 450px) {
-    padding: 20px 0 0 0;
+    padding: 20px 0 40px 0;
   }
 `;
 
@@ -110,7 +110,7 @@ function ManageOrdersActive({
   const [page, setPage] = useState(1);
   const [searchParams] = useSearchParams();
   const filterValue = searchParams.get("status") || "";
-  const sortBy = searchParams.get("sortBy") || "price-asc";
+  const sortBy = searchParams.get("sortBy") || "createdAt-desc";
   const [field, direction] = sortBy?.split("-");
   const { data: orders, isLoading } = useQuery({
     queryKey: active ? ["ordersActive"] : ["ordersHistory"],
@@ -156,7 +156,7 @@ function ManageOrdersActive({
         setPage={setPage}
         page={page}
         numPages={numPages}
-        style={{ top: "-10px" }}
+        style={{ margin: "15px", position: "relative" }}
       />
       {myData?.map((order, i) => (
         <OrderCard
