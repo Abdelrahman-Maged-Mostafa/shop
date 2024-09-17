@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { useLogin } from "../context/useLogin";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useLogin } from "../context/useLogin";
 import Spinner from "../ui/Spinner";
 import Pagination from "../serv/dashboard/Pagination";
 import FilterAndSortedOrders from "../serv/order-form/FilterAndSortedOrders";
+import Empty from "../ui/Empty";
 
 const Container = styled.div`
   display: flex;
@@ -118,7 +119,6 @@ function ManageOrdersActive({
     ?.map((order) => {
       return { ...order, price: calculateTotalPrice(order?.items) };
     });
-  console.log(ordersActiveFilter);
 
   const ordersHistoryFilter = orders?.data?.data
     ?.filter((order) => order.status === "completedOrder")
@@ -143,9 +143,11 @@ function ManageOrdersActive({
               : b[field] - a[field];
         })
     : ordersHistoryFilter;
+
   const numPages = Math.ceil(allData?.length / numItemInPage);
   const myData = allData?.slice(startItem, endItem);
 
+  if (allData?.length <= 0) return <Empty resource={"orders"} />;
   if (isLoading) return <Spinner />;
   return (
     <Container>

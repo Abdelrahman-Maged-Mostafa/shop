@@ -6,6 +6,7 @@ import Pagination from "../serv/dashboard/Pagination";
 import { useSearchContext } from "../context/useSearchBlog";
 import { getAllItems } from "../api/items";
 import Spinner from "../ui/Spinner";
+import Empty from "../ui/Empty";
 
 const StyledDashboard = styled.div`
   display: grid;
@@ -34,6 +35,7 @@ function Dashboard() {
   const numPages = Math.ceil(filterData?.length / numItemInPage);
   const myData = filterData?.slice(startItem, endItem);
 
+  if (filterData?.length <= 0) return <Empty resource={"orders"} />;
   if (isLoading) return <Spinner />;
   return (
     <StyledDashboard>

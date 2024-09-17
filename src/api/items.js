@@ -85,3 +85,31 @@ export async function deleteOneReview(id, token) {
   });
   if (!res.ok) throw new Error("Some thing wrong! Please try again");
 }
+
+export async function CreateOneReview(body, token) {
+  const res = await fetch(`${URL}/api/v1/reviews`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body,
+  });
+  const data = await res.json();
+  if (data.status !== "success") throw new Error(data.message);
+  return data;
+}
+
+export async function UpdateOneReview(id, body, token) {
+  const res = await fetch(`${URL}/api/v1/reviews/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body,
+  });
+  const data = await res.json();
+  if (data.status !== "success") throw new Error(data.message);
+  return data;
+}

@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Photos from "../serv/itemDetails/Photos";
 import DetailsItem from "../serv/itemDetails/DetailsItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Rating from "../serv/itemDetails/Rating";
 import { useQuery } from "@tanstack/react-query";
 import { getAllItems } from "../api/items";
@@ -56,11 +56,19 @@ function ItemDetails() {
     queryKey: ["items"],
     queryFn: getAllItems,
   });
-
+  const [curItem, setCurItem] = useState(
+    items?.data?.find((item) => `${item._id}` === `${itemId}`)
+  );
   const [active, setActive] = useState("product");
-  const curItem = items?.data?.find((item) => `${item._id}` === `${itemId}`);
-  if (!curItem) return <StyledP>No item by this id.</StyledP>;
+  useEffect(
+    function () {
+      setCurItem(items?.data?.find((item) => `${item._id}` === `${itemId}`));
+    },
+    [items, itemId]
+  );
+
   if (isLoading) return <Spinner />;
+  if (!curItem) return <StyledP>No item by this id.</StyledP>;
   return (
     <>
       <ProductCard>
@@ -85,7 +93,7 @@ function ItemDetails() {
         {active === "product" && (
           <StyledLongDetail>{curItem?.longDescription}</StyledLongDetail>
         )}
-        {active === "rating" && <Rating reviews={curItem?.reviews} />}
+        {active === "rating" && <Rating curItem={curItem} />}
       </ProductRating>
     </>
   );

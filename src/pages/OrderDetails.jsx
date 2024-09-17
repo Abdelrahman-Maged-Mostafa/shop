@@ -152,8 +152,8 @@ function OrderDetails({ orderFunction, admin = false }) {
   function hnadleUpdateOrder() {
     updateOrder({ id: order?._id, token: cookies?.jwt });
   }
-  if (!order) return <StyledP>No order by this id.</StyledP>;
   if (isLoading) return <Spinner />;
+  if (!order) return <StyledP>No order by this id.</StyledP>;
   return (
     <Container>
       {confirmDelete && (

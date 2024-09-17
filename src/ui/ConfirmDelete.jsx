@@ -9,6 +9,8 @@ const StyledConfirmDelete = styled.div`
   gap: 1.2rem;
   position: fixed;
   top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
   background-color: var(--color-grey-0);
   z-index: 3;
   padding: 20px;

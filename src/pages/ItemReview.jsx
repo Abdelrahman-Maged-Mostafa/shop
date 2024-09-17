@@ -55,7 +55,7 @@ function ItemReview() {
         <p className="active">Rating & Reviews</p>
       </Bar>
       <Rating
-        reviews={curItem?.reviews}
+        curItem={curItem}
         top="-40px"
         deleted={handleDeleteReview}
         isDeleted={isDeleted}

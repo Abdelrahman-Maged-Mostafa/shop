@@ -163,7 +163,6 @@ const OrderForm = () => {
 
   async function handleSuccessfulySubmit(data) {
     data.items = itemsCart;
-    console.log(data);
     addOrder({ body: JSON.stringify(data), token: cookies.jwt });
   }
 
