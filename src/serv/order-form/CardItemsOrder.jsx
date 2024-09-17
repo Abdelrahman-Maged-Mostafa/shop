@@ -1,14 +1,19 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const CartItem = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
   width: 100%;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid var(--color-grey-200);
   border-radius: 5px;
+  @media screen and (max-width: 650px) {
+    gap: 0px;
+  }
 `;
 
 const ItemImage = styled.img`
@@ -75,31 +80,30 @@ const ItemQuantity = styled.div`
   }
 `;
 
-function CardItemsOrder({ item, index }) {
-  const CurItem = item.item;
-  //remove item
-
+function CardItemsOrder({ item }) {
   return (
-    <CartItem>
-      <ItemQuantity>
-        <span>{item.properties.quantity} X </span>
-      </ItemQuantity>
-      <ItemImage src={CurItem?.imageCover} alt="Product" />
-      <ItemDetails>
-        <ItemName>{CurItem?.name}</ItemName>
-        <ItemPrice>${item?.properties?.price}</ItemPrice>
-        {item?.properties?.color && (
-          <ItemColor>
-            Color : <span style={{ background: item.properties.color }}></span>
-          </ItemColor>
-        )}
-        {item.properties.size && (
-          <ItemSize>
-            Size : <span>{item.properties.size}</span>
-          </ItemSize>
-        )}
-      </ItemDetails>
-    </CartItem>
+    <Link to={`/dashboard/${item?.itemId}`}>
+      <CartItem>
+        <ItemQuantity>
+          <span>{item?.quantity} X </span>
+        </ItemQuantity>
+        <ItemImage src={item?.imageCover} alt="Product" />
+        <ItemDetails>
+          <ItemName>{item?.name}</ItemName>
+          <ItemPrice>${item?.price}</ItemPrice>
+          {item?.color && (
+            <ItemColor>
+              Color : <span style={{ background: item.color }}></span>
+            </ItemColor>
+          )}
+          {item?.size && (
+            <ItemSize>
+              Size : <span>{item.size}</span>
+            </ItemSize>
+          )}
+        </ItemDetails>
+      </CartItem>
+    </Link>
   );
 }
 

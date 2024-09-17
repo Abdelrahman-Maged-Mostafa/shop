@@ -95,10 +95,7 @@ const Price = styled(motion.span)`
 `;
 
 const calculateTotalPrice = (items) => {
-  return items.reduce(
-    (total, item) => total + item.properties.price * item.properties.quantity,
-    0
-  );
+  return items.reduce((total, item) => total + item.price * item.quantity, 0);
 };
 
 function ManageOrdersActive({
@@ -116,12 +113,12 @@ function ManageOrdersActive({
     queryKey: ["orders"],
     queryFn: () => orderFunction(cookies.jwt),
   });
-
   const ordersActiveFilter = orders?.data?.data
     ?.filter((order) => order.status !== "completedOrder")
     ?.map((order) => {
       return { ...order, price: calculateTotalPrice(order?.items) };
     });
+  console.log(ordersActiveFilter);
 
   const ordersHistoryFilter = orders?.data?.data
     ?.filter((order) => order.status === "completedOrder")

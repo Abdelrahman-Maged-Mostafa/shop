@@ -88,7 +88,16 @@ const StyledP = styled.p`
 `;
 
 const OrderForm = () => {
-  const itemsCart = JSON.parse(localStorage.getItem("itemsCheckOut"));
+  const itemsCart = JSON.parse(localStorage.getItem("itemsCheckOut"))?.map(
+    (item) => {
+      return {
+        ...item.properties,
+        itemId: item.item.id,
+        imageCover: item.item.imageCover,
+        name: item.item.name,
+      };
+    }
+  );
   const navigate = useNavigate();
   const [payment, setPayment] = useState("vcash");
   const queryClient = useQueryClient();
@@ -153,10 +162,8 @@ const OrderForm = () => {
   );
 
   async function handleSuccessfulySubmit(data) {
-    data.items = itemsCart.map((it) => {
-      delete it._id;
-      return { ...it, item: it.item._id };
-    });
+    data.items = itemsCart;
+    console.log(data);
     addOrder({ body: JSON.stringify(data), token: cookies.jwt });
   }
 

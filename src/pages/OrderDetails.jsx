@@ -18,7 +18,9 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
+const StyledP = styled.p`
+  text-align: center;
+`;
 const DetailsCard = styled(motion.div)`
   background: var(--color-grey-0);
   border-radius: 8px;
@@ -105,10 +107,7 @@ const Price = styled(motion.span)`
 `;
 
 const calculateTotalPrice = (items) => {
-  return items.reduce(
-    (total, item) => total + item.properties.price * item.properties.quantity,
-    0
-  );
+  return items.reduce((total, item) => total + item.price * item.quantity, 0);
 };
 function OrderDetails({ orderFunction, admin = false }) {
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -153,6 +152,7 @@ function OrderDetails({ orderFunction, admin = false }) {
   function hnadleUpdateOrder() {
     updateOrder({ id: order?._id, token: cookies?.jwt });
   }
+  if (!order) return <StyledP>No order by this id.</StyledP>;
   if (isLoading) return <Spinner />;
   return (
     <Container>
@@ -247,7 +247,7 @@ function OrderDetails({ orderFunction, admin = false }) {
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <CardItemsOrder item={item} index={index} />
+            <CardItemsOrder item={item} />
           </ItemCard>
         ))}
         {admin && order.status !== "completedOrder" && (

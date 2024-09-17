@@ -18,6 +18,9 @@ const ProductCard = styled.div`
     gap: 30px;
   }
 `;
+const StyledP = styled.p`
+  text-align: center;
+`;
 const ProductRating = styled.div`
   display: flex;
   flex-direction: column;
@@ -55,7 +58,8 @@ function ItemDetails() {
   });
 
   const [active, setActive] = useState("product");
-  const curItem = items?.data?.find((item) => item._id === itemId);
+  const curItem = items?.data?.find((item) => `${item._id}` === `${itemId}`);
+  if (!curItem) return <StyledP>No item by this id.</StyledP>;
   if (isLoading) return <Spinner />;
   return (
     <>
