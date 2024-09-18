@@ -20,7 +20,6 @@ const StyledCard = styled(motion.div)`
   &:hover {
     transform: translateY(-5px);
   }
-
   .product-image img {
     width: 100%;
     height: auto;
@@ -70,7 +69,26 @@ const StyledCard = styled(motion.div)`
   .button:hover {
     background-color: var(--color-brand-700);
   }
+  .out-stock {
+    background-color: var(--color-grey-400);
+    &:hover {
+      background-color: var(--color-grey-600);
+    }
+  }
 `;
+const isStockAvailable = (data) => {
+  if (data.properties.colorsAndSize.length > 0) {
+    return data.properties.colorsAndSize.some((color) =>
+      color.sizes.some((size) => size.stock > 0)
+    );
+  } else if (data.properties.sizes.length > 0) {
+    return data.properties.sizes.some((size) => size.stock > 0);
+  } else if (data.properties.colors.length > 0) {
+    return data.properties.colors.some((color) => color.stock > 0);
+  } else {
+    return data.stock > 0;
+  }
+};
 
 function CardProduct({ data, index }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -91,7 +109,6 @@ function CardProduct({ data, index }) {
       }
     },
   });
-
   function handelAddToCart() {
     setIsLoading(true);
     mutate({
@@ -100,7 +117,6 @@ function CardProduct({ data, index }) {
     });
     setIsLoading(false);
   }
-
   return (
     <StyledCard
       initial={{ opacity: 0, y: 20 }}
@@ -121,9 +137,13 @@ function CardProduct({ data, index }) {
             data?.price}
         </div>
         {Object.values(data?.properties)?.find((el) => el?.length > 0)?.length >
-        0 ? (
+          0 || !isStockAvailable(data) ? (
           <Link to={`/dashboard/${data.id}`}>
-            <button className="button">More Details</button>
+            <button
+              className={isStockAvailable(data) ? "button" : "button out-stock"}
+            >
+              {isStockAvailable(data) ? "More Details" : "Out of stock"}
+            </button>
           </Link>
         ) : (
           <div>

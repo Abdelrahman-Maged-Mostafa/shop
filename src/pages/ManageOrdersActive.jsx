@@ -129,21 +129,18 @@ function ManageOrdersActive({
   const numItemInPage = 5;
   const startItem = (page - 1) * numItemInPage;
   const endItem = page * numItemInPage;
-  const allData = active
-    ? ordersActiveFilter
-        ?.filter((order) => order?.status?.includes(filterValue))
-        ?.sort((a, b) => {
-          if (field === "createdAt")
-            return direction === "asc"
-              ? new Date(a[field]) - new Date(b[field])
-              : new Date(b[field]) - new Date(a[field]);
-          else
-            return direction === "asc"
-              ? a[field] - b[field]
-              : b[field] - a[field];
-        })
+  const allDataFilter = active
+    ? ordersActiveFilter?.filter((order) =>
+        order?.status?.includes(filterValue)
+      )
     : ordersHistoryFilter;
-
+  const allData = allDataFilter?.sort((a, b) => {
+    if (field === "createdAt")
+      return direction === "asc"
+        ? new Date(a[field]) - new Date(b[field])
+        : new Date(b[field]) - new Date(a[field]);
+    else return direction === "asc" ? a[field] - b[field] : b[field] - a[field];
+  });
   const numPages = Math.ceil(allData?.length / numItemInPage);
   const myData = allData?.slice(startItem, endItem);
 
@@ -151,7 +148,7 @@ function ManageOrdersActive({
   if (isLoading) return <Spinner />;
   return (
     <Container>
-      {active && <FilterAndSortedOrders />}
+      <FilterAndSortedOrders active={active} />
       <Pagination
         setPage={setPage}
         page={page}

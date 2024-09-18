@@ -32,6 +32,12 @@ const StyledAddCard = styled.div`
   button:hover {
     background-color: var(--color-brand-700);
   }
+  .out-stock {
+    all: unset;
+    &:hover {
+      all: unset;
+    }
+  }
 `;
 
 function DetailsItem({ curItem }) {
@@ -120,10 +126,22 @@ function DetailsItem({ curItem }) {
         />
       )}
 
-      <p>Stock: {stock}</p>
+      {stock > 0 && <p>Stock: {stock}</p>}
       <StyledAddCard>
-        <button onClick={handelAddToCart} disabled={isLoading || isDeleting}>
-          {isLoading || isDeleting ? <SpinnerMini /> : "Add to Cart"}
+        <button
+          className={stock > 0 ? "" : "out-stock"}
+          onClick={handelAddToCart}
+          disabled={isLoading || isDeleting || stock <= 0}
+        >
+          {stock > 0 ? (
+            isLoading || isDeleting ? (
+              <SpinnerMini />
+            ) : (
+              "Add to Cart"
+            )
+          ) : (
+            "Out of Stock"
+          )}
         </button>
       </StyledAddCard>
     </StyledDetails>

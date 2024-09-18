@@ -157,7 +157,7 @@ const OrderForm = () => {
     });
   }, [payment, reset]);
   const totalPrice = itemsCart?.reduce(
-    (cur, item) => cur + item?.properties?.price * item?.properties?.quantity,
+    (cur, item) => cur + item?.price * item?.quantity,
     0
   );
 
@@ -209,11 +209,9 @@ const OrderForm = () => {
         {itemsCart?.map((item, i) => (
           <ReceiptItem key={i}>
             <span>
-              {item?.properties?.quantity} - {item?.item?.name}
+              {item?.quantity} - {item?.name}
             </span>
-            <span>
-              $ {item?.properties?.quantity * item?.properties?.price}
-            </span>
+            <span>$ {item?.quantity * item?.price}</span>
           </ReceiptItem>
         ))}
         <ReceiptItem>

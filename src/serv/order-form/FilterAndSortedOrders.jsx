@@ -11,17 +11,19 @@ const TableOperations = styled.div`
   }
 `;
 
-function FilterAndSortedOrders() {
+function FilterAndSortedOrders({ active }) {
   return (
     <TableOperations>
-      <Filter
-        filterField="status"
-        options={[
-          { value: "", label: "All" },
-          { value: "underReview", label: "Under review" },
-          { value: "completedPayment", label: "Payment Successful" },
-        ]}
-      />
+      {active && (
+        <Filter
+          filterField="status"
+          options={[
+            { value: "", label: "All" },
+            { value: "underReview", label: "Under review" },
+            { value: "completedPayment", label: "Payment Successful" },
+          ]}
+        />
+      )}
 
       <SortBy
         options={[
