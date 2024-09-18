@@ -81,3 +81,29 @@ export async function getAllUsers(token) {
     throw new Error("Some thing wrong! Please try again");
   return data;
 }
+
+export async function banUser(id, body, token) {
+  const res = await fetch(`${URL}/api/v1/users/ban/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  if (data.status !== "success") throw new Error(data.message);
+  return data;
+}
+
+export async function unBanUser(id, token) {
+  const res = await fetch(`${URL}/api/v1/users/unBan/${id}`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+  if (data.status !== "success") throw new Error(data.message);
+  return data;
+}

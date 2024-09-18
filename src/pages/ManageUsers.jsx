@@ -6,6 +6,7 @@ import { useLogin } from "../context/useLogin";
 import Spinner from "../ui/Spinner";
 import Pagination from "../serv/dashboard/Pagination";
 import { useState } from "react";
+import PopUpBanUser from "../serv/account/PopUpBanUser";
 
 const Container = styled.div`
   display: grid;
@@ -59,6 +60,12 @@ const Button = styled.button`
   &:hover {
     background: var(--color-red-800);
   }
+  &.banned {
+    background: var(--color-grey-500);
+    &:hover {
+      background: var(--color-grey-700);
+    }
+  }
 `;
 const StyledSearchAndPage = styled.div`
   display: flex;
@@ -101,12 +108,16 @@ const cardVariants = {
 
 const ManageUsers = () => {
   const { cookies } = useLogin();
+  const [isOpen, onClose] = useState(false);
+  const [active, setActive] = useState(false);
   const [page, setPage] = useState(1);
+  const [id, setId] = useState("");
   const [search, setSearch] = useState("");
   const { data, isLoading } = useQuery({
     queryKey: ["allUsers"],
     queryFn: () => getAllUsers(cookies?.jwt),
   });
+
   const numItemInPage = 6;
   const startItem = (page - 1) * numItemInPage;
   const endItem = page * numItemInPage;
@@ -119,6 +130,13 @@ const ManageUsers = () => {
   if (isLoading) return <Spinner />;
   return (
     <Container>
+      <PopUpBanUser
+        isOpen={isOpen}
+        onClose={() => onClose(false)}
+        token={cookies.jwt}
+        id={id}
+        banned={!active}
+      />
       <StyledSearchAndPage>
         <Pagination
           setPage={setPage}
@@ -146,7 +164,16 @@ const ManageUsers = () => {
           <p>{user.email}</p>
           <p>{user.phone}</p>
           <p>{user.address}</p>
-          <Button>Ban User</Button>
+          <Button
+            onClick={() => {
+              onClose(true);
+              setId(user._id);
+              setActive(user.active);
+            }}
+            className={user.active ? "" : "banned"}
+          >
+            {user.active ? "Ban User" : "Un ban"}
+          </Button>
         </Card>
       ))}
     </Container>

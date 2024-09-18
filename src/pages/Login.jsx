@@ -125,7 +125,7 @@ const Login = () => {
     try {
       const getToken = await login(data);
       if (getToken.status === "error" || getToken.status === "fail")
-        throw new Error("Wrong email or password");
+        throw new Error(getToken.message);
       await setCookie("jwt", getToken.token, {
         path: "/",
         secure: true,
