@@ -71,3 +71,13 @@ export async function updateMe(body, token, path) {
   const data = await res.json();
   return data;
 }
+
+export async function getAllUsers(token) {
+  const res = await fetch(`${URL}/api/v1/users`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const data = await res.json();
+  if (data.status === "fail" || data.status === "error")
+    throw new Error("Some thing wrong! Please try again");
+  return data;
+}

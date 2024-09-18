@@ -29,6 +29,7 @@ import ManageOrdersActive from "./pages/ManageOrdersActive";
 import OrderDetails from "./pages/OrderDetails";
 import ScrollToUp from "./hooks/ScrollToUp";
 import { getAllOrders, getAllUserOrders } from "./api/orders";
+import ManageUsers from "./pages/ManageUsers";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -136,7 +137,6 @@ function App() {
                       </ProtectRoute>
                     }
                   />
-                  <Route path="change-style" element={<p>change-style</p>} />
                   <Route
                     path="manage-orders-active"
                     element={
@@ -177,6 +177,15 @@ function App() {
                       </ProtectRoute>
                     }
                   />
+                  <Route
+                    path="manage-users"
+                    element={
+                      <ProtectRoute>
+                        <ManageUsers />
+                      </ProtectRoute>
+                    }
+                  />
+                  <Route path="change-style" element={<p>change-style</p>} />
                 </Route>
                 <Route path="login" element={<Login />} />
                 <Route path="signup" element={<Signup />} />

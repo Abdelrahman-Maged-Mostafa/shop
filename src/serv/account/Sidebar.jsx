@@ -1,6 +1,13 @@
 import { useState } from "react";
+import { FaUsersGear } from "react-icons/fa6";
 import { GiArmoredBoomerang } from "react-icons/gi";
-import { MdManageAccounts, MdWork, MdWorkHistory } from "react-icons/md";
+import {
+  MdManageAccounts,
+  MdOutlineRateReview,
+  MdProductionQuantityLimits,
+  MdWork,
+  MdWorkHistory,
+} from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
@@ -73,11 +80,11 @@ const Sidebar = ({ user }) => {
         <>
           <p>Admin list</p>
           <NavLink to="/account/manage-items">
-            {/* <MdWork /> */}
+            <MdProductionQuantityLimits />
             <span>Manage items</span>
           </NavLink>
           <NavLink to="/account/manage-reviews">
-            {/* <MdWork /> */}
+            <MdOutlineRateReview style={{ verticalAlign: "middle" }} />
             <span>Manage reviews</span>
           </NavLink>
           <NavLink to="/account/manage-orders-active">
@@ -87,6 +94,10 @@ const Sidebar = ({ user }) => {
           <NavLink to="/account/manage-orders-history">
             <MdWorkHistory />
             <span>Manage orders history</span>
+          </NavLink>
+          <NavLink to="/account/manage-users">
+            <FaUsersGear />
+            <span>Manage users</span>
           </NavLink>
           <NavLink to="/account/change-style">
             {/* <MdWork /> */}
