@@ -30,6 +30,8 @@ import OrderDetails from "./pages/OrderDetails";
 import ScrollToUp from "./hooks/ScrollToUp";
 import { getAllOrders, getAllUserOrders } from "./api/orders";
 import ManageUsers from "./pages/ManageUsers";
+import OptionProvider from "./context/OptionContext";
+import ManagePayments from "./pages/ManagePayments";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -44,181 +46,195 @@ function App() {
   return (
     <DarkModeProvider>
       <QueryClientProvider client={queryClient}>
-        <LoginProvider>
-          <GlobalStyles />
-          <BrowserRouter>
-            <ScrollToUp />
-            <Routes>
-              <Route
-                element={
-                  // <ProtectedRoute>
-                  <AppLayout />
-                  // </ProtectedRoute>
-                }
-              >
-                <Route index element={<Navigate replace to="dashboard" />} />
-                <Route path="dashboard" element={<Dashboard />} />
-                <Route path="dashboard/:itemId" element={<ItemDetails />} />
-                <Route path="check-out" element={<OrderForm />} />
-                <Route path="cart" element={<Cart />} />
-                <Route path="users" element={<Tryed>users...</Tryed>} />
-                <Route path="settings" element={<Tryed>settings...</Tryed>} />
-                <Route path="account" element={<Account />}>
-                  <Route
-                    path="order-history"
-                    element={
-                      <ManageOrdersActive
-                        active={false}
-                        orderFunction={getAllUserOrders}
-                        linkTo={"order-history"}
-                      />
-                    }
-                  />
-                  <Route
-                    path="active-orders"
-                    element={
-                      <ManageOrdersActive
-                        active={true}
-                        orderFunction={getAllUserOrders}
-                        linkTo={"active-orders"}
-                      />
-                    }
-                  />
-                  <Route
-                    path="active-orders/:orderId"
-                    element={<OrderDetails orderFunction={getAllUserOrders} />}
-                  />
-                  <Route
-                    path="order-history/:orderId"
-                    element={<OrderDetails orderFunction={getAllUserOrders} />}
-                  />
-                  <Route
-                    index
-                    element={<Navigate replace to="personal-info" />}
-                  />
-                  <Route path="personal-info" element={<PersonalInfo />} />
-                  <Route
-                    path="manage-items"
-                    element={
-                      <ProtectRoute>
-                        <ManageItems />
-                      </ProtectRoute>
-                    }
-                  />
-                  <Route
-                    path="manage-items/editItem/:itemId"
-                    element={
-                      <ProtectRoute>
-                        <EditItem />
-                      </ProtectRoute>
-                    }
-                  />
-                  <Route
-                    path="manage-items/addItem"
-                    element={
-                      <ProtectRoute>
-                        <AddItem />
-                      </ProtectRoute>
-                    }
-                  />
-                  <Route
-                    path="manage-reviews"
-                    element={
-                      <ProtectRoute>
-                        <ManageReviews />
-                      </ProtectRoute>
-                    }
-                  />
-                  <Route
-                    path="manage-reviews/reviews-item/:itemId"
-                    element={
-                      <ProtectRoute>
-                        <ItemReview />
-                      </ProtectRoute>
-                    }
-                  />
-                  <Route
-                    path="manage-orders-active"
-                    element={
-                      <ProtectRoute>
+        <OptionProvider>
+          <LoginProvider>
+            <GlobalStyles />
+            <BrowserRouter>
+              <ScrollToUp />
+              <Routes>
+                <Route
+                  element={
+                    // <ProtectedRoute>
+                    <AppLayout />
+                    // </ProtectedRoute>
+                  }
+                >
+                  <Route index element={<Navigate replace to="dashboard" />} />
+                  <Route path="dashboard" element={<Dashboard />} />
+                  <Route path="dashboard/:itemId" element={<ItemDetails />} />
+                  <Route path="check-out" element={<OrderForm />} />
+                  <Route path="cart" element={<Cart />} />
+                  <Route path="users" element={<Tryed>users...</Tryed>} />
+                  <Route path="settings" element={<Tryed>settings...</Tryed>} />
+                  <Route path="account" element={<Account />}>
+                    <Route
+                      path="order-history"
+                      element={
+                        <ManageOrdersActive
+                          active={false}
+                          orderFunction={getAllUserOrders}
+                          linkTo={"order-history"}
+                        />
+                      }
+                    />
+                    <Route
+                      path="active-orders"
+                      element={
                         <ManageOrdersActive
                           active={true}
-                          orderFunction={getAllOrders}
+                          orderFunction={getAllUserOrders}
+                          linkTo={"active-orders"}
                         />
-                      </ProtectRoute>
-                    }
-                  />
-                  <Route
-                    path="manage-orders-active/:orderId"
-                    element={
-                      <ProtectRoute>
-                        <OrderDetails
+                      }
+                    />
+                    <Route
+                      path="active-orders/:orderId"
+                      element={
+                        <OrderDetails orderFunction={getAllUserOrders} />
+                      }
+                    />
+                    <Route
+                      path="order-history/:orderId"
+                      element={
+                        <OrderDetails orderFunction={getAllUserOrders} />
+                      }
+                    />
+                    <Route
+                      index
+                      element={<Navigate replace to="personal-info" />}
+                    />
+                    <Route path="personal-info" element={<PersonalInfo />} />
+                    <Route
+                      path="manage-items"
+                      element={
+                        <ProtectRoute>
+                          <ManageItems />
+                        </ProtectRoute>
+                      }
+                    />
+                    <Route
+                      path="manage-items/editItem/:itemId"
+                      element={
+                        <ProtectRoute>
+                          <EditItem />
+                        </ProtectRoute>
+                      }
+                    />
+                    <Route
+                      path="manage-items/addItem"
+                      element={
+                        <ProtectRoute>
+                          <AddItem />
+                        </ProtectRoute>
+                      }
+                    />
+                    <Route
+                      path="manage-reviews"
+                      element={
+                        <ProtectRoute>
+                          <ManageReviews />
+                        </ProtectRoute>
+                      }
+                    />
+                    <Route
+                      path="manage-reviews/reviews-item/:itemId"
+                      element={
+                        <ProtectRoute>
+                          <ItemReview />
+                        </ProtectRoute>
+                      }
+                    />
+                    <Route
+                      path="manage-orders-active"
+                      element={
+                        <ProtectRoute>
+                          <ManageOrdersActive
+                            active={true}
+                            orderFunction={getAllOrders}
+                          />
+                        </ProtectRoute>
+                      }
+                    />
+                    <Route
+                      path="manage-orders-active/:orderId"
+                      element={
+                        <ProtectRoute>
+                          <OrderDetails
+                            orderFunction={getAllOrders}
+                            admin={true}
+                          />
+                        </ProtectRoute>
+                      }
+                    />
+                    <Route
+                      path="manage-orders-history"
+                      element={
+                        <ManageOrdersActive
+                          active={false}
                           orderFunction={getAllOrders}
-                          admin={true}
+                          linkTo={"manage-orders-history"}
                         />
-                      </ProtectRoute>
-                    }
+                      }
+                    />
+                    <Route
+                      path="manage-orders-history/:orderId"
+                      element={
+                        <ProtectRoute>
+                          <OrderDetails orderFunction={getAllOrders} />
+                        </ProtectRoute>
+                      }
+                    />
+                    <Route
+                      path="manage-users"
+                      element={
+                        <ProtectRoute>
+                          <ManageUsers />
+                        </ProtectRoute>
+                      }
+                    />
+                    <Route
+                      path="manage-payments"
+                      element={
+                        <ProtectRoute>
+                          <ManagePayments />
+                        </ProtectRoute>
+                      }
+                    />
+                    <Route path="change-style" element={<p>change-style</p>} />
+                  </Route>
+                  <Route path="login" element={<Login />} />
+                  <Route path="signup" element={<Signup />} />
+                  <Route path="forgetPassword" element={<ForgetPassword />} />
+                  <Route
+                    path="forgetPassword/success"
+                    element={<SuccesForgetPassword />}
                   />
                   <Route
-                    path="manage-orders-history"
-                    element={
-                      <ManageOrdersActive
-                        active={false}
-                        orderFunction={getAllOrders}
-                        linkTo={"manage-orders-history"}
-                      />
-                    }
+                    path="writeNewPasword/:token"
+                    element={<ResetPassword />}
                   />
-                  <Route
-                    path="manage-orders-history/:orderId"
-                    element={
-                      <ProtectRoute>
-                        <OrderDetails orderFunction={getAllOrders} />
-                      </ProtectRoute>
-                    }
-                  />
-                  <Route
-                    path="manage-users"
-                    element={
-                      <ProtectRoute>
-                        <ManageUsers />
-                      </ProtectRoute>
-                    }
-                  />
-                  <Route path="change-style" element={<p>change-style</p>} />
                 </Route>
-                <Route path="login" element={<Login />} />
-                <Route path="signup" element={<Signup />} />
-                <Route path="forgetPassword" element={<ForgetPassword />} />
-                <Route
-                  path="forgetPassword/success"
-                  element={<SuccesForgetPassword />}
-                />
-                <Route
-                  path="writeNewPasword/:token"
-                  element={<ResetPassword />}
-                />
-              </Route>
-              <Route path="*" element={<PageNotFound />} />
-            </Routes>
-          </BrowserRouter>
-          <Toaster
-            position="top-center"
-            gutter={12}
-            containerStyle={{ margin: "8px" }}
-            toastOptions={{
-              success: { duration: 3000 },
-              error: { duration: 3000 },
-              style: {
-                fontSize: "16px",
-                maxWidth: "500px",
-                padding: "16px 24px",
-                backgroundColor: "var(--color-grey-0)",
-                color: "var(--color-grey-700)",
-              },
-            }}
-          />
-        </LoginProvider>
+                <Route path="*" element={<PageNotFound />} />
+              </Routes>
+            </BrowserRouter>
+            <Toaster
+              position="top-center"
+              gutter={12}
+              containerStyle={{ margin: "8px" }}
+              toastOptions={{
+                success: { duration: 3000 },
+                error: { duration: 3000 },
+                style: {
+                  fontSize: "16px",
+                  maxWidth: "500px",
+                  padding: "16px 24px",
+                  backgroundColor: "var(--color-grey-0)",
+                  color: "var(--color-grey-700)",
+                },
+              }}
+            />
+          </LoginProvider>
+        </OptionProvider>
       </QueryClientProvider>
     </DarkModeProvider>
   );

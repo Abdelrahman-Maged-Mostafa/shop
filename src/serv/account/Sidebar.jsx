@@ -4,6 +4,7 @@ import { GiArmoredBoomerang } from "react-icons/gi";
 import {
   MdManageAccounts,
   MdOutlineRateReview,
+  MdPayments,
   MdProductionQuantityLimits,
   MdWork,
   MdWorkHistory,
@@ -98,6 +99,10 @@ const Sidebar = ({ user }) => {
           <NavLink to="/account/manage-users">
             <FaUsersGear />
             <span>Manage users</span>
+          </NavLink>
+          <NavLink to="/account/manage-payments">
+            <MdPayments />
+            <span>Manage payments</span>
           </NavLink>
           <NavLink to="/account/change-style">
             {/* <MdWork /> */}

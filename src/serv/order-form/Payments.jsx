@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import PaymentMethod from "./PaymentMethod";
+import { useOptions } from "../../context/useOptions";
 
 const PayPhoto = styled.div`
   margin: 0 auto;
@@ -24,63 +25,42 @@ const PayPhoto = styled.div`
 `;
 
 function Payments({ payment, setPayment, totalPrice, register, disabled }) {
+  const {
+    options: {
+      data: [{ paymentMethod }],
+    },
+  } = useOptions();
   return (
     <div>
       <PayPhoto>
-        <div
-          className={payment === "vcash" ? "active" : ""}
-          onClick={() => setPayment("vcash")}
-        >
-          <img src="/images/v-cash.jpg" alt="vodafone" />
-          <p>Vodafone cash</p>
-        </div>
-        <div
-          className={payment === "binance" ? "active" : ""}
-          onClick={() => setPayment("binance")}
-        >
-          <img src="/images/binance.jpg" alt="binance" />
-          <p>Binance pay</p>
-        </div>
-        <div
-          className={payment === "paypal" ? "active" : ""}
-          onClick={() => setPayment("paypal")}
-        >
-          <img src="/images/paypal (1).png" alt="paypal" />
-          <p>Binance pay</p>
-        </div>
+        {paymentMethod?.map(
+          (methode) =>
+            methode.active && (
+              <div
+                key={methode.name}
+                className={payment === methode.name ? "active" : ""}
+                onClick={() => setPayment(methode.name)}
+              >
+                <img src={methode.photo} alt={methode.name} />
+                <p>{methode.name}</p>
+              </div>
+            )
+        )}
       </PayPhoto>
-      {payment === "vcash" && (
-        <PaymentMethod
-          totalPrice={totalPrice}
-          serviceAndAddress={`vodafone cash number 01020198197`}
-          review={true}
-          reviewTime={"2 hours"}
-          customerBill={"transaction ID"}
-          register={register}
-          disabled={disabled}
-        />
-      )}
-      {payment === "paypal" && (
-        <PaymentMethod
-          totalPrice={totalPrice}
-          serviceAndAddress={`PayPal account podapoda_poda@yahoo.com `}
-          review={true}
-          reviewTime={"2 hours"}
-          customerBill={"transaction ID"}
-          register={register}
-          disabled={disabled}
-        />
-      )}
-      {payment === "binance" && (
-        <PaymentMethod
-          totalPrice={totalPrice}
-          serviceAndAddress={`Binance pay id 0123456789`}
-          review={true}
-          reviewTime={"2 hours"}
-          customerBill={"transaction ID"}
-          register={register}
-          disabled={disabled}
-        />
+      {paymentMethod?.map(
+        (methode) =>
+          payment === methode.name && (
+            <PaymentMethod
+              key={methode.name}
+              totalPrice={totalPrice}
+              serviceAndAddress={methode.message}
+              review={methode.needTimeReview}
+              reviewTime={methode.timeForReview}
+              customerBill={"transaction ID"}
+              register={register}
+              disabled={disabled}
+            />
+          )
       )}
     </div>
   );

@@ -12,6 +12,7 @@ import { createOneOrder } from "../api/orders";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { removeAllCart } from "../api/cart";
+import { useOptions } from "../context/useOptions";
 
 const FormContainer = styled.div`
   display: flex;
@@ -98,8 +99,10 @@ const OrderForm = () => {
       };
     }
   );
+  const { options } = useOptions();
+  const paymentMethod = options?.data?.[0]?.paymentMethod;
   const navigate = useNavigate();
-  const [payment, setPayment] = useState("vcash");
+  const [payment, setPayment] = useState(paymentMethod?.[0]?.name || "");
   const queryClient = useQueryClient();
   const { login, cookies } = useLogin();
   const { mutate } = useMutation({
@@ -156,6 +159,9 @@ const OrderForm = () => {
       paymentMethod: payment,
     });
   }, [payment, reset]);
+  useEffect(() => {
+    setPayment(paymentMethod?.[0]?.name || "");
+  }, [paymentMethod]);
   const totalPrice = itemsCart?.reduce(
     (cur, item) => cur + item?.price * item?.quantity,
     0

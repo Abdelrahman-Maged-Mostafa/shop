@@ -151,7 +151,7 @@ const ManageUsers = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </StyledSearchAndPage>
-      <StyledH>All Review ({usersFilter?.length})</StyledH>
+      <StyledH>All Users ({usersFilter?.length})</StyledH>
       {users.map((user, index) => (
         <Card
           key={index}
