@@ -3,7 +3,6 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import { Toaster } from "react-hot-toast";
 
-import GlobalStyles from "./styles/GlobalStyles";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./pages/AppLayout";
 import DarkModeProvider from "./context/DarkModeContext";
@@ -32,6 +31,9 @@ import { getAllOrders, getAllUserOrders } from "./api/orders";
 import ManageUsers from "./pages/ManageUsers";
 import OptionProvider from "./context/OptionContext";
 import ManagePayments from "./pages/ManagePayments";
+import GlobalStylesComponent from "./styles/GlobalStylesComponent";
+import ColorManager from "./pages/ManageStyle";
+import LogoChange from "./pages/LogoChange";
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -48,17 +50,11 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <OptionProvider>
           <LoginProvider>
-            <GlobalStyles />
+            <GlobalStylesComponent />
             <BrowserRouter>
               <ScrollToUp />
               <Routes>
-                <Route
-                  element={
-                    // <ProtectedRoute>
-                    <AppLayout />
-                    // </ProtectedRoute>
-                  }
-                >
+                <Route element={<AppLayout />}>
                   <Route index element={<Navigate replace to="dashboard" />} />
                   <Route path="dashboard" element={<Dashboard />} />
                   <Route path="dashboard/:itemId" element={<ItemDetails />} />
@@ -169,11 +165,13 @@ function App() {
                     <Route
                       path="manage-orders-history"
                       element={
-                        <ManageOrdersActive
-                          active={false}
-                          orderFunction={getAllOrders}
-                          linkTo={"manage-orders-history"}
-                        />
+                        <ProtectRoute>
+                          <ManageOrdersActive
+                            active={false}
+                            orderFunction={getAllOrders}
+                            linkTo={"manage-orders-history"}
+                          />
+                        </ProtectRoute>
                       }
                     />
                     <Route
@@ -200,7 +198,22 @@ function App() {
                         </ProtectRoute>
                       }
                     />
-                    <Route path="change-style" element={<p>change-style</p>} />
+                    <Route
+                      path="change-style"
+                      element={
+                        <ProtectRoute>
+                          <ColorManager />
+                        </ProtectRoute>
+                      }
+                    />
+                    <Route
+                      path="change-logo"
+                      element={
+                        <ProtectRoute>
+                          <LogoChange />
+                        </ProtectRoute>
+                      }
+                    />
                   </Route>
                   <Route path="login" element={<Login />} />
                   <Route path="signup" element={<Signup />} />

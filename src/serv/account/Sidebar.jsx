@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { FaSquare } from "react-icons/fa";
 import { FaUsersGear } from "react-icons/fa6";
 import { GiArmoredBoomerang } from "react-icons/gi";
+import { IoColorPaletteOutline } from "react-icons/io5";
 import {
   MdManageAccounts,
   MdOutlineRateReview,
@@ -105,8 +107,12 @@ const Sidebar = ({ user }) => {
             <span>Manage payments</span>
           </NavLink>
           <NavLink to="/account/change-style">
-            {/* <MdWork /> */}
-            <span>Change style</span>
+            <IoColorPaletteOutline />
+            <span>Change colors</span>
+          </NavLink>
+          <NavLink to="/account/change-logo">
+            <FaSquare />
+            <span>Change logo</span>
           </NavLink>
         </>
       ) : (

@@ -41,3 +41,42 @@ export async function updateOptionCash(token) {
   const data = await res.json();
   if (!res.ok) throw new Error(data.message);
 }
+
+export async function updateOptionDefaultColors(token) {
+  //send req
+  const res = await fetch(`${URL}/api/v1/option/defaultColors`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message);
+}
+
+export async function updateOptionChangeColors({ body, token }) {
+  //send req
+  const res = await fetch(`${URL}/api/v1/option/changeColors`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message);
+}
+
+export async function updateOptionChangeLogo({ body, token }) {
+  //send req
+  const res = await fetch(`${URL}/api/v1/option/changeLogo`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body,
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message);
+}

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useOptions } from "../../context/useOptions";
 
 const StyledLogo = styled.div`
   width: 120px;
@@ -8,10 +9,11 @@ const StyledLogo = styled.div`
 `;
 
 function Logo() {
+  const { logo } = useOptions();
   return (
     <StyledLogo>
       <Link to="/">
-        <img src="/Logo.png" alt="Logo" />
+        <img src={logo} alt="Logo" />
       </Link>
     </StyledLogo>
   );
