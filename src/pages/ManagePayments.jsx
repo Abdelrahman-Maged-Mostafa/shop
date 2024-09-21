@@ -6,9 +6,10 @@ import { useOptions } from "../context/useOptions";
 import { HiTrash } from "react-icons/hi2";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLogin } from "../context/useLogin";
-import { updateOption } from "../api/option";
+import { updateOption, updateOptionCash } from "../api/option";
 import toast from "react-hot-toast";
 import SpinnerMini from "../ui/SpinnerMini";
+import Spinner from "../ui/Spinner";
 
 const Container = styled.div`
   padding: 20px;
@@ -118,16 +119,46 @@ const StyledButtons = styled.div`
   justify-content: space-around;
 `;
 
+const StyledCash = styled.div`
+  background-color: var(--color-grey-0);
+  border: 1px solid var(--color-grey-400);
+  border-radius: 8px;
+  > p {
+    font-size: 60px;
+    text-align: center;
+  }
+  padding: 20px;
+  width: 280px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  @media screen and (max-width: 400px) {
+    width: 250px;
+  }
+`;
+
 const ManagePayments = () => {
-  const { payments } = useOptions();
+  const { payments, cashOnDelivery } = useOptions();
   const [paymentMethods, setPaymentMethods] = useState(payments);
+  const [cash, setCash] = useState(cashOnDelivery || false);
   const [photos, setPhotos] = useState(payments?.map((pay) => pay.photo));
   const { cookies } = useLogin();
   const queryClient = useQueryClient();
   const { isLoading: isUpdated, mutate } = useMutation({
     mutationFn: ({ body, token }) => updateOption(body, token),
     onSuccess: (val) => {
-      toast.success("Item successfully updated.");
+      toast.success("Payments successfully updated.");
+      queryClient.invalidateQueries({ queryKey: ["option"] });
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+  const { isLoading: isUpdatedCash, mutate: cashFn } = useMutation({
+    mutationFn: (token) => updateOptionCash(token),
+    onSuccess: (val) => {
+      toast.success("Payments successfully updated.");
       queryClient.invalidateQueries({ queryKey: ["option"] });
     },
     onError: (err) => {
@@ -184,6 +215,28 @@ const ManagePayments = () => {
   return (
     <form onSubmit={handleSaveChanges}>
       <Container>
+        <StyledCash>
+          {isUpdatedCash ? (
+            <Spinner />
+          ) : (
+            <>
+              <p>Cash On Delivery</p>
+              <ToggleButton
+                onClick={() => {
+                  setCash((caash) => !caash);
+                  cashFn(cookies.jwt);
+                }}
+                disabled={isUpdated}
+                style={{ justifyContent: "center" }}
+              >
+                <ToggleTrack>
+                  <ToggleCircle active={cash ? "active" : "Inactive"} />
+                </ToggleTrack>
+                {cash ? "Active" : "Inactive"}
+              </ToggleButton>
+            </>
+          )}
+        </StyledCash>
         {paymentMethods?.map((method, index) => (
           <Card
             key={index}

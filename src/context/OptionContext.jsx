@@ -10,8 +10,12 @@ function OptionProvider({ children }) {
     queryFn: getOption,
   });
   const payments = options?.data?.[0]?.paymentMethod;
+  const cashOnDelivery = options?.data?.[0]?.cashOnDelivery;
+
   return (
-    <OptionContext.Provider value={{ payments, options, isLoading }}>
+    <OptionContext.Provider
+      value={{ payments, options, isLoading, cashOnDelivery }}
+    >
       {children}
     </OptionContext.Provider>
   );

@@ -210,10 +210,12 @@ function ManageOrdersActive({
               {order.paymentMethod}
             </Value>
           </OrderDetail>
-          <OrderDetail>
-            <Label>Transaction ID:</Label>
-            <Value>{order.transactionID}</Value>
-          </OrderDetail>
+          {order.paymentMethod !== "Cash on delivery" && (
+            <OrderDetail>
+              <Label>Transaction ID:</Label>
+              <Value>{order.transactionID}</Value>
+            </OrderDetail>
+          )}
         </OrderCard>
       ))}
     </Container>

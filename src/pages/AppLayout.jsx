@@ -1,6 +1,5 @@
 import { Outlet } from "react-router";
 import styled from "styled-components";
-import Option from "../serv/appLayout/Option";
 import Links from "../serv/appLayout/Links";
 import Logo from "../serv/appLayout/Logo";
 import Cart from "../serv/appLayout/NavCart";
@@ -55,7 +54,6 @@ function AppLayout() {
           <Logo />
           <StyledNav>
             <StyledBar>
-              <Option />
               <Cart />
             </StyledBar>
             <StyledSearch>

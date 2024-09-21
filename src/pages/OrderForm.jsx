@@ -1,16 +1,16 @@
 import styled from "styled-components";
 import { useLogin } from "../context/useLogin";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { getMe } from "../api/user";
 import Spinner from "../ui/Spinner";
 import SpinnerMini from "../ui/SpinnerMini";
 import Payments from "../serv/order-form/Payments";
-import { useForm } from "react-hook-form";
 import InputPhone from "../serv/account/InputPhone";
-import { useEffect, useState } from "react";
 import { createOneOrder } from "../api/orders";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
 import { removeAllCart } from "../api/cart";
 import { useOptions } from "../context/useOptions";
 
@@ -103,6 +103,10 @@ const OrderForm = () => {
   const paymentMethod = options?.data?.[0]?.paymentMethod;
   const navigate = useNavigate();
   const [payment, setPayment] = useState(paymentMethod?.[0]?.name || "");
+  const [cashDelivery, setCashDelivery] = useState(
+    options?.data?.[0]?.cashOnDelivery
+  );
+  const [isCash, setIsCash] = useState(false);
   const queryClient = useQueryClient();
   const { login, cookies } = useLogin();
   const { mutate } = useMutation({
@@ -156,12 +160,13 @@ const OrderForm = () => {
   }, [user, reset]);
   useEffect(() => {
     reset({
-      paymentMethod: payment,
+      paymentMethod: isCash ? "Cash on delivery" : payment,
     });
-  }, [payment, reset]);
+  }, [isCash, payment, reset]);
   useEffect(() => {
-    setPayment(paymentMethod?.[0]?.name || "");
-  }, [paymentMethod]);
+    setPayment(options?.data?.[0]?.paymentMethod?.[0]?.name || "");
+    setCashDelivery(options?.data?.[0]?.cashOnDelivery);
+  }, [options]);
   const totalPrice = itemsCart?.reduce(
     (cur, item) => cur + item?.price * item?.quantity,
     0
@@ -169,6 +174,7 @@ const OrderForm = () => {
 
   async function handleSuccessfulySubmit(data) {
     data.items = itemsCart;
+    console.log(data);
     addOrder({ body: JSON.stringify(data), token: cookies.jwt });
   }
 
@@ -199,13 +205,30 @@ const OrderForm = () => {
           {...register("address", { required: "This field is required " })}
           disabled={isAdded}
         />
-        <Payments
-          payment={payment}
-          setPayment={setPayment}
-          totalPrice={totalPrice}
-          register={register}
-          disabled={isAdded}
-        />
+        {cashDelivery && (
+          <div
+            style={{
+              display: "flex",
+              marginBottom: "5px",
+            }}
+          >
+            <input
+              onChange={() => setIsCash((cash) => !cash)}
+              type="checkbox"
+              style={{ width: "fit-content", margin: "auto 5px auto 0" }}
+            />
+            <span>Cash on Delivery</span>
+          </div>
+        )}
+        {!isCash && (
+          <Payments
+            payment={payment}
+            setPayment={setPayment}
+            totalPrice={totalPrice}
+            register={register}
+            disabled={isAdded}
+          />
+        )}
         <Button type="submit" disabled={isAdded}>
           {isAdded ? <SpinnerMini /> : "Submit"}
         </Button>

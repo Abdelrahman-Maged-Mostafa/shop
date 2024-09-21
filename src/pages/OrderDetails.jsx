@@ -237,10 +237,12 @@ function OrderDetails({ orderFunction, admin = false }) {
             {order.status === "completedOrder" && "completed"}
           </Value>
         </DetailRow>
-        <DetailRow>
-          <Label>Transaction ID:</Label>
-          <Value>{order.transactionID}</Value>
-        </DetailRow>
+        {order.paymentMethod !== "Cash on delivery" && (
+          <DetailRow>
+            <Label>Transaction ID:</Label>
+            <Value>{order.transactionID}</Value>
+          </DetailRow>
+        )}
         {order.items.map((item, index) => (
           <ItemCard
             key={index}

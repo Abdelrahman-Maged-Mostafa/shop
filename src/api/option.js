@@ -29,3 +29,15 @@ export async function updateOption(body, token) {
   const data = await res.json();
   if (!res.ok) throw new Error(data.message);
 }
+
+export async function updateOptionCash(token) {
+  //send req
+  const res = await fetch(`${URL}/api/v1/option/cash`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message);
+}

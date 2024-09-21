@@ -9,7 +9,7 @@ const PaymentMethodStyle = styled.div`
     align-items: center;
     > input {
       width: fit-content;
-      margin: auto 10px auto 0;
+      margin: auto 5px auto 0;
     }
   }
 `;
