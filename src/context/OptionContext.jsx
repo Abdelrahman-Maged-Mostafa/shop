@@ -14,12 +14,14 @@ function OptionProvider({ children }) {
   const payments = options?.data?.[0]?.paymentMethod;
   const cashOnDelivery = options?.data?.[0]?.cashOnDelivery;
   const logo = options?.data?.[0]?.logo;
+  const categories = options?.data?.[0]?.category;
 
   useEffect(() => setColorsObj(options?.data?.[0]?.colors || {}), [options]);
 
   return (
     <OptionContext.Provider
       value={{
+        categories,
         payments,
         options,
         isLoading,

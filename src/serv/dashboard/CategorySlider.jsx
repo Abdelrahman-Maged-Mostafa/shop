@@ -166,7 +166,7 @@ const CategorySlider = ({ categories }) => {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          {categories.map((category, index) => (
+          {categories?.map((category, index) => (
             <Slide
               key={index}
               ref={index === 0 ? slideRef : null}
@@ -176,12 +176,12 @@ const CategorySlider = ({ categories }) => {
               }}
             >
               <img
-                src={category.Photo}
+                src={category.photo}
                 alt=""
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
               <SlideContent>
-                <h2>{category.name}</h2>
+                <h2 style={{ textTransform: "capitalize" }}>{category.name}</h2>
               </SlideContent>
             </Slide>
           ))}
@@ -208,7 +208,7 @@ const CategorySlider = ({ categories }) => {
         </Arrow>
       </SliderContainer>
       <Dots>
-        {categories.map((_, index) => (
+        {categories?.map((_, index) => (
           <Dot
             key={index}
             active={index === activeIndex ? "true" : "false"}

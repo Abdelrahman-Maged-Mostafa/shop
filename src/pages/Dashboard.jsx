@@ -8,6 +8,7 @@ import { getAllItems } from "../api/items";
 import Spinner from "../ui/Spinner";
 import Empty from "../ui/Empty";
 import CategorySlider from "../serv/dashboard/CategorySlider";
+import { useOptions } from "../context/useOptions";
 
 const StyledDashboard = styled.div`
   display: grid;
@@ -22,7 +23,7 @@ function Dashboard() {
     queryKey: ["items"],
     queryFn: getAllItems,
   });
-  const categories = [];
+  const { categories } = useOptions();
 
   const [page, setPage] = useState(1);
   const { blog } = useSearchContext();
