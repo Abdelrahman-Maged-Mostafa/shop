@@ -114,6 +114,8 @@ function AddItem() {
   };
   function submitSuccess(data) {
     data.properties = JSON.stringify(properties);
+    data.category = JSON.stringify(data.category.split("-"));
+
     if (!data.price) delete data.price;
     if (!data.stock) delete data.stock;
 

@@ -130,7 +130,7 @@ const EditItem = () => {
         longDescription: curItem?.longDescription,
         images: curItem?.images,
         imageCover: curItem?.imageCover,
-        category: curItem?.category,
+        category: curItem?.category?.join("-"),
       });
     }
   }, [curItem, reset]);
@@ -146,6 +146,7 @@ const EditItem = () => {
 
   const submitSuccess = (data) => {
     data.properties = JSON.stringify(properties);
+    data.category = JSON.stringify(data.category.split("-"));
     if (!data.price) delete data.price;
     if (!data.stock) delete data.stock;
     mutate({ id: itemId, body: data, token: cookies.jwt });

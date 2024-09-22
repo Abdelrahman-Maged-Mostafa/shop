@@ -22,13 +22,8 @@ function Dashboard() {
     queryKey: ["items"],
     queryFn: getAllItems,
   });
-  const categories = [
-    { name: "Food", Photo: "/images/food.jfif" },
-    { name: "Men clothing", Photo: "/images/menclothing.jfif" },
-    { name: "Women clothing", Photo: "/images/womenclothing.png" },
-    { name: "Electronics", Photo: "/images/Electronic.jpg" },
-    // Add more categories as needed
-  ];
+  const categories = [];
+
   const [page, setPage] = useState(1);
   const { blog } = useSearchContext();
   const filterData = items?.data

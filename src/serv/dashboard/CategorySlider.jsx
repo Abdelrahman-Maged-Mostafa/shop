@@ -5,12 +5,12 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const Container = styled.div`
   position: relative;
+  margin-bottom: 40px;
 `;
 const SliderContainer = styled.div`
   position: relative;
   width: 100%;
   overflow: hidden;
-  margin-bottom: 400px;
 `;
 
 const Slider = styled(motion.div)`
