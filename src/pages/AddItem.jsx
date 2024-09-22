@@ -85,6 +85,7 @@ const Button = styled.button`
 
 function AddItem() {
   const { register, handleSubmit } = useForm();
+  const [isPriceAndStock, setIsPriceAndStock] = useState(true);
   const navigate = useNavigate();
   const { cookies } = useLogin();
   const queryClient = useQueryClient();
@@ -113,6 +114,9 @@ function AddItem() {
   };
   function submitSuccess(data) {
     data.properties = JSON.stringify(properties);
+    if (!data.price) delete data.price;
+    if (!data.stock) delete data.stock;
+
     mutate({ body: data, token: cookies.jwt });
   }
   return (
@@ -145,13 +149,25 @@ function AddItem() {
           type="text"
           {...register("name", { required: "This field is required " })}
         />
-        <ColorSizeForm setProperties={setProperties} />
-
-        <Label>Price</Label>
+        <ColorSizeForm
+          setProperties={setProperties}
+          setIsPriceAndStock={setIsPriceAndStock}
+        />
+        {isPriceAndStock && (
+          <>
+            <Label>Price</Label>
+            <Input
+              disabled={isUpdated}
+              type="number"
+              {...register("price", { required: "This field is required " })}
+            />
+          </>
+        )}
+        <Label>Category</Label>
         <Input
           disabled={isUpdated}
-          type="number"
-          {...register("price", { required: "This field is required " })}
+          type="text"
+          {...register("category", { required: "This field is required " })}
         />
         <Label>Short Description</Label>
         <TextArea
@@ -161,12 +177,16 @@ function AddItem() {
             required: "This field is required ",
           })}
         />
-        <Label>Stock</Label>
-        <Input
-          disabled={isUpdated}
-          type="number"
-          {...register("stock", { required: "This field is required " })}
-        />
+        {isPriceAndStock && (
+          <>
+            <Label>Stock</Label>
+            <Input
+              disabled={isUpdated}
+              type="number"
+              {...register("stock", { required: "This field is required " })}
+            />
+          </>
+        )}
         <Label>Long Description</Label>
         <TextArea
           disabled={isUpdated}

@@ -40,7 +40,9 @@ function ManageItems({ user }) {
     queryKey: ["items"],
     queryFn: getAllItems,
   });
-  const curItems = items?.data;
+  const curItems = items?.data?.sort((a, b) => {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
   const [page, setPage] = useState(1);
   const numItemInPage = 5;
   const startItem = (page - 1) * numItemInPage;

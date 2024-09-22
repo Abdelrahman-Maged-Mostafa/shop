@@ -89,6 +89,7 @@ const EditItem = () => {
   const { itemId } = useParams();
   const navigate = useNavigate();
   const [curItems, setCurItems] = useState({});
+  const [isPriceAndStock, setIsPriceAndStock] = useState(true);
   const [properties, setProperties] = useState({});
   const { cookies } = useLogin();
   const queryClient = useQueryClient();
@@ -96,7 +97,6 @@ const EditItem = () => {
     queryKey: ["items"],
     queryFn: getAllItems,
   });
-
   const { isLoading: isUpdated, mutate } = useMutation({
     mutationFn: ({ id, body, token }) => updateOneItems(id, body, token),
     onSuccess: (val) => {
@@ -130,6 +130,7 @@ const EditItem = () => {
         longDescription: curItem?.longDescription,
         images: curItem?.images,
         imageCover: curItem?.imageCover,
+        category: curItem?.category,
       });
     }
   }, [curItem, reset]);
@@ -145,6 +146,8 @@ const EditItem = () => {
 
   const submitSuccess = (data) => {
     data.properties = JSON.stringify(properties);
+    if (!data.price) delete data.price;
+    if (!data.stock) delete data.stock;
     mutate({ id: itemId, body: data, token: cookies.jwt });
   };
 
@@ -176,12 +179,26 @@ const EditItem = () => {
           type="text"
           {...register("name", { required: "This field is required " })}
         />
-        <ColorSizeForm item={curItem} setProperties={setProperties} />
-        <Label>Price</Label>
+        <ColorSizeForm
+          item={curItem}
+          setProperties={setProperties}
+          setIsPriceAndStock={setIsPriceAndStock}
+        />
+        {isPriceAndStock && (
+          <>
+            <Label>Price</Label>
+            <Input
+              disabled={isUpdated}
+              type="number"
+              {...register("price", { required: "This field is required " })}
+            />
+          </>
+        )}
+        <Label>Category</Label>
         <Input
           disabled={isUpdated}
-          type="number"
-          {...register("price", { required: "This field is required " })}
+          type="text"
+          {...register("category", { required: "This field is required " })}
         />
         <Label>Short Description</Label>
         <TextArea
@@ -191,12 +208,16 @@ const EditItem = () => {
             required: "This field is required ",
           })}
         />
-        <Label>Stock</Label>
-        <Input
-          disabled={isUpdated}
-          type="number"
-          {...register("stock", { required: "This field is required " })}
-        />
+        {isPriceAndStock && (
+          <>
+            <Label>Stock</Label>
+            <Input
+              disabled={isUpdated}
+              type="number"
+              {...register("stock", { required: "This field is required " })}
+            />
+          </>
+        )}
         <Label>Long Description</Label>
         <TextArea
           disabled={isUpdated}

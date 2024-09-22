@@ -36,7 +36,7 @@ const StyledBar = styled.div`
   }
 `;
 
-const ColorSizeForm = ({ item, setProperties }) => {
+const ColorSizeForm = ({ item, setProperties, setIsPriceAndStock }) => {
   const [choose, setChoose] = useState(
     item?.properties?.colors?.length
       ? "Color"
@@ -55,18 +55,22 @@ const ColorSizeForm = ({ item, setProperties }) => {
     function () {
       if (choose === "NoOne") {
         setProperties({});
+        setIsPriceAndStock(true);
       }
       if (choose === "Size") {
         setProperties({ sizes });
+        setIsPriceAndStock(false);
       }
       if (choose === "Color") {
         setProperties({ colors });
+        setIsPriceAndStock(false);
       }
       if (choose === "Color&Size") {
         setProperties({ colorsAndSize });
+        setIsPriceAndStock(false);
       }
     },
-    [choose, setProperties, colorsAndSize, colors, sizes]
+    [choose, setProperties, colorsAndSize, colors, sizes, setIsPriceAndStock]
   );
   return (
     <>

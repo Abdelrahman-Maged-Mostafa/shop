@@ -7,6 +7,7 @@ import { useSearchContext } from "../context/useSearchBlog";
 import { getAllItems } from "../api/items";
 import Spinner from "../ui/Spinner";
 import Empty from "../ui/Empty";
+import CategorySlider from "../serv/dashboard/CategorySlider";
 
 const StyledDashboard = styled.div`
   display: grid;
@@ -21,14 +22,24 @@ function Dashboard() {
     queryKey: ["items"],
     queryFn: getAllItems,
   });
-
+  const categories = [
+    { name: "Food", Photo: "/images/food.jfif" },
+    { name: "Men clothing", Photo: "/images/menclothing.jfif" },
+    { name: "Women clothing", Photo: "/images/womenclothing.png" },
+    { name: "Electronics", Photo: "/images/Electronic.jpg" },
+    // Add more categories as needed
+  ];
   const [page, setPage] = useState(1);
   const { blog } = useSearchContext();
-  const filterData = items?.data?.filter?.(
-    (el) =>
-      el.name.toLowerCase().includes(blog.toLowerCase()) ||
-      el.shortDescription.toLowerCase().includes(blog.toLowerCase())
-  );
+  const filterData = items?.data
+    ?.sort((a, b) => {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    })
+    ?.filter?.(
+      (el) =>
+        el.name.toLowerCase().includes(blog.toLowerCase()) ||
+        el.shortDescription.toLowerCase().includes(blog.toLowerCase())
+    );
   const numItemInPage = 10;
   const startItem = (page - 1) * numItemInPage;
   const endItem = page * numItemInPage;
@@ -38,17 +49,20 @@ function Dashboard() {
   if (filterData?.length <= 0) return <Empty resource={"orders"} />;
   if (isLoading) return <Spinner />;
   return (
-    <StyledDashboard>
-      <Pagination
-        setPage={setPage}
-        page={page}
-        numPages={numPages}
-        style={{ top: "-10px" }}
-      />
-      {myData?.map((el, i) => (
-        <CardProduct data={el} key={i} index={i} />
-      ))}
-    </StyledDashboard>
+    <>
+      <CategorySlider categories={categories} />
+      <StyledDashboard>
+        <Pagination
+          setPage={setPage}
+          page={page}
+          numPages={numPages}
+          style={{ top: "-10px" }}
+        />
+        {myData?.map((el, i) => (
+          <CardProduct data={el} key={i} index={i} />
+        ))}
+      </StyledDashboard>
+    </>
   );
 }
 

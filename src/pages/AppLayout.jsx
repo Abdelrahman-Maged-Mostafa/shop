@@ -9,6 +9,8 @@ import Footer from "../serv/appLayout/Footer";
 import SearchContextProvider from "../context/SearchContext";
 import { useLogin } from "../context/useLogin";
 import { useEffect } from "react";
+import { useOptions } from "../context/useOptions";
+import Spinner from "../ui/Spinner";
 
 const StyledApp = styled.div``;
 //Styled bg
@@ -27,7 +29,7 @@ const StyledNav = styled.div`
 `;
 const StyledBar = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 20px;
 `;
 const StyledSearch = styled.div`
@@ -42,10 +44,12 @@ const PageContainer = styled.div`
 `;
 function AppLayout() {
   const { checkLogin } = useLogin();
+  const { isLoading } = useOptions();
   useEffect(() => {
     checkLogin();
   }, [checkLogin]);
 
+  if (isLoading) return <Spinner />;
   return (
     <StyledApp>
       <SearchContextProvider>
