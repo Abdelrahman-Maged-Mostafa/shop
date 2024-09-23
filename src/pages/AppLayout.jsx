@@ -10,7 +10,7 @@ import SearchContextProvider from "../context/SearchContext";
 import { useLogin } from "../context/useLogin";
 import { useEffect } from "react";
 import { useOptions } from "../context/useOptions";
-import Spinner from "../ui/Spinner";
+import LoadingAnimation from "../ui/LoadingAnimation ";
 
 const StyledApp = styled.div``;
 //Styled bg
@@ -49,7 +49,7 @@ function AppLayout() {
     checkLogin();
   }, [checkLogin]);
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <LoadingAnimation />;
   return (
     <StyledApp>
       <SearchContextProvider>

@@ -1,49 +1,54 @@
+import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import { Toaster } from "react-hot-toast";
 
-import PageNotFound from "./pages/PageNotFound";
-import AppLayout from "./pages/AppLayout";
 import DarkModeProvider from "./context/DarkModeContext";
-import Dashboard from "./pages/Dashboard";
-import ItemDetails from "./pages/ItemDetails";
-import Cart from "./pages/Cart";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import ForgetPassword from "./pages/ForgetPassword";
-import ResetPassword from "./pages/ResetPassword";
+import OptionProvider from "./context/OptionContext";
 import LoginProvider from "./context/LoginContext";
-import SuccesForgetPassword from "./pages/SuccesForgetPassword";
-import Account from "./pages/Account";
-import PersonalInfo from "./serv/account/PersonalInfo";
-import ProtectRoute from "./pages/ProtectRoute";
-import ManageItems from "./pages/ManageItems";
-import EditItem from "./pages/EditItem";
-import AddItem from "./pages/AddItem";
-import ManageReviews from "./pages/ManageReviews";
-import ItemReview from "./pages/ItemReview";
-import OrderForm from "./pages/OrderForm";
-import ManageOrdersActive from "./pages/ManageOrdersActive";
-import OrderDetails from "./pages/OrderDetails";
+import GlobalStylesComponent from "./styles/GlobalStylesComponent";
 import ScrollToUp from "./hooks/ScrollToUp";
 import { getAllOrders, getAllUserOrders } from "./api/orders";
-import ManageUsers from "./pages/ManageUsers";
-import OptionProvider from "./context/OptionContext";
-import ManagePayments from "./pages/ManagePayments";
-import GlobalStylesComponent from "./styles/GlobalStylesComponent";
-import ColorManager from "./pages/ManageStyle";
-import LogoChange from "./pages/LogoChange";
+import SkeletonScreen from "./ui/SkeletonScreen";
+import AppLayout from "./pages/AppLayout";
+import Account from "./pages/Account";
+
+const PageNotFound = lazy(() => import("./pages/PageNotFound"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const ItemDetails = lazy(() => import("./pages/ItemDetails"));
+const Cart = lazy(() => import("./pages/Cart"));
+const Login = lazy(() => import("./pages/Login"));
+const Signup = lazy(() => import("./pages/Signup"));
+const ForgetPassword = lazy(() => import("./pages/ForgetPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const SuccesForgetPassword = lazy(() => import("./pages/SuccesForgetPassword"));
+const PersonalInfo = lazy(() => import("./serv/account/PersonalInfo"));
+const ProtectRoute = lazy(() => import("./pages/ProtectRoute"));
+const ManageItems = lazy(() => import("./pages/ManageItems"));
+const EditItem = lazy(() => import("./pages/EditItem"));
+const AddItem = lazy(() => import("./pages/AddItem"));
+const ManageReviews = lazy(() => import("./pages/ManageReviews"));
+const ItemReview = lazy(() => import("./pages/ItemReview"));
+const OrderForm = lazy(() => import("./pages/OrderForm"));
+const ManageOrdersActive = lazy(() => import("./pages/ManageOrdersActive"));
+const OrderDetails = lazy(() => import("./pages/OrderDetails"));
+const ManageUsers = lazy(() => import("./pages/ManageUsers"));
+const ManagePayments = lazy(() => import("./pages/ManagePayments"));
+const ColorManager = lazy(() => import("./pages/ManageStyle"));
+const LogoChange = lazy(() => import("./pages/LogoChange"));
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
   background-color: var(--color-brand-900);
 `;
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: { staleTime: 60 * 1000, cacheTime: 1000 * 60 * 10 },
   },
 });
+
 function App() {
   return (
     <DarkModeProvider>
@@ -56,178 +61,259 @@ function App() {
               <Routes>
                 <Route element={<AppLayout />}>
                   <Route index element={<Navigate replace to="dashboard" />} />
-                  <Route path="dashboard" element={<Dashboard />} />
-                  <Route path="dashboard/:itemId" element={<ItemDetails />} />
-                  <Route path="check-out" element={<OrderForm />} />
-                  <Route path="cart" element={<Cart />} />
+                  <Route
+                    path="dashboard"
+                    element={
+                      <Suspense fallback={<SkeletonScreen />}>
+                        <Dashboard />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path="dashboard/:itemId"
+                    element={
+                      <Suspense fallback={<SkeletonScreen />}>
+                        <ItemDetails />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path="check-out"
+                    element={
+                      <Suspense fallback={<SkeletonScreen />}>
+                        <OrderForm />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path="cart"
+                    element={
+                      <Suspense fallback={<SkeletonScreen />}>
+                        <Cart />
+                      </Suspense>
+                    }
+                  />
                   <Route path="users" element={<Tryed>users...</Tryed>} />
                   <Route path="settings" element={<Tryed>settings...</Tryed>} />
                   <Route path="account" element={<Account />}>
                     <Route
                       path="order-history"
                       element={
-                        <ManageOrdersActive
-                          active={false}
-                          orderFunction={getAllUserOrders}
-                          linkTo={"order-history"}
-                        />
-                      }
-                    />
-                    <Route
-                      path="active-orders"
-                      element={
-                        <ManageOrdersActive
-                          active={true}
-                          orderFunction={getAllUserOrders}
-                          linkTo={"active-orders"}
-                        />
-                      }
-                    />
-                    <Route
-                      path="active-orders/:orderId"
-                      element={
-                        <OrderDetails orderFunction={getAllUserOrders} />
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <OrderDetails orderFunction={getAllUserOrders} />
+                        </Suspense>
                       }
                     />
                     <Route
                       path="order-history/:orderId"
                       element={
-                        <OrderDetails orderFunction={getAllUserOrders} />
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <OrderDetails orderFunction={getAllUserOrders} />
+                        </Suspense>
                       }
                     />
                     <Route
                       index
                       element={<Navigate replace to="personal-info" />}
                     />
-                    <Route path="personal-info" element={<PersonalInfo />} />
+                    <Route
+                      path="personal-info"
+                      element={
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <PersonalInfo />
+                        </Suspense>
+                      }
+                    />
                     <Route
                       path="manage-items"
                       element={
-                        <ProtectRoute>
-                          <ManageItems />
-                        </ProtectRoute>
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <ProtectRoute>
+                            <ManageItems />
+                          </ProtectRoute>
+                        </Suspense>
                       }
                     />
                     <Route
                       path="manage-items/editItem/:itemId"
                       element={
-                        <ProtectRoute>
-                          <EditItem />
-                        </ProtectRoute>
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <ProtectRoute>
+                            <EditItem />
+                          </ProtectRoute>
+                        </Suspense>
                       }
                     />
                     <Route
                       path="manage-items/addItem"
                       element={
-                        <ProtectRoute>
-                          <AddItem />
-                        </ProtectRoute>
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <ProtectRoute>
+                            <AddItem />
+                          </ProtectRoute>
+                        </Suspense>
                       }
                     />
                     <Route
                       path="manage-reviews"
                       element={
-                        <ProtectRoute>
-                          <ManageReviews />
-                        </ProtectRoute>
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <ProtectRoute>
+                            <ManageReviews />
+                          </ProtectRoute>
+                        </Suspense>
                       }
                     />
                     <Route
                       path="manage-reviews/reviews-item/:itemId"
                       element={
-                        <ProtectRoute>
-                          <ItemReview />
-                        </ProtectRoute>
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <ProtectRoute>
+                            <ItemReview />
+                          </ProtectRoute>
+                        </Suspense>
                       }
                     />
                     <Route
                       path="manage-orders-active"
                       element={
-                        <ProtectRoute>
-                          <ManageOrdersActive
-                            active={true}
-                            orderFunction={getAllOrders}
-                          />
-                        </ProtectRoute>
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <ProtectRoute>
+                            <ManageOrdersActive
+                              active={true}
+                              orderFunction={getAllOrders}
+                            />
+                          </ProtectRoute>
+                        </Suspense>
                       }
                     />
                     <Route
                       path="manage-orders-active/:orderId"
                       element={
-                        <ProtectRoute>
-                          <OrderDetails
-                            orderFunction={getAllOrders}
-                            admin={true}
-                          />
-                        </ProtectRoute>
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <ProtectRoute>
+                            <OrderDetails
+                              orderFunction={getAllOrders}
+                              admin={true}
+                            />
+                          </ProtectRoute>
+                        </Suspense>
                       }
                     />
                     <Route
                       path="manage-orders-history"
                       element={
-                        <ProtectRoute>
-                          <ManageOrdersActive
-                            active={false}
-                            orderFunction={getAllOrders}
-                            linkTo={"manage-orders-history"}
-                          />
-                        </ProtectRoute>
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <ProtectRoute>
+                            <ManageOrdersActive
+                              active={false}
+                              orderFunction={getAllOrders}
+                              linkTo={"manage-orders-history"}
+                            />
+                          </ProtectRoute>
+                        </Suspense>
                       }
                     />
                     <Route
                       path="manage-orders-history/:orderId"
                       element={
-                        <ProtectRoute>
-                          <OrderDetails orderFunction={getAllOrders} />
-                        </ProtectRoute>
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <ProtectRoute>
+                            <OrderDetails orderFunction={getAllOrders} />
+                          </ProtectRoute>
+                        </Suspense>
                       }
                     />
                     <Route
                       path="manage-users"
                       element={
-                        <ProtectRoute>
-                          <ManageUsers />
-                        </ProtectRoute>
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <ProtectRoute>
+                            <ManageUsers />
+                          </ProtectRoute>
+                        </Suspense>
                       }
                     />
                     <Route
                       path="manage-payments"
                       element={
-                        <ProtectRoute>
-                          <ManagePayments />
-                        </ProtectRoute>
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <ProtectRoute>
+                            <ManagePayments />
+                          </ProtectRoute>
+                        </Suspense>
                       }
                     />
                     <Route
                       path="change-style"
                       element={
-                        <ProtectRoute>
-                          <ColorManager />
-                        </ProtectRoute>
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <ProtectRoute>
+                            <ColorManager />
+                          </ProtectRoute>
+                        </Suspense>
                       }
                     />
                     <Route
                       path="change-logo"
                       element={
-                        <ProtectRoute>
-                          <LogoChange />
-                        </ProtectRoute>
+                        <Suspense fallback={<SkeletonScreen />}>
+                          <ProtectRoute>
+                            <LogoChange />
+                          </ProtectRoute>
+                        </Suspense>
                       }
                     />
                   </Route>
-                  <Route path="login" element={<Login />} />
-                  <Route path="signup" element={<Signup />} />
-                  <Route path="forgetPassword" element={<ForgetPassword />} />
+                  <Route
+                    path="login"
+                    element={
+                      <Suspense fallback={<SkeletonScreen />}>
+                        <Login />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path="signup"
+                    element={
+                      <Suspense fallback={<SkeletonScreen />}>
+                        <Signup />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path="forgetPassword"
+                    element={
+                      <Suspense fallback={<SkeletonScreen />}>
+                        <ForgetPassword />
+                      </Suspense>
+                    }
+                  />
                   <Route
                     path="forgetPassword/success"
-                    element={<SuccesForgetPassword />}
+                    element={
+                      <Suspense fallback={<SkeletonScreen />}>
+                        <SuccesForgetPassword />
+                      </Suspense>
+                    }
                   />
                   <Route
                     path="writeNewPasword/:token"
-                    element={<ResetPassword />}
+                    element={
+                      <Suspense fallback={<SkeletonScreen />}>
+                        <ResetPassword />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path="*"
+                    element={
+                      <Suspense fallback={<SkeletonScreen />}>
+                        <PageNotFound />
+                      </Suspense>
+                    }
                   />
                 </Route>
-                <Route path="*" element={<PageNotFound />} />
               </Routes>
             </BrowserRouter>
             <Toaster
