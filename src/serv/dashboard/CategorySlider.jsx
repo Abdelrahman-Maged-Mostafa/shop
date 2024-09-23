@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   position: relative;
@@ -54,7 +55,7 @@ const SlideContent = styled.div`
   bottom: 10px;
   left: 10px;
   color: white;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: Rgba(0, 0, 0, 0.5);
   padding: 5px 10px;
   border-radius: 5px;
 `;
@@ -65,7 +66,8 @@ const Arrow = styled.div`
   transform: translateY(-50%);
   width: 30px;
   height: 30px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: Rgba(0, 0, 0, 0.8);
+  color: white;
   border-radius: 50%;
   cursor: pointer;
   z-index: 1;
@@ -104,7 +106,10 @@ const Dot = styled.div`
   width: 10px;
   height: 10px;
   margin: 0 5px;
-  background-color: ${(props) => (props.active === "true" ? "#000" : "#ccc")};
+  background-color: ${(props) =>
+    props.active === "true"
+      ? "var(--color-grey-900)"
+      : "var(--color-grey-400)"};
   border-radius: 50%;
   cursor: pointer;
 `;
@@ -167,23 +172,26 @@ const CategorySlider = ({ categories }) => {
           onTouchEnd={handleTouchEnd}
         >
           {categories?.map((category, index) => (
-            <Slide
-              key={index}
-              ref={index === 0 ? slideRef : null}
-              style={{
-                backgroundImage: `url(${category.image})`,
-                filter: `grayscale(${index === activeIndex ? 0 : 0.5})`,
-              }}
-            >
-              <img
-                src={category.photo}
-                alt=""
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
-              <SlideContent>
-                <h2 style={{ textTransform: "capitalize" }}>{category.name}</h2>
-              </SlideContent>
-            </Slide>
+            <Link key={category._id} to={`/dashboard/filter/${category.name}`}>
+              <Slide
+                ref={index === 0 ? slideRef : null}
+                style={{
+                  backgroundImage: `url(${category.image})`,
+                  filter: `grayscale(${index === activeIndex ? 0 : 0.5})`,
+                }}
+              >
+                <img
+                  src={category.photo}
+                  alt=""
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+                <SlideContent>
+                  <h2 style={{ textTransform: "capitalize" }}>
+                    {category.name}
+                  </h2>
+                </SlideContent>
+              </Slide>
+            </Link>
           ))}
         </Slider>
 

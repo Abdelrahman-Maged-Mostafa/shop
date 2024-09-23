@@ -199,6 +199,7 @@ const EditItem = () => {
         <Input
           disabled={isUpdated}
           type="text"
+          placeholder="popular-elctrons-game"
           {...register("category", { required: "This field is required " })}
         />
         <Label>Short Description</Label>

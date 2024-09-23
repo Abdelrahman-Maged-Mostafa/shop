@@ -7,8 +7,7 @@ import { useSearchContext } from "../context/useSearchBlog";
 import { getAllItems } from "../api/items";
 import Spinner from "../ui/Spinner";
 import Empty from "../ui/Empty";
-import CategorySlider from "../serv/dashboard/CategorySlider";
-import { useOptions } from "../context/useOptions";
+import { useParams } from "react-router-dom";
 
 const StyledDashboard = styled.div`
   display: grid;
@@ -18,20 +17,21 @@ const StyledDashboard = styled.div`
   position: relative;
 `;
 
-function Dashboard() {
+function DashboardFilter() {
+  const { filter } = useParams();
   const { data: items, isLoading } = useQuery({
     queryKey: ["items"],
     queryFn: getAllItems,
   });
-  const { categories } = useOptions();
-
   const [page, setPage] = useState(1);
   const { blog } = useSearchContext();
   const filterData = items?.data
     ?.sort((a, b) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
     })
-    ?.filter((el) => el.category.some((el) => /popular/i.test(el)))
+    ?.filter((el) =>
+      el.category.some((categoryEl) => new RegExp(filter, "i").test(categoryEl))
+    )
     ?.filter?.(
       (el) =>
         el.name.toLowerCase().includes(blog.toLowerCase()) ||
@@ -47,7 +47,6 @@ function Dashboard() {
   if (isLoading) return <Spinner />;
   return (
     <>
-      <CategorySlider categories={categories} />
       <StyledDashboard>
         <Pagination
           setPage={setPage}
@@ -63,4 +62,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default DashboardFilter;

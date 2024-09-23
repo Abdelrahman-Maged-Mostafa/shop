@@ -12,6 +12,7 @@ import SkeletonScreen from "./ui/SkeletonScreen";
 import AppLayout from "./pages/AppLayout";
 import Account from "./pages/Account";
 
+const DashboardFilter = lazy(() => import("./pages/DashboardFilter"));
 const ManageCategories = lazy(() => import("./pages/ManageCategories"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -57,6 +58,14 @@ function App() {
                 element={
                   <Suspense fallback={<SkeletonScreen />}>
                     <Dashboard />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="dashboard/filter/:filter"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <DashboardFilter />
                   </Suspense>
                 }
               />
