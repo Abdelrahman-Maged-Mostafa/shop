@@ -4,6 +4,7 @@ import { FaUsersGear } from "react-icons/fa6";
 import { GiArmoredBoomerang } from "react-icons/gi";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import {
+  MdCategory,
   MdManageAccounts,
   MdOutlineRateReview,
   MdPayments,
@@ -89,6 +90,10 @@ const Sidebar = ({ user }) => {
           <NavLink to="/account/manage-reviews">
             <MdOutlineRateReview style={{ verticalAlign: "middle" }} />
             <span>Manage reviews</span>
+          </NavLink>
+          <NavLink to="/account/change-categorys">
+            <MdCategory style={{ verticalAlign: "middle" }} />
+            <span>Manage categorys</span>
           </NavLink>
           <NavLink to="/account/manage-orders-active">
             <MdWork />

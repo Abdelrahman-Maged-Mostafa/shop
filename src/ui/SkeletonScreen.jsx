@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Skeleton = styled.div`
-  background-color: #e0e0e0;
+  background-color: var(--color-grey-300);
   border-radius: 4px;
   margin: 8px 0;
   height: 20px;

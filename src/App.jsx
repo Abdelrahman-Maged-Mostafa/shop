@@ -1,11 +1,9 @@
 import { lazy, Suspense } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import { Toaster } from "react-hot-toast";
 
 import DarkModeProvider from "./context/DarkModeContext";
-import OptionProvider from "./context/OptionContext";
 import LoginProvider from "./context/LoginContext";
 import GlobalStylesComponent from "./styles/GlobalStylesComponent";
 import ScrollToUp from "./hooks/ScrollToUp";
@@ -14,6 +12,7 @@ import SkeletonScreen from "./ui/SkeletonScreen";
 import AppLayout from "./pages/AppLayout";
 import Account from "./pages/Account";
 
+const ManageCategories = lazy(() => import("./pages/ManageCategories"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const ItemDetails = lazy(() => import("./pages/ItemDetails"));
@@ -43,298 +42,298 @@ const Tryed = styled.div`
   background-color: var(--color-brand-900);
 `;
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: { staleTime: 60 * 1000, cacheTime: 1000 * 60 * 10 },
-  },
-});
-
 function App() {
   return (
     <DarkModeProvider>
-      <QueryClientProvider client={queryClient}>
-        <OptionProvider>
-          <LoginProvider>
-            <GlobalStylesComponent />
-            <BrowserRouter>
-              <ScrollToUp />
-              <Routes>
-                <Route element={<AppLayout />}>
-                  <Route index element={<Navigate replace to="dashboard" />} />
-                  <Route
-                    path="dashboard"
-                    element={
-                      <Suspense fallback={<SkeletonScreen />}>
-                        <Dashboard />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="dashboard/:itemId"
-                    element={
-                      <Suspense fallback={<SkeletonScreen />}>
-                        <ItemDetails />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="check-out"
-                    element={
-                      <Suspense fallback={<SkeletonScreen />}>
-                        <OrderForm />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="cart"
-                    element={
-                      <Suspense fallback={<SkeletonScreen />}>
-                        <Cart />
-                      </Suspense>
-                    }
-                  />
-                  <Route path="users" element={<Tryed>users...</Tryed>} />
-                  <Route path="settings" element={<Tryed>settings...</Tryed>} />
-                  <Route path="account" element={<Account />}>
-                    <Route
-                      path="order-history"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <OrderDetails orderFunction={getAllUserOrders} />
-                        </Suspense>
-                      }
-                    />
-                    <Route
-                      path="order-history/:orderId"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <OrderDetails orderFunction={getAllUserOrders} />
-                        </Suspense>
-                      }
-                    />
-                    <Route
-                      index
-                      element={<Navigate replace to="personal-info" />}
-                    />
-                    <Route
-                      path="personal-info"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <PersonalInfo />
-                        </Suspense>
-                      }
-                    />
-                    <Route
-                      path="manage-items"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <ProtectRoute>
-                            <ManageItems />
-                          </ProtectRoute>
-                        </Suspense>
-                      }
-                    />
-                    <Route
-                      path="manage-items/editItem/:itemId"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <ProtectRoute>
-                            <EditItem />
-                          </ProtectRoute>
-                        </Suspense>
-                      }
-                    />
-                    <Route
-                      path="manage-items/addItem"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <ProtectRoute>
-                            <AddItem />
-                          </ProtectRoute>
-                        </Suspense>
-                      }
-                    />
-                    <Route
-                      path="manage-reviews"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <ProtectRoute>
-                            <ManageReviews />
-                          </ProtectRoute>
-                        </Suspense>
-                      }
-                    />
-                    <Route
-                      path="manage-reviews/reviews-item/:itemId"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <ProtectRoute>
-                            <ItemReview />
-                          </ProtectRoute>
-                        </Suspense>
-                      }
-                    />
-                    <Route
-                      path="manage-orders-active"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <ProtectRoute>
-                            <ManageOrdersActive
-                              active={true}
-                              orderFunction={getAllOrders}
-                            />
-                          </ProtectRoute>
-                        </Suspense>
-                      }
-                    />
-                    <Route
-                      path="manage-orders-active/:orderId"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <ProtectRoute>
-                            <OrderDetails
-                              orderFunction={getAllOrders}
-                              admin={true}
-                            />
-                          </ProtectRoute>
-                        </Suspense>
-                      }
-                    />
-                    <Route
-                      path="manage-orders-history"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <ProtectRoute>
-                            <ManageOrdersActive
-                              active={false}
-                              orderFunction={getAllOrders}
-                              linkTo={"manage-orders-history"}
-                            />
-                          </ProtectRoute>
-                        </Suspense>
-                      }
-                    />
-                    <Route
-                      path="manage-orders-history/:orderId"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <ProtectRoute>
-                            <OrderDetails orderFunction={getAllOrders} />
-                          </ProtectRoute>
-                        </Suspense>
-                      }
-                    />
-                    <Route
-                      path="manage-users"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <ProtectRoute>
-                            <ManageUsers />
-                          </ProtectRoute>
-                        </Suspense>
-                      }
-                    />
-                    <Route
-                      path="manage-payments"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <ProtectRoute>
-                            <ManagePayments />
-                          </ProtectRoute>
-                        </Suspense>
-                      }
-                    />
-                    <Route
-                      path="change-style"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <ProtectRoute>
-                            <ColorManager />
-                          </ProtectRoute>
-                        </Suspense>
-                      }
-                    />
-                    <Route
-                      path="change-logo"
-                      element={
-                        <Suspense fallback={<SkeletonScreen />}>
-                          <ProtectRoute>
-                            <LogoChange />
-                          </ProtectRoute>
-                        </Suspense>
-                      }
-                    />
-                  </Route>
-                  <Route
-                    path="login"
-                    element={
-                      <Suspense fallback={<SkeletonScreen />}>
-                        <Login />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="signup"
-                    element={
-                      <Suspense fallback={<SkeletonScreen />}>
-                        <Signup />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="forgetPassword"
-                    element={
-                      <Suspense fallback={<SkeletonScreen />}>
-                        <ForgetPassword />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="forgetPassword/success"
-                    element={
-                      <Suspense fallback={<SkeletonScreen />}>
-                        <SuccesForgetPassword />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="writeNewPasword/:token"
-                    element={
-                      <Suspense fallback={<SkeletonScreen />}>
-                        <ResetPassword />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="*"
-                    element={
-                      <Suspense fallback={<SkeletonScreen />}>
-                        <PageNotFound />
-                      </Suspense>
-                    }
-                  />
-                </Route>
-              </Routes>
-            </BrowserRouter>
-            <Toaster
-              position="top-center"
-              gutter={12}
-              containerStyle={{ margin: "8px" }}
-              toastOptions={{
-                success: { duration: 3000 },
-                error: { duration: 3000 },
-                style: {
-                  fontSize: "16px",
-                  maxWidth: "500px",
-                  padding: "16px 24px",
-                  backgroundColor: "var(--color-grey-0)",
-                  color: "var(--color-grey-700)",
-                },
-              }}
-            />
-          </LoginProvider>
-        </OptionProvider>
-      </QueryClientProvider>
+      <LoginProvider>
+        <GlobalStylesComponent />
+        <BrowserRouter>
+          <ScrollToUp />
+          <Routes>
+            <Route element={<AppLayout />}>
+              <Route index element={<Navigate replace to="dashboard" />} />
+              <Route
+                path="dashboard"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <Dashboard />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="dashboard/:itemId"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <ItemDetails />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="check-out"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <OrderForm />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="cart"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <Cart />
+                  </Suspense>
+                }
+              />
+              <Route path="users" element={<Tryed>users...</Tryed>} />
+              <Route path="settings" element={<Tryed>settings...</Tryed>} />
+              <Route path="account" element={<Account />}>
+                <Route
+                  path="order-history"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <OrderDetails orderFunction={getAllUserOrders} />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="order-history/:orderId"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <OrderDetails orderFunction={getAllUserOrders} />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  index
+                  element={<Navigate replace to="personal-info" />}
+                />
+                <Route
+                  path="personal-info"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <PersonalInfo />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="manage-items"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ManageItems />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="manage-items/editItem/:itemId"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <EditItem />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="manage-items/addItem"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <AddItem />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="manage-reviews"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ManageReviews />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="manage-reviews/reviews-item/:itemId"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ItemReview />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="manage-orders-active"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ManageOrdersActive
+                          active={true}
+                          orderFunction={getAllOrders}
+                        />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="manage-orders-active/:orderId"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <OrderDetails
+                          orderFunction={getAllOrders}
+                          admin={true}
+                        />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="manage-orders-history"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ManageOrdersActive
+                          active={false}
+                          orderFunction={getAllOrders}
+                          linkTo={"manage-orders-history"}
+                        />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="manage-orders-history/:orderId"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <OrderDetails orderFunction={getAllOrders} />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="manage-users"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ManageUsers />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="manage-payments"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ManagePayments />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="change-style"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ColorManager />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="change-categorys"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ManageCategories />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="change-logo"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <LogoChange />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+              </Route>
+              <Route
+                path="login"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <Login />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="signup"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <Signup />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="forgetPassword"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <ForgetPassword />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="forgetPassword/success"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <SuccesForgetPassword />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="writeNewPasword/:token"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <ResetPassword />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="*"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <PageNotFound />
+                  </Suspense>
+                }
+              />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+        <Toaster
+          position="top-center"
+          gutter={12}
+          containerStyle={{ margin: "8px" }}
+          toastOptions={{
+            success: { duration: 3000 },
+            error: { duration: 3000 },
+            style: {
+              fontSize: "16px",
+              maxWidth: "500px",
+              padding: "16px 24px",
+              backgroundColor: "var(--color-grey-0)",
+              color: "var(--color-grey-700)",
+            },
+          }}
+        />
+      </LoginProvider>
     </DarkModeProvider>
   );
 }
