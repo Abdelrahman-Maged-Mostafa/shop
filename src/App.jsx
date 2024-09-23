@@ -11,6 +11,7 @@ import { getAllOrders, getAllUserOrders } from "./api/orders";
 import SkeletonScreen from "./ui/SkeletonScreen";
 import AppLayout from "./pages/AppLayout";
 import Account from "./pages/Account";
+import ManageOffers from "./pages/ManageOffers";
 
 const DashboardFilter = lazy(() => import("./pages/DashboardFilter"));
 const ManageCategories = lazy(() => import("./pages/ManageCategories"));
@@ -260,6 +261,16 @@ function App() {
                     <Suspense fallback={<SkeletonScreen />}>
                       <ProtectRoute>
                         <ManageCategories />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="change-offers"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ManageOffers />
                       </ProtectRoute>
                     </Suspense>
                   }

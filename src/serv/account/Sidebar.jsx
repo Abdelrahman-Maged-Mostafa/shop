@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BiSolidOffer } from "react-icons/bi";
 import { FaSquare } from "react-icons/fa";
 import { FaUsersGear } from "react-icons/fa6";
 import { GiArmoredBoomerang } from "react-icons/gi";
@@ -94,6 +95,10 @@ const Sidebar = ({ user }) => {
           <NavLink to="/account/change-categorys">
             <MdCategory style={{ verticalAlign: "middle" }} />
             <span>Manage categorys</span>
+          </NavLink>
+          <NavLink to="/account/change-offers">
+            <BiSolidOffer style={{ verticalAlign: "middle" }} />
+            <span>Manage offers</span>
           </NavLink>
           <NavLink to="/account/manage-orders-active">
             <MdWork />

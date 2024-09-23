@@ -172,14 +172,15 @@ const CategorySlider = ({ categories }) => {
           onTouchEnd={handleTouchEnd}
         >
           {categories?.map((category, index) => (
-            <Link key={category._id} to={`/dashboard/filter/${category.name}`}>
-              <Slide
-                ref={index === 0 ? slideRef : null}
-                style={{
-                  backgroundImage: `url(${category.image})`,
-                  filter: `grayscale(${index === activeIndex ? 0 : 0.5})`,
-                }}
-              >
+            <Slide
+              key={category._id}
+              ref={index === 0 ? slideRef : null}
+              style={{
+                backgroundImage: `url(${category.image})`,
+                filter: `grayscale(${index === activeIndex ? 0 : 0.5})`,
+              }}
+            >
+              <Link to={`/dashboard/filter/${category.name}`}>
                 <img
                   src={category.photo}
                   alt=""
@@ -190,8 +191,8 @@ const CategorySlider = ({ categories }) => {
                     {category.name}
                   </h2>
                 </SlideContent>
-              </Slide>
-            </Link>
+              </Link>
+            </Slide>
           ))}
         </Slider>
 

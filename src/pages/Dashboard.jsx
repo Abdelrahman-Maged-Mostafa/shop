@@ -9,6 +9,7 @@ import Spinner from "../ui/Spinner";
 import Empty from "../ui/Empty";
 import CategorySlider from "../serv/dashboard/CategorySlider";
 import { useOptions } from "../context/useOptions";
+import Offer from "../serv/dashboard/Offers";
 
 const StyledDashboard = styled.div`
   display: grid;
@@ -47,6 +48,7 @@ function Dashboard() {
   if (isLoading) return <Spinner />;
   return (
     <>
+      <Offer />
       <CategorySlider categories={categories} />
       <StyledDashboard>
         <Pagination
