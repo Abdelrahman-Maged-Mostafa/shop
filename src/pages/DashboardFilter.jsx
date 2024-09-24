@@ -7,7 +7,10 @@ import { useSearchContext } from "../context/useSearchBlog";
 import { getAllItems } from "../api/items";
 import Spinner from "../ui/Spinner";
 import Empty from "../ui/Empty";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import FilterSort from "../ui/FilterSort ";
+import { useOptions } from "../context/useOptions";
+import { sortItems } from "../serv/dashboard/SortFunction";
 
 const StyledDashboard = styled.div`
   display: grid;
@@ -17,36 +20,109 @@ const StyledDashboard = styled.div`
   position: relative;
 `;
 
+const getPrice = (item) => {
+  if (item?.properties?.colors?.length) {
+    return item.properties.colors.map((color) => color.price);
+  } else if (item?.properties?.colorsAndSize?.length) {
+    return item.properties.colorsAndSize.flatMap((color) =>
+      Object.values(color.sizes).map((size) => size.price)
+    );
+  } else if (item?.properties?.sizes?.length) {
+    return item.properties.sizes.map((size) => size.price);
+  } else {
+    return [item.price];
+  }
+};
+const getStock = (item) => {
+  let stocks = [];
+
+  if (item?.properties?.colors?.length) {
+    stocks = item.properties.colors.map((color) => color.stock);
+  } else if (item?.properties?.colorsAndSize?.length) {
+    stocks = item.properties.colorsAndSize.flatMap((color) =>
+      Object.values(color.sizes).map((size) => size.stock)
+    );
+  } else if (item?.properties?.sizes?.length) {
+    stocks = item.properties.sizes.map((size) => size.stock);
+  } else {
+    stocks = [item.stock];
+  }
+
+  return stocks.some((stock) => stock > 0);
+};
+
+const getMinMaxPrice = (items) => {
+  let min, max;
+  const prices = items?.data?.flatMap((item) => getPrice(item));
+  if (prices) {
+    min = Math.min(...prices);
+    max = Math.max(...prices);
+  }
+  return [min, max];
+};
+
 function DashboardFilter() {
-  const { filter } = useParams();
   const { data: items, isLoading } = useQuery({
     queryKey: ["items"],
     queryFn: getAllItems,
   });
   const [page, setPage] = useState(1);
+  const [sort, setSort] = useState("Popularity-asc");
   const { blog } = useSearchContext();
-  const filterData = items?.data
-    ?.sort((a, b) => {
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    })
-    ?.filter((el) =>
-      el.category.some((categoryEl) => new RegExp(filter, "i").test(categoryEl))
-    )
-    ?.filter?.(
-      (el) =>
-        el.name.toLowerCase().includes(blog.toLowerCase()) ||
-        el.shortDescription.toLowerCase().includes(blog.toLowerCase())
+  const query = new URLSearchParams(useLocation().search);
+  const { categories } = useOptions();
+  //////////////////////
+
+  const [minRealPrice, maxRealPrice] = getMinMaxPrice(items);
+
+  const minPrice = parseFloat(query.get("minPrice")) || 0;
+  const maxPrice = parseFloat(query.get("maxPrice")) || Infinity;
+  const outOfStockparam = query.get("outOfStock") === "true";
+
+  // Extract categories from query parameters
+  const selectedCategories = categories
+    .map((category) => category.name)
+    .filter((categoryName) => query.get(categoryName) === "true");
+
+  const filterDataBefore = items?.data?.filter((item) => {
+    const prices = getPrice(item);
+    const outOfStock = getStock(item);
+    const matchesPrice = prices.some(
+      (price) => price >= minPrice && price <= maxPrice
     );
+    const matchesCategory = selectedCategories.some((selectedCategory) =>
+      item.category.some((categoryEl) =>
+        new RegExp(selectedCategory, "i").test(categoryEl)
+      )
+    );
+    const matchesStock = outOfStockparam ? outOfStock : true;
+
+    return matchesPrice && matchesCategory && matchesStock;
+  });
+  ////////////////
+  const filterDataBlog = filterDataBefore?.filter?.(
+    (el) =>
+      el.name.toLowerCase().includes(blog.toLowerCase()) ||
+      el.shortDescription.toLowerCase().includes(blog.toLowerCase())
+  );
+  const filterData = sortItems(filterDataBlog, sort);
+
   const numItemInPage = 10;
   const startItem = (page - 1) * numItemInPage;
   const endItem = page * numItemInPage;
   const numPages = Math.ceil(filterData?.length / numItemInPage);
   const myData = filterData?.slice(startItem, endItem);
 
-  if (filterData?.length <= 0) return <Empty resource={"orders"} />;
   if (isLoading) return <Spinner />;
   return (
     <>
+      <FilterSort
+        minRealPrice={minRealPrice}
+        maxRealPrice={maxRealPrice}
+        sort={sort}
+        setSort={setSort}
+      />
+      {filterData?.length <= 0 && <Empty resource={"items"} />}
       <StyledDashboard>
         <Pagination
           setPage={setPage}
