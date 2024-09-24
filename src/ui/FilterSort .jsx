@@ -11,13 +11,11 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background-color: var(--color-grey-0);
-  border-radius: 8px;
-  box-shadow: var(--shadow-md);
   position: relative;
   @media (max-width: 768px) {
     flex-direction: row;
     justify-content: space-between;
+    padding: 0px;
   }
 `;
 
@@ -34,6 +32,7 @@ const Button = styled.button`
   @media (max-width: 768px) {
     flex: 1;
     margin-right: 10px;
+    padding: 8px 16px;
   }
 `;
 
@@ -44,6 +43,7 @@ const SortOptions = styled.select`
   border: 1px solid var(--color-grey-900);
   @media (max-width: 768px) {
     flex: 1;
+    font-size: 13px;
   }
 `;
 
