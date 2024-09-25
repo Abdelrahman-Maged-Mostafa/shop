@@ -118,7 +118,7 @@ function App() {
               <Route path="settings" element={<Tryed>settings...</Tryed>} />
               <Route path="account" element={<Account />}>
                 <Route
-                  path="order-history"
+                  path="active-orders/:orderId"
                   element={
                     <Suspense fallback={<SkeletonScreen />}>
                       <OrderDetails orderFunction={getAllUserOrders} />
@@ -126,10 +126,34 @@ function App() {
                   }
                 />
                 <Route
-                  path="order-history/:orderId"
+                  path="orders-history/:orderId"
                   element={
                     <Suspense fallback={<SkeletonScreen />}>
                       <OrderDetails orderFunction={getAllUserOrders} />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="active-orders"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ManageOrdersActive
+                        orderFunction={getAllUserOrders}
+                        linkTo={"active-orders"}
+                        active={true}
+                      />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="order-history"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ManageOrdersActive
+                        orderFunction={getAllUserOrders}
+                        linkTo={"orders-history"}
+                        active={false}
+                      />
                     </Suspense>
                   }
                 />

@@ -88,7 +88,6 @@ const ForgetPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { errors } = formState;
   const navigate = useNavigate();
-  console.log(window.location.origin);
   async function handelFormSubmit(body) {
     body.link = window.location.origin;
     setIsLoading(true);

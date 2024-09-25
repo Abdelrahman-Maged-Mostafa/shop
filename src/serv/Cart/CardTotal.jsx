@@ -24,11 +24,12 @@ const TotalText = styled.h3`
 `;
 
 const CheckoutButton = styled.button`
+  text-align: center;
   background-color: var(--color-brand-700);
   color: var(--color-grey-100);
   border: none;
   font-weight: bold;
-  padding: 10px 20px;
+  padding: 6px 9px;
   border-radius: 5px;
   width: 100px;
   cursor: pointer;
