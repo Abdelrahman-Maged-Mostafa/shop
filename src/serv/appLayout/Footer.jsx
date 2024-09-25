@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Logo from "./Logo";
 import LinksFooter from "./LinksFooter";
-import Subscribe from "./Subscribe";
+import { useOptions } from "../../context/useOptions";
 
 const StyledFooter = styled.div`
   background-color: var(--color-grey-0);
@@ -9,7 +9,6 @@ const StyledFooter = styled.div`
   text-align: center;
 `;
 const StyledNum = styled.p`
-  text-transform: capitalize;
   margin-top: 20px;
   a {
     color: var(--color-brand-500);
@@ -17,17 +16,25 @@ const StyledNum = styled.p`
   }
 `;
 function Footer() {
+  const { footerInfo } = useOptions();
+
   return (
     <StyledFooter>
       <Logo />
-      <Subscribe />
       <LinksFooter />
-      <StyledNum>Help Line Number : +20 102 0198 197</StyledNum>
       <StyledNum>
-        © 2024 All Rights Reserved. Design by{" "}
+        Help Email :
+        <a href={`mailto:${footerInfo?.email}`} style={{ marginLeft: "3px" }}>
+          {footerInfo?.email}
+        </a>
+      </StyledNum>
+      <StyledNum>Help Line Number : {footerInfo?.phone}</StyledNum>
+      <StyledNum style={{ fontSize: "8px" }}>
+        © 2024 All Rights Reserved. Design by
         <a
           href="https://www.facebook.com/podapoda.gans?mibextid=ZbWKwL"
           target="blank"
+          style={{ marginLeft: "3px" }}
         >
           Abdelrahman
         </a>

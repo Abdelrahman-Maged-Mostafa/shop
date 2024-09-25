@@ -74,7 +74,6 @@ function LogoChange() {
       setLogoSaved(file);
     }
   };
-  useEffect(() => setLogo(logo || null), [logo]);
   const { isLoading, mutate } = useMutation({
     mutationFn: ({ body, token }) => updateOptionChangeLogo({ body, token }),
     onSuccess: () => {
@@ -85,6 +84,8 @@ function LogoChange() {
       toast.error(err.message);
     },
   });
+
+  useEffect(() => setLogo(logo || null), [logo]);
 
   function handleLogoSave() {
     const formData = new FormData();

@@ -31,9 +31,9 @@ const StyledLinks = styled.div`
 function LinksFooter() {
   return (
     <StyledLinks>
-      <NavLink to="/dashboard">dashboard</NavLink>
-      <NavLink to="/users">users</NavLink>
-      <NavLink to="/settings">settings</NavLink>
+      <NavLink to="/dashboard">home</NavLink>
+      <NavLink to="/cart">cart</NavLink>
+      <NavLink to="/wishlist">wishlist</NavLink>
       <NavLink to="/account">account</NavLink>
     </StyledLinks>
   );

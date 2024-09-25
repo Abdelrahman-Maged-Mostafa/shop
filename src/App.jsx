@@ -13,6 +13,7 @@ import AppLayout from "./pages/AppLayout";
 import Account from "./pages/Account";
 import ManageOffers from "./pages/ManageOffers";
 import WishList from "./pages/WishList";
+import ChangeFooterBody from "./pages/ChangeFooterBody";
 
 const DashboardFilter = lazy(() => import("./pages/DashboardFilter"));
 const ManageCategories = lazy(() => import("./pages/ManageCategories"));
@@ -290,6 +291,16 @@ function App() {
                     <Suspense fallback={<SkeletonScreen />}>
                       <ProtectRoute>
                         <LogoChange />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="change-footer"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ChangeFooterBody />
                       </ProtectRoute>
                     </Suspense>
                   }

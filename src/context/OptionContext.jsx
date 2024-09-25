@@ -16,12 +16,14 @@ function OptionProvider({ children }) {
   const logo = options?.data?.[0]?.logo;
   const categories = options?.data?.[0]?.category;
   const offers = options?.data?.[0]?.offers;
+  const footerInfo = options?.data?.[0]?.footerBody;
 
   useEffect(() => setColorsObj(options?.data?.[0]?.colors || {}), [options]);
 
   return (
     <OptionContext.Provider
       value={{
+        footerInfo,
         offers,
         categories,
         payments,

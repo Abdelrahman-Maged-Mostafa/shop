@@ -8,18 +8,18 @@ import InputSearch from "../serv/appLayout/InputSearch";
 import Footer from "../serv/appLayout/Footer";
 import SearchContextProvider from "../context/SearchContext";
 import { useLogin } from "../context/useLogin";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useOptions } from "../context/useOptions";
 import LoadingAnimation from "../ui/LoadingAnimation ";
 
-const StyledApp = styled.div``;
 //Styled bg
 const StyledContainer = styled.div`
-  padding: 0 40px 20px;
+  padding: 1px 40px 20px;
   background: linear-gradient(var(--color-grey-0), var(--color-grey-100));
 `;
 //style links
 const StyledNav = styled.div`
+  width: 100%;
   @media screen and (min-width: 767px) {
     display: flex;
     flex-direction: row-reverse;
@@ -43,20 +43,46 @@ const PageContainer = styled.div`
   padding: 25px 40px;
 `;
 function AppLayout() {
+  const [isFixed, setIsFixed] = useState("false");
+
   const { checkLogin } = useLogin();
   const { isLoading } = useOptions();
   useEffect(() => {
     checkLogin();
   }, [checkLogin]);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setIsFixed("true");
+      } else {
+        setIsFixed("false");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   if (isLoading) return <LoadingAnimation />;
   return (
-    <StyledApp>
+    <div>
       <SearchContextProvider>
         <StyledContainer>
           <Links />
           <Logo />
-          <StyledNav>
+          <StyledNav
+            style={{
+              top: isFixed === "true" ? "0" : "auto",
+              left: isFixed === "true" ? "0" : "auto",
+              position: isFixed === "true" ? "fixed" : "static",
+              backgroundColor: isFixed === "true" && "var(--color-grey-0)",
+              zIndex: isFixed === "true" && "999999",
+              padding: isFixed === "true" && "10px 9px",
+            }}
+          >
             <StyledBar>
               <Cart />
             </StyledBar>
@@ -71,7 +97,7 @@ function AppLayout() {
         </PageContainer>
         <Footer />
       </SearchContextProvider>
-    </StyledApp>
+    </div>
   );
 }
 

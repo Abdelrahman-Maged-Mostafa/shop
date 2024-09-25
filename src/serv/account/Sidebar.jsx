@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BiSolidOffer } from "react-icons/bi";
-import { FaSquare } from "react-icons/fa";
+import { FaInfo, FaSquare } from "react-icons/fa";
 import { FaUsersGear } from "react-icons/fa6";
 import { GiArmoredBoomerang } from "react-icons/gi";
 import { IoColorPaletteOutline } from "react-icons/io5";
@@ -123,6 +123,10 @@ const Sidebar = ({ user }) => {
           <NavLink to="/account/change-logo">
             <FaSquare />
             <span>Change logo</span>
+          </NavLink>
+          <NavLink to="/account/change-footer">
+            <FaInfo />
+            <span>Change Footer info</span>
           </NavLink>
         </>
       ) : (
