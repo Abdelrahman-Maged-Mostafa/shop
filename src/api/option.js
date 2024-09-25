@@ -119,3 +119,17 @@ export async function updateFooterBody(body, token) {
   const data = await res.json();
   if (!res.ok) throw new Error(data.message);
 }
+
+export async function updateAboutUs(body, token) {
+  //send req
+  const res = await fetch(`${URL}/api/v1/option/updateAboutUs`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message);
+}

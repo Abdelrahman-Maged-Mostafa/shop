@@ -128,6 +128,10 @@ const Sidebar = ({ user }) => {
             <FaInfo />
             <span>Change Footer info</span>
           </NavLink>
+          <NavLink to="/account/change-aboutUs">
+            <FaInfo />
+            <span>Change AboutUs info</span>
+          </NavLink>
         </>
       ) : (
         <>

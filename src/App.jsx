@@ -11,10 +11,12 @@ import { getAllOrders, getAllUserOrders } from "./api/orders";
 import SkeletonScreen from "./ui/SkeletonScreen";
 import AppLayout from "./pages/AppLayout";
 import Account from "./pages/Account";
-import ManageOffers from "./pages/ManageOffers";
-import WishList from "./pages/WishList";
-import ChangeFooterBody from "./pages/ChangeFooterBody";
+import ManageAboutUsInfo from "./pages/ManageAboutUsInfo";
 
+const AboutUs = lazy(() => import("./pages/AboutUs"));
+const ManageOffers = lazy(() => import("./pages/ManageOffers"));
+const WishList = lazy(() => import("./pages/WishList"));
+const ChangeFooterBody = lazy(() => import("./pages/ChangeFooterBody"));
 const DashboardFilter = lazy(() => import("./pages/DashboardFilter"));
 const ManageCategories = lazy(() => import("./pages/ManageCategories"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
@@ -61,6 +63,14 @@ function App() {
                 element={
                   <Suspense fallback={<SkeletonScreen />}>
                     <Dashboard />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="aboutUs"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <AboutUs />
                   </Suspense>
                 }
               />
@@ -301,6 +311,16 @@ function App() {
                     <Suspense fallback={<SkeletonScreen />}>
                       <ProtectRoute>
                         <ChangeFooterBody />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="change-aboutUs"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ManageAboutUsInfo />
                       </ProtectRoute>
                     </Suspense>
                   }

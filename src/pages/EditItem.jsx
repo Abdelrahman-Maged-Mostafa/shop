@@ -83,6 +83,12 @@ const Button = styled.button`
     background-color: var(--color-brand-700);
   }
 `;
+const Warn = styled.div`
+  color: var(--color-red-700);
+  font-size: 13px;
+  margin: 20px 0;
+  text-align: center;
+`;
 
 // React component
 const EditItem = () => {
@@ -172,6 +178,9 @@ const EditItem = () => {
               {...register(`imagesType${index}`)}
               onChange={(e) => handleImageChange(e, index)}
             />
+            <Warn>
+              This photo should be 500 px * 500 px and background TRANSPARENT
+            </Warn>
           </div>
         ))}
         <Label>Name</Label>

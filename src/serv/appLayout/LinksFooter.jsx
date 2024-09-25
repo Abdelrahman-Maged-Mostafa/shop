@@ -35,6 +35,7 @@ function LinksFooter() {
       <NavLink to="/cart">cart</NavLink>
       <NavLink to="/wishlist">wishlist</NavLink>
       <NavLink to="/account">account</NavLink>
+      <NavLink to="/aboutUs">AboutUs</NavLink>
     </StyledLinks>
   );
 }
