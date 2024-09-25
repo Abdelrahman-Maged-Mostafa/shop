@@ -47,3 +47,17 @@ export async function removeAllCart(token) {
   if (!res.ok) throw new Error("Some thing wrong! Please try again");
   return true;
 }
+
+export async function handleWishListApi(id, token) {
+  const res = await fetch(`${URL}/api/v1/users/addAndRemoveToWishList/${id}`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+  if (res.status === 401 || data.message === "jwt malformed")
+    throw new Error("Please login to add item to your wishList");
+  if (!res.ok) throw new Error("Some thing wrong! Please try again");
+  return true;
+}

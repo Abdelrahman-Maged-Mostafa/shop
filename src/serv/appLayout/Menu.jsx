@@ -58,9 +58,9 @@ function Menu() {
         style={{ width: open ? "200px" : "0", padding: open ? "" : "0" }}
       >
         <HiX onClick={() => setOpen(false)} />
-        <NavLink to="/dashboard">dashboard</NavLink>
-        <NavLink to="/users">users</NavLink>
-        <NavLink to="/settings">settings</NavLink>
+        <NavLink to="/dashboard">home</NavLink>
+        <NavLink to="/cart">cart</NavLink>
+        <NavLink to="/wishList">wishlist</NavLink>
         <NavLink to="/account">account</NavLink>
       </StyledLinks>
     </StyledMenu>

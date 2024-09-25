@@ -2,13 +2,17 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useLogin } from "../../context/useLogin";
-import { addToCart } from "../../api/cart";
+import { addToCart, handleWishListApi } from "../../api/cart";
 import SpinnerMini from "../../ui/SpinnerMini";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import { FaHeart } from "react-icons/fa";
+import toast from "react-hot-toast";
+import { getMe } from "../../api/user";
 
 const StyledCard = styled(motion.div)`
   display: grid;
+  position: relative;
   grid-template-rows: auto 1fr;
   width: 100%;
   border: 1px solid var(--color-grey-100);
@@ -94,8 +98,14 @@ function CardProduct({ data, index }) {
   const [isLoading, setIsLoading] = useState(false);
   const { cookies } = useLogin();
   const navigate = useNavigate();
+  const { data: userData } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => getMe(cookies.jwt),
+  });
+
+  const user = userData?.data?.doc;
   const queryClint = useQueryClient();
-  const { isLoading: isDeleting, mutate } = useMutation({
+  const { isLoading: isAdded, mutate } = useMutation({
     mutationFn: ({ body, token }) => addToCart(body, token),
     onSuccess: (val) => {
       queryClint.invalidateQueries({ queryKey: ["user"] });
@@ -109,6 +119,16 @@ function CardProduct({ data, index }) {
       }
     },
   });
+  const { isLoading: isLoadWishList, mutate: handleList } = useMutation({
+    mutationFn: ({ id, token }) => handleWishListApi(id, token),
+    onSuccess: (val) => {
+      toast.success("Item successfully changed in your wishlist");
+      queryClint.invalidateQueries({ queryKey: ["user"] });
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
   function handelAddToCart() {
     setIsLoading(true);
     mutate({
@@ -117,12 +137,36 @@ function CardProduct({ data, index }) {
     });
     setIsLoading(false);
   }
+  function handleWishList() {
+    handleList({
+      id: data.id,
+      token: cookies.jwt,
+    });
+  }
   return (
     <StyledCard
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: index / 3 }}
     >
+      {
+        <FaHeart
+          onClick={handleWishList}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            color: isLoadWishList
+              ? "black"
+              : user?.wishList?.includes(data.id)
+              ? "var(--color-red-700)"
+              : "var(--color-grey-500)",
+            fontSize: "24px",
+            cursor: "pointer",
+            zIndex: 9999,
+          }}
+        />
+      }
       <div className="product-image">
         <img src={data.imageCover} alt="Product" />
       </div>
@@ -150,9 +194,9 @@ function CardProduct({ data, index }) {
             <button
               className="button cart"
               onClick={handelAddToCart}
-              disabled={isLoading || isDeleting}
+              disabled={isLoading || isAdded}
             >
-              {isLoading || isDeleting ? <SpinnerMini /> : "Add to Cart"}
+              {isLoading || isAdded ? <SpinnerMini /> : "Add to Cart"}
             </button>
             <Link to={`/dashboard/${data.id}`}>
               <button className="button">Details</button>

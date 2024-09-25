@@ -1,5 +1,5 @@
 export const sortItems = (items, sort) => {
-  return items.slice().sort((a, b) => {
+  return items?.slice()?.sort((a, b) => {
     const getPrices = (item) => {
       if (item?.properties?.colors?.length) {
         return item.properties.colors.map((color) => color.price);

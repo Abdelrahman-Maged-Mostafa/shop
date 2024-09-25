@@ -12,6 +12,7 @@ import SkeletonScreen from "./ui/SkeletonScreen";
 import AppLayout from "./pages/AppLayout";
 import Account from "./pages/Account";
 import ManageOffers from "./pages/ManageOffers";
+import WishList from "./pages/WishList";
 
 const DashboardFilter = lazy(() => import("./pages/DashboardFilter"));
 const ManageCategories = lazy(() => import("./pages/ManageCategories"));
@@ -91,6 +92,14 @@ function App() {
                 element={
                   <Suspense fallback={<SkeletonScreen />}>
                     <Cart />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="wishList"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <WishList />
                   </Suspense>
                 }
               />

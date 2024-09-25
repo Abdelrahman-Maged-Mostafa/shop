@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useLogin } from "../../context/useLogin";
 import Popup from "./Popup";
 import { IoMdSettings } from "react-icons/io";
+import { FaHeart } from "react-icons/fa";
 
 const StyledCart = styled.div`
   .account {
@@ -77,6 +78,10 @@ function Cart() {
       <NavLink to="/cart">
         <HiShoppingCart />
         <span>Cart</span>
+      </NavLink>
+      <NavLink to="/wishList">
+        <FaHeart style={{ margin: "auto 3px auto 0" }} />
+        <span>Wishlist</span>
       </NavLink>
       {login ? (
         <div className="account">

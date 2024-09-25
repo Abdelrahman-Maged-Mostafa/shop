@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 const Container = styled.div`
   position: relative;
   margin-bottom: 40px;
+  margin-top: 40px;
 `;
 const SliderContainer = styled.div`
   position: relative;
@@ -17,6 +18,7 @@ const SliderContainer = styled.div`
 const Slider = styled(motion.div)`
   display: flex;
   align-items: center;
+  gap: 10px;
   justify-content: flex-start;
   transition: transform 0.5s ease-in-out;
 `;
@@ -26,7 +28,7 @@ const Slide = styled(motion.div)`
   min-width: 300px;
   max-width: 300px;
   height: 200px;
-  margin: 10px;
+  margin: 10px 0;
   background-size: cover;
   background-position: center;
   cursor: pointer;
@@ -122,7 +124,7 @@ const CategorySlider = ({ categories }) => {
   const slideRef = useRef(null);
   useEffect(() => {
     if (slideRef.current) {
-      setSlideWidth(slideRef.current.offsetWidth + 20); // 20 is the margin
+      setSlideWidth(slideRef.current.offsetWidth + 10); // 20 is the margin
     }
   }, [slideRef]);
 
@@ -165,7 +167,7 @@ const CategorySlider = ({ categories }) => {
         <Slider
           initial={{ x: 0 }}
           animate={{ x: -activeIndex * slideWidth }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.01 }}
           onWheel={handleWheel}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
