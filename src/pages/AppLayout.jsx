@@ -1,7 +1,6 @@
 import { Outlet } from "react-router";
 import styled from "styled-components";
 import Links from "../serv/appLayout/Links";
-import Logo from "../serv/appLayout/Logo";
 import Cart from "../serv/appLayout/NavCart";
 import Menu from "../serv/appLayout/Menu";
 import InputSearch from "../serv/appLayout/InputSearch";
@@ -20,6 +19,7 @@ const StyledContainer = styled.div`
 //style links
 const StyledNav = styled.div`
   width: 100%;
+  margin: 10px auto 0;
   @media screen and (min-width: 767px) {
     display: flex;
     flex-direction: row-reverse;
@@ -41,6 +41,8 @@ const PageContainer = styled.div`
   min-height: 400px;
   background-color: var(--color-grey-100);
   padding: 25px 40px;
+  overflow: hidden;
+  width: 100%;
 `;
 function AppLayout() {
   const [isFixed, setIsFixed] = useState("false");
@@ -72,7 +74,6 @@ function AppLayout() {
       <SearchContextProvider>
         <StyledContainer>
           <Links />
-          <Logo />
           <StyledNav
             style={{
               top: isFixed === "true" ? "0" : "auto",
@@ -81,6 +82,7 @@ function AppLayout() {
               backgroundColor: isFixed === "true" && "var(--color-grey-0)",
               zIndex: isFixed === "true" && "999999",
               padding: isFixed === "true" && "10px 9px",
+              margin: isFixed === "true" ? "0" : "10px auto 0",
             }}
           >
             <StyledBar>

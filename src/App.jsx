@@ -13,6 +13,7 @@ import AppLayout from "./pages/AppLayout";
 import Account from "./pages/Account";
 import ManageAboutUsInfo from "./pages/ManageAboutUsInfo";
 import SettingsNumber from "./pages/SettingsNumber";
+import ManageOffersLine from "./pages/ManageOffersLine";
 
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const ManageOffers = lazy(() => import("./pages/ManageOffers"));
@@ -346,6 +347,16 @@ function App() {
                     <Suspense fallback={<SkeletonScreen />}>
                       <ProtectRoute>
                         <SettingsNumber />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="manage-offers-line"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ManageOffersLine />
                       </ProtectRoute>
                     </Suspense>
                   }

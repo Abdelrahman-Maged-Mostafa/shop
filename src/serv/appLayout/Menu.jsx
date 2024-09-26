@@ -3,6 +3,7 @@ import { HiX } from "react-icons/hi";
 import { HiMiniBars3 } from "react-icons/hi2";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import Logo from "./Logo";
 
 const StyledMenu = styled.div`
   > svg {
@@ -49,6 +50,22 @@ const StyledLinks = styled.ul`
     }
   }
 `;
+const StyledLogo = styled.div`
+  position: absolute;
+  a:hover {
+    all: unset;
+  }
+  div {
+    width: 60px;
+    height: 35px;
+  }
+  img {
+    cursor: pointer;
+    width: 60px;
+    height: 35px;
+    height: 35px;
+  }
+`;
 function Menu() {
   const [open, setOpen] = useState(false);
   return (
@@ -58,7 +75,12 @@ function Menu() {
         style={{ width: open ? "200px" : "0", padding: open ? "" : "0" }}
       >
         <HiX onClick={() => setOpen(false)} />
-        <NavLink to="/dashboard">home</NavLink>
+        <StyledLogo>
+          <Logo />
+        </StyledLogo>
+        <NavLink to="/dashboard" style={{ marginTop: "30px" }}>
+          home
+        </NavLink>
         <NavLink to="/cart">cart</NavLink>
         <NavLink to="/wishList">wishlist</NavLink>
         <NavLink to="/account">account</NavLink>

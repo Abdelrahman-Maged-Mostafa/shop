@@ -10,6 +10,7 @@ import Empty from "../ui/Empty";
 import CategorySlider from "../serv/dashboard/CategorySlider";
 import { useOptions } from "../context/useOptions";
 import Offer from "../serv/dashboard/Offers";
+import OffersLine from "../serv/dashboard/OffersLine";
 
 const StyledDashboard = styled.div`
   display: grid;
@@ -49,6 +50,7 @@ function Dashboard() {
   return (
     <>
       <Offer />
+      <OffersLine />
       <CategorySlider categories={categories} />
       <StyledDashboard>
         <Pagination

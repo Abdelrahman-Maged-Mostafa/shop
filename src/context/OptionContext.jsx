@@ -19,12 +19,14 @@ function OptionProvider({ children }) {
   const footerInfo = options?.data?.[0]?.footerBody;
   const aboutUs = options?.data?.[0]?.aboutUs;
   const numItems = options?.data?.[0]?.numItems;
+  const offersLine = options?.data?.[0]?.offersLine;
 
   useEffect(() => setColorsObj(options?.data?.[0]?.colors || {}), [options]);
 
   return (
     <OptionContext.Provider
       value={{
+        offersLine,
         numItems,
         aboutUs,
         footerInfo,

@@ -101,6 +101,10 @@ const Sidebar = ({ user }) => {
             <BiSolidOffer style={{ verticalAlign: "middle" }} />
             <span>Manage offers</span>
           </NavLink>
+          <NavLink to="/account/manage-offers-line">
+            <BiSolidOffer style={{ verticalAlign: "middle" }} />
+            <span>Manage offers Line</span>
+          </NavLink>
           <NavLink to="/account/manage-orders-active">
             <MdWork />
             <span>Manage orders active</span>
