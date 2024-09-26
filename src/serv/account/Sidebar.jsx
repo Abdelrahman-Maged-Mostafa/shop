@@ -14,6 +14,7 @@ import {
   MdWork,
   MdWorkHistory,
 } from "react-icons/md";
+import { RiSeoFill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
@@ -140,6 +141,10 @@ const Sidebar = ({ user }) => {
           <NavLink to="/account/change-Numbers">
             <GoNumber />
             <span>Change numbers items</span>
+          </NavLink>
+          <NavLink to="/account/manage-SEO">
+            <RiSeoFill />
+            <span>Manage SEO</span>
           </NavLink>
         </>
       ) : (

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useOptions } from "../context/useOptions";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 
 const Container = styled.div`
   display: flex;
@@ -19,9 +20,20 @@ const Paragraph = styled(motion.p)`
 `;
 
 const AboutUs = () => {
-  const { aboutUs } = useOptions();
+  const { aboutUs, initialSEOData } = useOptions();
+
   return (
     <Container>
+      <HelmetProvider>
+        <Helmet>
+          <title>{initialSEOData?.aboutTitle || "shop"}</title>
+          <meta
+            name="description"
+            content={initialSEOData?.aboutDescription || ""}
+          />
+          <meta name="keywords" content={initialSEOData?.aboutKeywords || ""} />
+        </Helmet>
+      </HelmetProvider>
       <Paragraph
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

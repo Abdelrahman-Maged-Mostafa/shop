@@ -9,6 +9,8 @@ import SpinnerMini from "../ui/SpinnerMini";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addToCart } from "../api/cart";
 import Spinner from "../ui/Spinner";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useOptions } from "../context/useOptions";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -88,6 +90,7 @@ const ErrorStyle = styled.span`
 `;
 
 const Login = () => {
+  const { initialSEOData } = useOptions();
   const { register, handleSubmit, formState, reset } = useForm();
   const { errors } = formState;
   const [isLoading, setIsLoading] = useState(false);
@@ -143,6 +146,16 @@ const Login = () => {
   if (isAdding) return <Spinner />;
   return (
     <LoginContainer>
+      <HelmetProvider>
+        <Helmet>
+          <title>{initialSEOData?.loginTitle || "shop"}</title>
+          <meta
+            name="description"
+            content={initialSEOData?.loginDescription || ""}
+          />
+          <meta name="keywords" content={initialSEOData?.loginKeywords || ""} />
+        </Helmet>
+      </HelmetProvider>
       <LoginForm onSubmit={handleSubmit(handelFormSubmit)}>
         <h2>Login</h2>
         <Input

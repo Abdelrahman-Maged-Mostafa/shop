@@ -9,6 +9,7 @@ import Empty from "../ui/Empty";
 import { getMe } from "../api/user";
 import { useLogin } from "../context/useLogin";
 import { useOptions } from "../context/useOptions";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const StyledDashboard = styled.div`
   display: grid;
@@ -29,7 +30,7 @@ function WishList() {
     queryFn: () => getMe(cookies.jwt),
   });
   const [page, setPage] = useState(1);
-  const { numItems } = useOptions();
+  const { numItems, initialSEOData } = useOptions();
   //////////////////////
   const filterData = items?.data?.filter((item) =>
     userData?.data?.doc?.wishList?.includes(item._id)
@@ -47,6 +48,19 @@ function WishList() {
   if (isLoading) return <Spinner />;
   return (
     <>
+      <HelmetProvider>
+        <Helmet>
+          <title>{initialSEOData?.wishlistTitle || "shop"}</title>
+          <meta
+            name="description"
+            content={initialSEOData?.wishlistDescription || ""}
+          />
+          <meta
+            name="keywords"
+            content={initialSEOData?.wishlistKeywords || ""}
+          />
+        </Helmet>
+      </HelmetProvider>
       {filterData?.length <= 0 && <Empty resource={"items"} />}
       <StyledDashboard>
         <Pagination

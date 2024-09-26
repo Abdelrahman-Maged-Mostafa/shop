@@ -5,6 +5,8 @@ import { forgetPassword } from "../api/user";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import SpinnerMini from "../ui/SpinnerMini";
+import { useOptions } from "../context/useOptions";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -84,6 +86,7 @@ const ErrorStyle = styled.span`
 `;
 
 const ForgetPassword = () => {
+  const { initialSEOData } = useOptions();
   const { register, handleSubmit, formState } = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const { errors } = formState;
@@ -104,6 +107,19 @@ const ForgetPassword = () => {
   }
   return (
     <LoginContainer>
+      <HelmetProvider>
+        <Helmet>
+          <title>{initialSEOData?.forgetPasswordTitle || "shop"}</title>
+          <meta
+            name="description"
+            content={initialSEOData?.forgetPasswordDescription || ""}
+          />
+          <meta
+            name="keywords"
+            content={initialSEOData?.forgetPasswordKeywords || ""}
+          />
+        </Helmet>
+      </HelmetProvider>
       <LoginForm onSubmit={handleSubmit(handelFormSubmit)}>
         <h2>Forget password</h2>
         <Input

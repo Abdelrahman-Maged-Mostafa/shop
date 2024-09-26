@@ -8,6 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getMe } from "../api/user";
 import Spinner from "../ui/Spinner";
 import { getAllItems } from "../api/items";
+import { useOptions } from "../context/useOptions";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const CartContainer = styled.div`
   display: flex;
@@ -20,6 +22,7 @@ const StyledP = styled.p`
 `;
 
 function Cart() {
+  const { initialSEOData } = useOptions();
   const [cartIems, setCartItems] = useState([]);
   const { login, cookies } = useLogin();
   const { data: itemsIds, isLoading } = useQuery({
@@ -60,6 +63,16 @@ function Cart() {
   if (!cartIems || cartIems.length === 0) return <Empty resource={"cart"} />;
   return (
     <CartContainer>
+      <HelmetProvider>
+        <Helmet>
+          <title>{initialSEOData?.cartTitle || "shop"}</title>
+          <meta
+            name="description"
+            content={initialSEOData?.cartDescription || ""}
+          />
+          <meta name="keywords" content={initialSEOData?.cartKeywords || ""} />
+        </Helmet>
+      </HelmetProvider>
       {cartIems.map((el, i) => (
         <CartItems item={el} key={i} setCartItems={setCartItems} index={i} />
       ))}

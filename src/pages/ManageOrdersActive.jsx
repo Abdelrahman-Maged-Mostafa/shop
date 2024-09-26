@@ -9,6 +9,7 @@ import Pagination from "../serv/dashboard/Pagination";
 import FilterAndSortedOrders from "../serv/order-form/FilterAndSortedOrders";
 import Empty from "../ui/Empty";
 import { useOptions } from "../context/useOptions";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const Container = styled.div`
   display: flex;
@@ -106,7 +107,7 @@ function ManageOrdersActive({
   linkTo = "manage-orders-active",
 }) {
   const { cookies } = useLogin();
-  const { numItems } = useOptions();
+  const { numItems, initialSEOData } = useOptions();
   const [page, setPage] = useState(1);
   const [searchParams] = useSearchParams();
   const filterValue = searchParams.get("status") || "";
@@ -150,6 +151,31 @@ function ManageOrdersActive({
   if (isLoading) return <Spinner />;
   return (
     <Container>
+      <HelmetProvider>
+        <Helmet>
+          <title>
+            {active
+              ? initialSEOData?.orderActiveTitle || "shop"
+              : initialSEOData?.orderHistoryTitle}
+          </title>
+          <meta
+            name="description"
+            content={
+              active
+                ? initialSEOData?.orderActiveDescription || "shop"
+                : initialSEOData?.orderHistoryDescription
+            }
+          />
+          <meta
+            name="keywords"
+            content={
+              active
+                ? initialSEOData?.orderActiveKeywords || "shop"
+                : initialSEOData?.orderHistoryKeywords
+            }
+          />
+        </Helmet>
+      </HelmetProvider>
       <FilterAndSortedOrders active={active} />
       <Pagination
         setPage={setPage}

@@ -13,6 +13,7 @@ import InputPhone from "../serv/account/InputPhone";
 import { createOneOrder } from "../api/orders";
 import { removeAllCart } from "../api/cart";
 import { useOptions } from "../context/useOptions";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const FormContainer = styled.div`
   display: flex;
@@ -99,7 +100,7 @@ const OrderForm = () => {
       };
     }
   );
-  const { options } = useOptions();
+  const { options, initialSEOData } = useOptions();
   const paymentMethod = options?.data?.[0]?.paymentMethod;
   const navigate = useNavigate();
   const [payment, setPayment] = useState(paymentMethod?.[0]?.name || "");
@@ -182,6 +183,19 @@ const OrderForm = () => {
     return <StyledP>Please Login to see your profile.</StyledP>;
   return (
     <FormContainer>
+      <HelmetProvider>
+        <Helmet>
+          <title>{initialSEOData?.checkoutTitle || "shop"}</title>
+          <meta
+            name="description"
+            content={initialSEOData?.checkoutDescription || ""}
+          />
+          <meta
+            name="keywords"
+            content={initialSEOData?.checkoutKeywords || ""}
+          />
+        </Helmet>
+      </HelmetProvider>
       <h2>Order Form</h2>
       <Form onSubmit={handleSubmit(handleSuccessfulySubmit)}>
         <Input

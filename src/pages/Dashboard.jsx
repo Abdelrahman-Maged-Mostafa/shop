@@ -11,7 +11,7 @@ import CategorySlider from "../serv/dashboard/CategorySlider";
 import { useOptions } from "../context/useOptions";
 import Offer from "../serv/dashboard/Offers";
 import OffersLine from "../serv/dashboard/OffersLine";
-
+import { Helmet, HelmetProvider } from "react-helmet-async";
 const StyledDashboard = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
@@ -21,6 +21,7 @@ const StyledDashboard = styled.div`
 `;
 
 function Dashboard() {
+  const { initialSEOData } = useOptions();
   const { data: items, isLoading } = useQuery({
     queryKey: ["items"],
     queryFn: getAllItems,
@@ -49,6 +50,16 @@ function Dashboard() {
   if (isLoading) return <Spinner />;
   return (
     <>
+      <HelmetProvider>
+        <Helmet>
+          <title>{initialSEOData?.homeTitle || "shop"}</title>
+          <meta
+            name="description"
+            content={initialSEOData?.homeDescription || ""}
+          />
+          <meta name="keywords" content={initialSEOData?.homeKeywords || ""} />
+        </Helmet>
+      </HelmetProvider>
       <Offer />
       <OffersLine />
       <CategorySlider categories={categories} />
