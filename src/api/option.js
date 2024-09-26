@@ -133,3 +133,17 @@ export async function updateAboutUs(body, token) {
   const data = await res.json();
   if (!res.ok) throw new Error(data.message);
 }
+
+export async function updateNumItems(body, token) {
+  //send req
+  const res = await fetch(`${URL}/api/v1/option/updateNumItemsBody`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message);
+}

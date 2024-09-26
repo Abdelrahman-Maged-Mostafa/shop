@@ -24,7 +24,7 @@ function Dashboard() {
     queryKey: ["items"],
     queryFn: getAllItems,
   });
-  const { categories } = useOptions();
+  const { categories, numItems } = useOptions();
 
   const [page, setPage] = useState(1);
   const { blog } = useSearchContext();
@@ -38,7 +38,7 @@ function Dashboard() {
         el.name.toLowerCase().includes(blog.toLowerCase()) ||
         el.shortDescription.toLowerCase().includes(blog.toLowerCase())
     );
-  const numItemInPage = 10;
+  const numItemInPage = numItems?.numItemsInHomePage;
   const startItem = (page - 1) * numItemInPage;
   const endItem = page * numItemInPage;
   const numPages = Math.ceil(filterData?.length / numItemInPage);

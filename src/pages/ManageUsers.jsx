@@ -7,6 +7,7 @@ import Spinner from "../ui/Spinner";
 import Pagination from "../serv/dashboard/Pagination";
 import { useState } from "react";
 import PopUpBanUser from "../serv/account/PopUpBanUser";
+import { useOptions } from "../context/useOptions";
 
 const Container = styled.div`
   display: grid;
@@ -113,12 +114,13 @@ const ManageUsers = () => {
   const [page, setPage] = useState(1);
   const [id, setId] = useState("");
   const [search, setSearch] = useState("");
+  const { numItems } = useOptions();
   const { data, isLoading } = useQuery({
     queryKey: ["allUsers"],
     queryFn: () => getAllUsers(cookies?.jwt),
   });
 
-  const numItemInPage = 6;
+  const numItemInPage = numItems?.numUsersInManageUsersPage;
   const startItem = (page - 1) * numItemInPage;
   const endItem = page * numItemInPage;
   const usersFilter = data?.data?.filter((user) =>

@@ -14,6 +14,7 @@ import { getMe } from "../../api/user";
 import ReviewPopup from "./ReviewPopUp";
 import { deleteOneReview } from "../../api/items";
 import { FaEdit } from "react-icons/fa";
+import { useOptions } from "../../context/useOptions";
 
 const ReviewCard = styled.div`
   border: 1px solid var(--color-grey-50);
@@ -92,8 +93,9 @@ function Rating({ curItem, deleted, top = "-70px", isDeleted }) {
   const [reviewId, setReviewId] = useState("");
   const { cookies } = useLogin();
   const queryClient = useQueryClient();
+  const { numItems } = useOptions();
   const [confirmDeleteToggle, setConfirmDeleteToggle] = useState(false);
-  const numReviewInPage = 6;
+  const numReviewInPage = numItems?.numReviewInPage;
   const startItem = (page - 1) * numReviewInPage;
   const endItem = page * numReviewInPage;
   const reviewsInPage = reviews?.slice(startItem, endItem);

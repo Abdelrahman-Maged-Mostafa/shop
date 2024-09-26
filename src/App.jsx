@@ -12,6 +12,7 @@ import SkeletonScreen from "./ui/SkeletonScreen";
 import AppLayout from "./pages/AppLayout";
 import Account from "./pages/Account";
 import ManageAboutUsInfo from "./pages/ManageAboutUsInfo";
+import SettingsNumber from "./pages/SettingsNumber";
 
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const ManageOffers = lazy(() => import("./pages/ManageOffers"));
@@ -335,6 +336,16 @@ function App() {
                     <Suspense fallback={<SkeletonScreen />}>
                       <ProtectRoute>
                         <ChangeFooterBody />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="change-Numbers"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <SettingsNumber />
                       </ProtectRoute>
                     </Suspense>
                   }

@@ -3,6 +3,7 @@ import { BiSolidOffer } from "react-icons/bi";
 import { FaInfo, FaSquare } from "react-icons/fa";
 import { FaUsersGear } from "react-icons/fa6";
 import { GiArmoredBoomerang } from "react-icons/gi";
+import { GoNumber } from "react-icons/go";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import {
   MdCategory,
@@ -131,6 +132,10 @@ const Sidebar = ({ user }) => {
           <NavLink to="/account/change-aboutUs">
             <FaInfo />
             <span>Change AboutUs info</span>
+          </NavLink>
+          <NavLink to="/account/change-Numbers">
+            <GoNumber />
+            <span>Change numbers items</span>
           </NavLink>
         </>
       ) : (

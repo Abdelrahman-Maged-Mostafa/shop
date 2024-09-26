@@ -5,6 +5,7 @@ import { getAllItems } from "../api/items";
 import Card from "../serv/manage-items/Card";
 import Pagination from "../serv/dashboard/Pagination";
 import { useState } from "react";
+import { useOptions } from "../context/useOptions";
 
 // Styled components
 const StyledAll = styled.div`
@@ -41,8 +42,10 @@ function ManageReviews({ user }) {
   const curItems = items?.data?.sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
+  const { numItems } = useOptions();
+
   const [page, setPage] = useState(1);
-  const numItemInPage = 5;
+  const numItemInPage = numItems?.numItemsInManageReviewsPage;
   const startItem = (page - 1) * numItemInPage;
   const endItem = page * numItemInPage;
   const numPages = Math.ceil(curItems?.length / numItemInPage);

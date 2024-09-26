@@ -7,6 +7,7 @@ import Pagination from "../serv/dashboard/Pagination";
 import { useState } from "react";
 import Button from "../ui/Button";
 import { Link } from "react-router-dom";
+import { useOptions } from "../context/useOptions";
 
 // Styled components
 const StyledAll = styled.div`
@@ -40,11 +41,12 @@ function ManageItems({ user }) {
     queryKey: ["items"],
     queryFn: getAllItems,
   });
+  const { numItems } = useOptions();
   const curItems = items?.data?.sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
   const [page, setPage] = useState(1);
-  const numItemInPage = 5;
+  const numItemInPage = numItems?.numItemsInManageItemsPage;
   const startItem = (page - 1) * numItemInPage;
   const endItem = page * numItemInPage;
   const numPages = Math.ceil(curItems?.length / numItemInPage);

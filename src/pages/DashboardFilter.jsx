@@ -70,7 +70,7 @@ function DashboardFilter() {
   const [sort, setSort] = useState("Popularity-asc");
   const { blog } = useSearchContext();
   const query = new URLSearchParams(useLocation().search);
-  const { categories } = useOptions();
+  const { categories, numItems } = useOptions();
   //////////////////////
 
   const [minRealPrice, maxRealPrice] = getMinMaxPrice(items);
@@ -107,7 +107,7 @@ function DashboardFilter() {
   );
   const filterData = sortItems(filterDataBlog, sort);
 
-  const numItemInPage = 10;
+  const numItemInPage = numItems?.numItemsInCategoryPage;
   const startItem = (page - 1) * numItemInPage;
   const endItem = page * numItemInPage;
   const numPages = Math.ceil(filterData?.length / numItemInPage);

@@ -8,6 +8,7 @@ import Spinner from "../ui/Spinner";
 import Pagination from "../serv/dashboard/Pagination";
 import FilterAndSortedOrders from "../serv/order-form/FilterAndSortedOrders";
 import Empty from "../ui/Empty";
+import { useOptions } from "../context/useOptions";
 
 const Container = styled.div`
   display: flex;
@@ -105,6 +106,7 @@ function ManageOrdersActive({
   linkTo = "manage-orders-active",
 }) {
   const { cookies } = useLogin();
+  const { numItems } = useOptions();
   const [page, setPage] = useState(1);
   const [searchParams] = useSearchParams();
   const filterValue = searchParams.get("status") || "";
@@ -126,7 +128,7 @@ function ManageOrdersActive({
       return { ...order, price: calculateTotalPrice(order?.items) };
     });
 
-  const numItemInPage = 5;
+  const numItemInPage = numItems?.numOrderInManageOrdersPage;
   const startItem = (page - 1) * numItemInPage;
   const endItem = page * numItemInPage;
   const allDataFilter = active

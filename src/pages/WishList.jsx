@@ -8,6 +8,7 @@ import Spinner from "../ui/Spinner";
 import Empty from "../ui/Empty";
 import { getMe } from "../api/user";
 import { useLogin } from "../context/useLogin";
+import { useOptions } from "../context/useOptions";
 
 const StyledDashboard = styled.div`
   display: grid;
@@ -28,6 +29,7 @@ function WishList() {
     queryFn: () => getMe(cookies.jwt),
   });
   const [page, setPage] = useState(1);
+  const { numItems } = useOptions();
   //////////////////////
   const filterData = items?.data?.filter((item) =>
     userData?.data?.doc?.wishList?.includes(item._id)
@@ -36,7 +38,7 @@ function WishList() {
   // Extract categories from query parameters
 
   ////////////////
-  const numItemInPage = 10;
+  const numItemInPage = numItems?.numItemsInWishListPage;
   const startItem = (page - 1) * numItemInPage;
   const endItem = page * numItemInPage;
   const numPages = Math.ceil(filterData?.length / numItemInPage);
