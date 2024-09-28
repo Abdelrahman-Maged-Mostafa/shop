@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import eslint from "vite-plugin-eslint";
 import sitemapPlugin from "vite-plugin-sitemap";
+import { FRONT_URL } from "./URL(LINK)";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,7 +10,7 @@ export default defineConfig({
     react(),
     eslint(),
     sitemapPlugin({
-      hostname: "https://shopy-gooal.netlify.app",
+      hostname: FRONT_URL || "https://shopy-gooal.netlify.app",
       dynamicRoutes: [
         "/dashboard",
         "/aboutUs",
