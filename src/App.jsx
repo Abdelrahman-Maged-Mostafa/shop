@@ -11,12 +11,11 @@ import { getAllOrders, getAllUserOrders } from "./api/orders";
 import SkeletonScreen from "./ui/SkeletonScreen";
 import AppLayout from "./pages/AppLayout";
 import Account from "./pages/Account";
-import ManageAboutUsInfo from "./pages/ManageAboutUsInfo";
-import SettingsNumber from "./pages/SettingsNumber";
-import ManageOffersLine from "./pages/ManageOffersLine";
-import ManageSEO from "./pages/ManageSEO";
-import ConsoleVerif from "./pages/ConsoleVerif";
 
+const ManageAboutUsInfo = lazy(() => import("./pages/ManageAboutUsInfo"));
+const SettingsNumber = lazy(() => import("./pages/SettingsNumber"));
+const ManageOffersLine = lazy(() => import("./pages/ManageOffersLine"));
+const ManageSEO = lazy(() => import("./pages/ManageSEO"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const ManageOffers = lazy(() => import("./pages/ManageOffers"));
 const WishList = lazy(() => import("./pages/WishList"));
@@ -60,14 +59,6 @@ function App() {
         <BrowserRouter>
           <ScrollToUp />
           <Routes>
-            <Route
-              path="google11edf7865f994d61.html"
-              element={
-                <Suspense fallback={<SkeletonScreen />}>
-                  <ConsoleVerif />
-                </Suspense>
-              }
-            />
             <Route element={<AppLayout />}>
               <Route index element={<Navigate replace to="dashboard" />} />
               <Route
