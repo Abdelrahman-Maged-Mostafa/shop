@@ -15,6 +15,7 @@ import ManageAboutUsInfo from "./pages/ManageAboutUsInfo";
 import SettingsNumber from "./pages/SettingsNumber";
 import ManageOffersLine from "./pages/ManageOffersLine";
 import ManageSEO from "./pages/ManageSEO";
+import ConsoleVerif from "./pages/ConsoleVerif";
 
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const ManageOffers = lazy(() => import("./pages/ManageOffers"));
@@ -66,6 +67,14 @@ function App() {
                 element={
                   <Suspense fallback={<SkeletonScreen />}>
                     <Dashboard />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="google11edf7865f994d61.html"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <ConsoleVerif />
                   </Suspense>
                 }
               />
