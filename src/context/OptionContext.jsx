@@ -21,12 +21,14 @@ function OptionProvider({ children }) {
   const numItems = options?.data?.[0]?.numItems;
   const offersLine = options?.data?.[0]?.offersLine;
   const initialSEOData = options?.data?.[0]?.initialSEOData;
+  const ANALYTICSGOOGLE = options?.data?.[0]?.ANALYTICSGOOGLE;
 
   useEffect(() => setColorsObj(options?.data?.[0]?.colors || {}), [options]);
 
   return (
     <OptionContext.Provider
       value={{
+        ANALYTICSGOOGLE,
         initialSEOData,
         offersLine,
         numItems,

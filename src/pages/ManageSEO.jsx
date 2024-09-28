@@ -13,6 +13,9 @@ const StyledPage = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  @media (max-width: 768px) {
+    padding: 0px;
+  }
 `;
 
 const Card = styled(motion.div)`
@@ -25,6 +28,7 @@ const Card = styled(motion.div)`
   max-width: 500px;
   @media (max-width: 768px) {
     width: 90%;
+    padding: 10px;
   }
 `;
 

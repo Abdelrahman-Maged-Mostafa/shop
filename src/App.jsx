@@ -11,6 +11,8 @@ import { getAllOrders, getAllUserOrders } from "./api/orders";
 import SkeletonScreen from "./ui/SkeletonScreen";
 import AppLayout from "./pages/AppLayout";
 import Account from "./pages/Account";
+import AnalyticsGoogle from "./pages/AnalyticsGoogle";
+import ManageAnalytics from "./pages/ManageAnalytics";
 
 const ManageAboutUsInfo = lazy(() => import("./pages/ManageAboutUsInfo"));
 const SettingsNumber = lazy(() => import("./pages/SettingsNumber"));
@@ -56,6 +58,7 @@ function App() {
     <DarkModeProvider>
       <LoginProvider>
         <GlobalStylesComponent />
+        <AnalyticsGoogle />
         <BrowserRouter>
           <ScrollToUp />
           <Routes>
@@ -378,6 +381,16 @@ function App() {
                     <Suspense fallback={<SkeletonScreen />}>
                       <ProtectRoute>
                         <ManageAboutUsInfo />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="manage-analytics"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ManageAnalytics />
                       </ProtectRoute>
                     </Suspense>
                   }

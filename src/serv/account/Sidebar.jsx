@@ -146,6 +146,10 @@ const Sidebar = ({ user }) => {
             <RiSeoFill />
             <span>Manage SEO</span>
           </NavLink>
+          <NavLink to="/account/manage-analytics">
+            <RiSeoFill />
+            <span>Manage Analytics</span>
+          </NavLink>
         </>
       ) : (
         <>
