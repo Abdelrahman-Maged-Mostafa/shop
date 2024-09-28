@@ -8,7 +8,7 @@ const Container = styled.div`
   left: -40px;
   width: 130%;
   overflow: hidden;
-  background-color: var(--color-yellow-100);
+  background-color: var(--color-grey-0);
   height: 60px;
   margin: 50px 0 0 0;
   padding: 10px 0;
@@ -31,8 +31,8 @@ const Message = styled.div`
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   background: linear-gradient(
     45deg,
-    var(--color-yellow-100),
-    var(--color-red-700)
+    var(--color-grey-300),
+    var(--color-grey-0)
   );
   border-radius: 10px;
   box-shadow: var(--shadow-md);
