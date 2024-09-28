@@ -13,6 +13,7 @@ import AppLayout from "./pages/AppLayout";
 import Account from "./pages/Account";
 import AnalyticsGoogle from "./pages/AnalyticsGoogle";
 import ManageAnalytics from "./pages/ManageAnalytics";
+import Icon from "./hooks/Icone";
 
 const ManageAboutUsInfo = lazy(() => import("./pages/ManageAboutUsInfo"));
 const SettingsNumber = lazy(() => import("./pages/SettingsNumber"));
@@ -47,6 +48,7 @@ const ManageUsers = lazy(() => import("./pages/ManageUsers"));
 const ManagePayments = lazy(() => import("./pages/ManagePayments"));
 const ColorManager = lazy(() => import("./pages/ManageStyle"));
 const LogoChange = lazy(() => import("./pages/LogoChange"));
+const IconChange = lazy(() => import("./pages/IconChange"));
 
 const Tryed = styled.div`
   color: var(--color-brand-50);
@@ -59,6 +61,7 @@ function App() {
       <LoginProvider>
         <GlobalStylesComponent />
         <AnalyticsGoogle />
+        <Icon />
         <BrowserRouter>
           <ScrollToUp />
           <Routes>
@@ -331,6 +334,16 @@ function App() {
                     <Suspense fallback={<SkeletonScreen />}>
                       <ProtectRoute>
                         <LogoChange />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="change-icon"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <IconChange />
                       </ProtectRoute>
                     </Suspense>
                   }

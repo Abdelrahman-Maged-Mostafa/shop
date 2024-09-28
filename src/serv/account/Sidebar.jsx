@@ -130,6 +130,10 @@ const Sidebar = ({ user }) => {
             <FaSquare />
             <span>Change logo</span>
           </NavLink>
+          <NavLink to="/account/change-icon">
+            <FaSquare />
+            <span>Change icon</span>
+          </NavLink>
           <NavLink to="/account/change-footer">
             <FaInfo />
             <span>Change Footer info</span>

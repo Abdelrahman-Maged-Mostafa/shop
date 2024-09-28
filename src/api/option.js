@@ -81,6 +81,19 @@ export async function updateOptionChangeLogo({ body, token }) {
   if (!res.ok) throw new Error(data.message);
 }
 
+export async function updateOptionChangeIcon({ body, token }) {
+  //send req
+  const res = await fetch(`${URL}/api/v1/option/changeIcon`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body,
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message);
+}
+
 export async function updateCategorysPhoto(body, token) {
   //send req
   const res = await fetch(`${URL}/api/v1/option/changeCategoryPhoto`, {

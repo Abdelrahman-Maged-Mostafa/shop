@@ -14,6 +14,7 @@ function OptionProvider({ children }) {
   const payments = options?.data?.[0]?.paymentMethod;
   const cashOnDelivery = options?.data?.[0]?.cashOnDelivery;
   const logo = options?.data?.[0]?.logo;
+  const icon = options?.data?.[0]?.Icon;
   const categories = options?.data?.[0]?.category;
   const offers = options?.data?.[0]?.offers;
   const footerInfo = options?.data?.[0]?.footerBody;
@@ -28,6 +29,7 @@ function OptionProvider({ children }) {
   return (
     <OptionContext.Provider
       value={{
+        icon,
         ANALYTICSGOOGLE,
         initialSEOData,
         offersLine,
