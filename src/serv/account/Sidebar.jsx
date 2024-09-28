@@ -4,7 +4,7 @@ import { FaInfo, FaSquare } from "react-icons/fa";
 import { FaUsersGear } from "react-icons/fa6";
 import { GiArmoredBoomerang } from "react-icons/gi";
 import { GoNumber } from "react-icons/go";
-import { IoColorPaletteOutline } from "react-icons/io5";
+import { IoAnalytics, IoColorPaletteOutline } from "react-icons/io5";
 import {
   MdCategory,
   MdManageAccounts,
@@ -147,7 +147,7 @@ const Sidebar = ({ user }) => {
             <span>Manage SEO</span>
           </NavLink>
           <NavLink to="/account/manage-analytics">
-            <RiSeoFill />
+            <IoAnalytics />
             <span>Manage Analytics</span>
           </NavLink>
         </>

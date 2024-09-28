@@ -91,7 +91,7 @@ const ManageAnalytics = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Title>page</Title>
+        <Title>Analytics Code</Title>
         <TextArea
           placeholder="Google Code"
           value={code}
