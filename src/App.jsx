@@ -60,6 +60,14 @@ function App() {
         <BrowserRouter>
           <ScrollToUp />
           <Routes>
+            <Route
+              path="google11edf7865f994d61.html"
+              element={
+                <Suspense fallback={<SkeletonScreen />}>
+                  <ConsoleVerif />
+                </Suspense>
+              }
+            />
             <Route element={<AppLayout />}>
               <Route index element={<Navigate replace to="dashboard" />} />
               <Route
@@ -67,14 +75,6 @@ function App() {
                 element={
                   <Suspense fallback={<SkeletonScreen />}>
                     <Dashboard />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="google11edf7865f994d61.html"
-                element={
-                  <Suspense fallback={<SkeletonScreen />}>
-                    <ConsoleVerif />
                   </Suspense>
                 }
               />
