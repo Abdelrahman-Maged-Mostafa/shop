@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     eslint(),
     sitemapPlugin({
-      hostname: "",
+      hostname: "https://shopy-gooal.netlify.app",
       dynamicRoutes: [
         "/dashboard",
         "/aboutUs",
