@@ -236,6 +236,30 @@ const EditItem = () => {
             required: "This field is required ",
           })}
         />
+        <div>
+          <h2>SEO</h2>
+          <Label>Page Title</Label>
+          <TextArea
+            disabled={isUpdated}
+            {...register("SEOtitle", {
+              required: "This field is required ",
+            })}
+          />
+          <Label>Page description</Label>
+          <TextArea
+            disabled={isUpdated}
+            {...register("SEOdescription", {
+              required: "This field is required ",
+            })}
+          />
+          <Label>Page keywords</Label>
+          <TextArea
+            disabled={isUpdated}
+            {...register("SEOkeywords", {
+              required: "This field is required ",
+            })}
+          />
+        </div>
         <Button type="submit" disabled={isUpdated}>
           {isUpdated ? <SpinnerMini /> : "Save Changes"}
         </Button>

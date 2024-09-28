@@ -7,6 +7,7 @@ import Rating from "../serv/itemDetails/Rating";
 import { useQuery } from "@tanstack/react-query";
 import { getAllItems } from "../api/items";
 import Spinner from "../ui/Spinner";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 
 const ProductCard = styled.div`
   display: grid;
@@ -71,6 +72,13 @@ function ItemDetails() {
   if (!curItem) return <StyledP>No item by this id.</StyledP>;
   return (
     <>
+      <HelmetProvider>
+        <Helmet>
+          <title>{curItem?.SEOtitle || "shop"}</title>
+          <meta name="description" content={curItem?.SEOdescription || ""} />
+          <meta name="keywords" content={curItem?.SEOkeywords || ""} />
+        </Helmet>
+      </HelmetProvider>
       <ProductCard>
         <Photos curItem={curItem} />
         <DetailsItem curItem={curItem} />
