@@ -119,7 +119,24 @@ function DashboardFilter() {
   const endItem = page * numItemInPage;
   const numPages = Math.ceil(filterData?.length / numItemInPage);
   const myData = filterData?.slice(startItem, endItem);
-
+  const styleBig = [
+    "style1",
+    "style3",
+    "style5",
+    "style7",
+    "style9",
+    "style11",
+    "style13",
+    "style15",
+    "style17",
+    "style19",
+    "style21",
+    "style23",
+    "style25",
+    "style27",
+    "style29",
+    "style31",
+  ];
   if (isLoading) return <Spinner />;
   return (
     <>
@@ -130,13 +147,7 @@ function DashboardFilter() {
         setSort={setSort}
       />
       {filterData?.length <= 0 && <Empty resource={"items"} />}
-      {(dashboardStyle === "style1" ||
-        dashboardStyle === "style3" ||
-        dashboardStyle === "style5" ||
-        dashboardStyle === "style7" ||
-        dashboardStyle === "style9" ||
-        dashboardStyle === "style11" ||
-        dashboardStyle === "style13") && (
+      {styleBig.includes(dashboardStyle) ? (
         <StyledDashboard>
           <Pagination
             setPage={setPage}
@@ -148,14 +159,7 @@ function DashboardFilter() {
             <CardProduct data={el} key={i} index={i} />
           ))}
         </StyledDashboard>
-      )}
-      {(dashboardStyle === "style2" ||
-        dashboardStyle === "style4" ||
-        dashboardStyle === "style6" ||
-        dashboardStyle === "style8" ||
-        dashboardStyle === "style10" ||
-        dashboardStyle === "style12" ||
-        dashboardStyle === "style14") && (
+      ) : (
         <StyledDashboard2>
           <Pagination
             setPage={setPage}

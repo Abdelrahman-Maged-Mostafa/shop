@@ -137,6 +137,24 @@ const ChangeStyle = () => {
           <option value="style12">style 12</option>
           <option value="style13">style 13</option>
           <option value="style14">style 14</option>
+          <option value="style15">style 15</option>
+          <option value="style16">style 16</option>
+          <option value="style17">style 17</option>
+          <option value="style18">style 18</option>
+          <option value="style19">style 19</option>
+          <option value="style20">style 20</option>
+          <option value="style21">style 21</option>
+          <option value="style22">style 22</option>
+          <option value="style23">style 23</option>
+          <option value="style24">style 24</option>
+          <option value="style25">style 25</option>
+          <option value="style26">style 26</option>
+          <option value="style27">style 27</option>
+          <option value="style28">style 28</option>
+          <option value="style29">style 29</option>
+          <option value="style30">style 30</option>
+          <option value="style31">style 31</option>
+          <option value="style32">style 32</option>
         </Select>
         <Button onClick={handleSave} disabled={isLoading}>
           {isLoading ? <SpinnerMini /> : "Save Changes"}

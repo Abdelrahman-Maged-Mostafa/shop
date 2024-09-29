@@ -206,11 +206,21 @@ const CategorySlider = ({ categories }) => {
           {categories?.map((category, index) => {
             const styleBig = [
               "style1",
+              "style3",
               "style5",
               "style7",
               "style9",
               "style11",
               "style13",
+              "style15",
+              "style17",
+              "style19",
+              "style21",
+              "style23",
+              "style25",
+              "style27",
+              "style29",
+              "style31",
             ];
             return styleBig.includes(dashboardStyle) ? (
               <Slide
