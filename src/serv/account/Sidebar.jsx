@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BiSolidOffer } from "react-icons/bi";
+import { CgStyle } from "react-icons/cg";
 import { CiMail } from "react-icons/ci";
 import { FaInfo, FaSquare } from "react-icons/fa";
 import { FaUsersGear } from "react-icons/fa6";
@@ -126,6 +127,10 @@ const Sidebar = ({ user }) => {
           <NavLink to="/account/change-style">
             <IoColorPaletteOutline />
             <span>Change colors</span>
+          </NavLink>
+          <NavLink to="/account/change-Style-elem">
+            <CgStyle />
+            <span>Change style</span>
           </NavLink>
           <NavLink to="/account/change-logo">
             <FaSquare />

@@ -25,9 +25,10 @@ const StyledCard = styled(motion.div)`
     transform: translateY(-5px);
   }
   .product-image img {
+    padding: 10px;
     width: 100%;
     height: auto;
-    height: 300px;
+    /* height: 300px; */
   }
 
   .product-details {
@@ -59,7 +60,7 @@ const StyledCard = styled(motion.div)`
     height: 40px;
   }
   .button {
-    height: 40px;
+    min-height: 40px;
     background-color: var(--color-brand-500);
     color: var(--color-grey-100);
     border: none;

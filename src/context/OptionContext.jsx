@@ -24,12 +24,16 @@ function OptionProvider({ children }) {
   const initialSEOData = options?.data?.[0]?.initialSEOData;
   const ANALYTICSGOOGLE = options?.data?.[0]?.ANALYTICSGOOGLE;
   const forgetMessage = options?.data?.[0]?.forgetMessage;
+  const headerStyle = options?.data?.[0]?.headerStyle;
+  const dashboardStyle = options?.data?.[0]?.dashboardStyle;
 
   useEffect(() => setColorsObj(options?.data?.[0]?.colors || {}), [options]);
 
   return (
     <OptionContext.Provider
       value={{
+        dashboardStyle,
+        headerStyle,
         forgetMessage,
         icon,
         ANALYTICSGOOGLE,

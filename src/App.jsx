@@ -14,6 +14,7 @@ import Account from "./pages/Account";
 import AnalyticsGoogle from "./pages/AnalyticsGoogle";
 import ManageAnalytics from "./pages/ManageAnalytics";
 import Icon from "./hooks/Icone";
+import ChangeStyle from "./pages/ChangeStyle";
 
 const ManageForgetPasswordMessage = lazy(() =>
   import("./pages/ManageForgetPasswordMessage")
@@ -337,6 +338,16 @@ function App() {
                     <Suspense fallback={<SkeletonScreen />}>
                       <ProtectRoute>
                         <LogoChange />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="change-Style-elem"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ChangeStyle />
                       </ProtectRoute>
                     </Suspense>
                   }

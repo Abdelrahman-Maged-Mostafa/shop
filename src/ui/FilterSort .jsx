@@ -59,7 +59,7 @@ const FilterList = styled(motion.div)`
   padding: 20px;
   display: flex;
   flex-direction: column;
-  z-index: 1000;
+  z-index: 999999;
   @media (max-width: 768px) {
     width: 200px;
   }

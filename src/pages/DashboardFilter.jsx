@@ -19,6 +19,13 @@ const StyledDashboard = styled.div`
   padding: 40px 0;
   position: relative;
 `;
+const StyledDashboard2 = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 15px;
+  padding: 40px 0;
+  position: relative;
+`;
 
 const getPrice = (item) => {
   if (item?.properties?.colors?.length) {
@@ -70,7 +77,7 @@ function DashboardFilter() {
   const [sort, setSort] = useState("Popularity-asc");
   const { blog } = useSearchContext();
   const query = new URLSearchParams(useLocation().search);
-  const { categories, numItems } = useOptions();
+  const { categories, numItems, dashboardStyle } = useOptions();
   //////////////////////
 
   const [minRealPrice, maxRealPrice] = getMinMaxPrice(items);
@@ -96,7 +103,7 @@ function DashboardFilter() {
       )
     );
     const matchesStock = outOfStockparam ? outOfStock : true;
-
+    if (selectedCategories.length === 0) return matchesPrice && matchesStock;
     return matchesPrice && matchesCategory && matchesStock;
   });
   ////////////////
@@ -123,17 +130,44 @@ function DashboardFilter() {
         setSort={setSort}
       />
       {filterData?.length <= 0 && <Empty resource={"items"} />}
-      <StyledDashboard>
-        <Pagination
-          setPage={setPage}
-          page={page}
-          numPages={numPages}
-          style={{ top: "-10px" }}
-        />
-        {myData?.map((el, i) => (
-          <CardProduct data={el} key={i} index={i} />
-        ))}
-      </StyledDashboard>
+      {(dashboardStyle === "style1" ||
+        dashboardStyle === "style3" ||
+        dashboardStyle === "style5" ||
+        dashboardStyle === "style7" ||
+        dashboardStyle === "style9" ||
+        dashboardStyle === "style11" ||
+        dashboardStyle === "style13") && (
+        <StyledDashboard>
+          <Pagination
+            setPage={setPage}
+            page={page}
+            numPages={numPages}
+            style={{ top: "2px", right: "0px" }}
+          />
+          {myData?.map((el, i) => (
+            <CardProduct data={el} key={i} index={i} />
+          ))}
+        </StyledDashboard>
+      )}
+      {(dashboardStyle === "style2" ||
+        dashboardStyle === "style4" ||
+        dashboardStyle === "style6" ||
+        dashboardStyle === "style8" ||
+        dashboardStyle === "style10" ||
+        dashboardStyle === "style12" ||
+        dashboardStyle === "style14") && (
+        <StyledDashboard2>
+          <Pagination
+            setPage={setPage}
+            page={page}
+            numPages={numPages}
+            style={{ top: "2px", right: "0px" }}
+          />
+          {myData?.map((el, i) => (
+            <CardProduct data={el} key={i} index={i} />
+          ))}
+        </StyledDashboard2>
+      )}
     </>
   );
 }

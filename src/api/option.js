@@ -200,7 +200,6 @@ export async function updateANALYTICSGOOGLE(body, token) {
     body: JSON.stringify(body),
   });
   const data = await res.json();
-  console.log(res, data);
   if (!res.ok) throw new Error(data.message);
 }
 
@@ -215,6 +214,19 @@ export async function updateForgetMessage(body, token) {
     body: JSON.stringify(body),
   });
   const data = await res.json();
-  console.log(res, data);
+  if (!res.ok) throw new Error(data.message);
+}
+
+export async function updateSomeStyle(body, token) {
+  //send req
+  const res = await fetch(`${URL}/api/v1/option/updateSomeStyle`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
   if (!res.ok) throw new Error(data.message);
 }

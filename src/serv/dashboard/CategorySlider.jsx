@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useOptions } from "../../context/useOptions";
 
 const Container = styled.div`
   position: relative;
@@ -49,6 +50,34 @@ const Slide = styled(motion.div)`
     min-width: 100%;
     max-width: 100%;
     height: 300px;
+  }
+`;
+const Slide2 = styled(motion.div)`
+  position: relative;
+  min-width: 140px;
+  max-width: 140px;
+  height: 95px;
+  margin: 10px 0;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2) contrast(1.1);
+  }
+
+  @media (max-width: 768px) {
+    min-width: 140px;
+    max-width: 140px;
+    height: 95px;
+  }
+
+  @media (max-width: 480px) {
+    min-width: 47%;
+    max-width: 47%;
+    height: 95px;
   }
 `;
 
@@ -117,6 +146,7 @@ const Dot = styled.div`
 `;
 
 const CategorySlider = ({ categories }) => {
+  const { dashboardStyle } = useOptions();
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [touchStart, setTouchStart] = React.useState(null);
   const [touchMove, setTouchMove] = React.useState(null);
@@ -173,29 +203,69 @@ const CategorySlider = ({ categories }) => {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          {categories?.map((category, index) => (
-            <Slide
-              key={category._id}
-              ref={index === 0 ? slideRef : null}
-              style={{
-                backgroundImage: `url(${category.image})`,
-                filter: `grayscale(${index === activeIndex ? 0 : 0.5})`,
-              }}
-            >
-              <Link to={`/dashboard/filter/${category.name}`}>
-                <img
-                  src={category.photo}
-                  alt=""
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
-                <SlideContent>
-                  <h2 style={{ textTransform: "capitalize" }}>
-                    {category.name}
-                  </h2>
-                </SlideContent>
-              </Link>
-            </Slide>
-          ))}
+          {categories?.map((category, index) => {
+            const styleBig = [
+              "style1",
+              "style5",
+              "style7",
+              "style9",
+              "style11",
+              "style13",
+            ];
+            return styleBig.includes(dashboardStyle) ? (
+              <Slide
+                key={category._id}
+                ref={index === 0 ? slideRef : null}
+                style={{
+                  backgroundImage: `url(${category.image})`,
+                  filter: `grayscale(${index === activeIndex ? 0 : 0.5})`,
+                }}
+              >
+                <Link to={`/dashboard/filter/${category.name}`}>
+                  <img
+                    src={category.photo}
+                    alt=""
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <SlideContent>
+                    <h2 style={{ textTransform: "capitalize" }}>
+                      {category.name}
+                    </h2>
+                  </SlideContent>
+                </Link>
+              </Slide>
+            ) : (
+              <Slide2
+                key={category._id}
+                ref={index === 0 ? slideRef : null}
+                style={{
+                  backgroundImage: `url(${category.image})`,
+                  filter: `grayscale(${index === activeIndex ? 0 : 0.5})`,
+                }}
+              >
+                <Link to={`/dashboard/filter/${category.name}`}>
+                  <img
+                    src={category.photo}
+                    alt=""
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <SlideContent>
+                    <h2 style={{ textTransform: "capitalize" }}>
+                      {category.name}
+                    </h2>
+                  </SlideContent>
+                </Link>
+              </Slide2>
+            );
+          })}
         </Slider>
 
         <Arrow

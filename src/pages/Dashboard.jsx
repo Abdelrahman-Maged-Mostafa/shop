@@ -12,6 +12,7 @@ import { useOptions } from "../context/useOptions";
 import Offer from "../serv/dashboard/Offers";
 import OffersLine from "../serv/dashboard/OffersLine";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import DashboardFilter from "./DashboardFilter";
 const StyledDashboard = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
@@ -20,8 +21,16 @@ const StyledDashboard = styled.div`
   position: relative;
 `;
 
+const StyledDashboard2 = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 15px;
+  padding: 40px 0;
+  position: relative;
+`;
+
 function Dashboard() {
-  const { initialSEOData } = useOptions();
+  const { initialSEOData, dashboardStyle } = useOptions();
   const { data: items, isLoading } = useQuery({
     queryKey: ["items"],
     queryFn: getAllItems,
@@ -60,20 +69,161 @@ function Dashboard() {
           <meta name="keywords" content={initialSEOData?.homeKeywords || ""} />
         </Helmet>
       </HelmetProvider>
-      <Offer />
-      <OffersLine />
-      <CategorySlider categories={categories} />
-      <StyledDashboard>
-        <Pagination
-          setPage={setPage}
-          page={page}
-          numPages={numPages}
-          style={{ top: "-10px" }}
-        />
-        {myData?.map((el, i) => (
-          <CardProduct data={el} key={i} index={i} />
-        ))}
-      </StyledDashboard>
+      {dashboardStyle === "style1" && (
+        <>
+          <Offer />
+          <OffersLine />
+          <CategorySlider categories={categories} />
+          <StyledDashboard>
+            <Pagination
+              setPage={setPage}
+              page={page}
+              numPages={numPages}
+              style={{ top: "-10px" }}
+            />
+            {myData?.map((el, i) => (
+              <CardProduct data={el} key={i} index={i} />
+            ))}
+          </StyledDashboard>
+        </>
+      )}
+      {dashboardStyle === "style2" && (
+        <>
+          <Offer />
+          <OffersLine />
+          <CategorySlider categories={categories} />
+          <StyledDashboard2>
+            <Pagination
+              setPage={setPage}
+              page={page}
+              numPages={numPages}
+              style={{ top: "-10px" }}
+            />
+            {myData?.map((el, i) => (
+              <CardProduct data={el} key={i} index={i} />
+            ))}
+          </StyledDashboard2>
+        </>
+      )}
+      {dashboardStyle === "style3" && (
+        <>
+          <Offer />
+          <CategorySlider categories={categories} />
+          <StyledDashboard>
+            <Pagination
+              setPage={setPage}
+              page={page}
+              numPages={numPages}
+              style={{ top: "-10px" }}
+            />
+            {myData?.map((el, i) => (
+              <CardProduct data={el} key={i} index={i} />
+            ))}
+          </StyledDashboard>
+        </>
+      )}
+      {dashboardStyle === "style4" && (
+        <>
+          <Offer />
+          <CategorySlider categories={categories} />
+          <StyledDashboard2>
+            <Pagination
+              setPage={setPage}
+              page={page}
+              numPages={numPages}
+              style={{ top: "-10px" }}
+            />
+            {myData?.map((el, i) => (
+              <CardProduct data={el} key={i} index={i} />
+            ))}
+          </StyledDashboard2>
+        </>
+      )}
+      {dashboardStyle === "style5" && (
+        <>
+          <OffersLine />
+          <CategorySlider categories={categories} />
+          <StyledDashboard>
+            <Pagination
+              setPage={setPage}
+              page={page}
+              numPages={numPages}
+              style={{ top: "-10px" }}
+            />
+            {myData?.map((el, i) => (
+              <CardProduct data={el} key={i} index={i} />
+            ))}
+          </StyledDashboard>
+        </>
+      )}
+      {dashboardStyle === "style6" && (
+        <>
+          <OffersLine />
+          <CategorySlider categories={categories} />
+          <StyledDashboard2>
+            <Pagination
+              setPage={setPage}
+              page={page}
+              numPages={numPages}
+              style={{ top: "-10px" }}
+            />
+            {myData?.map((el, i) => (
+              <CardProduct data={el} key={i} index={i} />
+            ))}
+          </StyledDashboard2>
+        </>
+      )}
+      {(dashboardStyle === "style7" || dashboardStyle === "style8") && (
+        <>
+          <Offer />
+          <OffersLine />
+          <DashboardFilter />
+        </>
+      )}
+      {dashboardStyle === "style9" && (
+        <>
+          <CategorySlider categories={categories} />
+          <StyledDashboard>
+            <Pagination
+              setPage={setPage}
+              page={page}
+              numPages={numPages}
+              style={{ top: "-10px" }}
+            />
+            {myData?.map((el, i) => (
+              <CardProduct data={el} key={i} index={i} />
+            ))}
+          </StyledDashboard>
+        </>
+      )}
+      {dashboardStyle === "style10" && (
+        <>
+          <CategorySlider categories={categories} />
+          <StyledDashboard2>
+            <Pagination
+              setPage={setPage}
+              page={page}
+              numPages={numPages}
+              style={{ top: "-10px" }}
+            />
+            {myData?.map((el, i) => (
+              <CardProduct data={el} key={i} index={i} />
+            ))}
+          </StyledDashboard2>
+        </>
+      )}
+      {(dashboardStyle === "style11" || dashboardStyle === "style12") && (
+        <>
+          <OffersLine />
+          <DashboardFilter />
+        </>
+      )}
+      {(dashboardStyle === "style13" || dashboardStyle === "style14") && (
+        <>
+          <Offer />
+          <DashboardFilter />
+        </>
+      )}
     </>
   );
 }
