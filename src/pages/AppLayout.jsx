@@ -10,6 +10,9 @@ import { useLogin } from "../context/useLogin";
 import { useEffect, useState } from "react";
 import { useOptions } from "../context/useOptions";
 import LoadingAnimation from "../ui/LoadingAnimation ";
+import Design2 from "../serv/appLayout/Design2";
+import Design3 from "../serv/appLayout/Design3";
+import Design4 from "../serv/appLayout/Design4";
 
 //Styled bg
 const StyledContainer = styled.div`
@@ -46,7 +49,7 @@ const PageContainer = styled.div`
 `;
 function AppLayout() {
   const [isFixed, setIsFixed] = useState("false");
-
+  const { headerStyle } = useOptions();
   const { checkLogin } = useLogin();
   const { isLoading } = useOptions();
   useEffect(() => {
@@ -72,28 +75,33 @@ function AppLayout() {
   return (
     <div>
       <SearchContextProvider>
-        <StyledContainer>
-          <Links />
-          <StyledNav
-            style={{
-              top: isFixed === "true" ? "0" : "auto",
-              left: isFixed === "true" ? "0" : "auto",
-              position: isFixed === "true" ? "fixed" : "static",
-              backgroundColor: isFixed === "true" && "var(--color-grey-0)",
-              zIndex: isFixed === "true" && "999999",
-              padding: isFixed === "true" && "10px 9px",
-              margin: isFixed === "true" ? "0" : "10px auto 0",
-            }}
-          >
-            <StyledBar>
-              <Cart />
-            </StyledBar>
-            <StyledSearch>
-              <Menu />
-              <InputSearch />
-            </StyledSearch>
-          </StyledNav>
-        </StyledContainer>
+        {headerStyle === "style1" && (
+          <StyledContainer>
+            <Links />
+            <StyledNav
+              style={{
+                top: isFixed === "true" ? "0" : "auto",
+                left: isFixed === "true" ? "0" : "auto",
+                position: isFixed === "true" ? "fixed" : "static",
+                backgroundColor: isFixed === "true" && "var(--color-grey-0)",
+                zIndex: isFixed === "true" && "999999",
+                padding: isFixed === "true" && "10px 9px",
+                margin: isFixed === "true" ? "0" : "10px auto 0",
+              }}
+            >
+              <StyledBar>
+                <Cart />
+              </StyledBar>
+              <StyledSearch>
+                <Menu />
+                <InputSearch />
+              </StyledSearch>
+            </StyledNav>
+          </StyledContainer>
+        )}
+        {headerStyle === "style2" && <Design2 />}
+        {headerStyle === "style3" && <Design3 />}
+        {headerStyle === "style4" && <Design4 />}
         <PageContainer>
           <Outlet />
         </PageContainer>

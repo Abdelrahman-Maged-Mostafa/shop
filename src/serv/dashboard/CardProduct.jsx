@@ -55,10 +55,7 @@ const StyledCard = styled(motion.div)`
     color: var(--color-grey-900);
     margin: 10px 0;
   }
-  .cart {
-    width: 110px;
-    height: 40px;
-  }
+
   .button {
     min-height: 40px;
     background-color: var(--color-brand-500);
