@@ -15,6 +15,9 @@ import AnalyticsGoogle from "./pages/AnalyticsGoogle";
 import ManageAnalytics from "./pages/ManageAnalytics";
 import Icon from "./hooks/Icone";
 
+const ManageForgetPasswordMessage = lazy(() =>
+  import("./pages/ManageForgetPasswordMessage")
+);
 const ManageAboutUsInfo = lazy(() => import("./pages/ManageAboutUsInfo"));
 const SettingsNumber = lazy(() => import("./pages/SettingsNumber"));
 const ManageOffersLine = lazy(() => import("./pages/ManageOffersLine"));
@@ -334,6 +337,16 @@ function App() {
                     <Suspense fallback={<SkeletonScreen />}>
                       <ProtectRoute>
                         <LogoChange />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="change-emailOption"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ManageForgetPasswordMessage />
                       </ProtectRoute>
                     </Suspense>
                   }

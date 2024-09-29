@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BiSolidOffer } from "react-icons/bi";
+import { CiMail } from "react-icons/ci";
 import { FaInfo, FaSquare } from "react-icons/fa";
 import { FaUsersGear } from "react-icons/fa6";
 import { GiArmoredBoomerang } from "react-icons/gi";
@@ -153,6 +154,10 @@ const Sidebar = ({ user }) => {
           <NavLink to="/account/manage-analytics">
             <IoAnalytics />
             <span>Manage Analytics</span>
+          </NavLink>
+          <NavLink to="/account/change-emailOption">
+            <CiMail />
+            <span>Manage Mail Send</span>
           </NavLink>
         </>
       ) : (

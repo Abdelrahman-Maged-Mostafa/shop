@@ -23,12 +23,14 @@ function OptionProvider({ children }) {
   const offersLine = options?.data?.[0]?.offersLine;
   const initialSEOData = options?.data?.[0]?.initialSEOData;
   const ANALYTICSGOOGLE = options?.data?.[0]?.ANALYTICSGOOGLE;
+  const forgetMessage = options?.data?.[0]?.forgetMessage;
 
   useEffect(() => setColorsObj(options?.data?.[0]?.colors || {}), [options]);
 
   return (
     <OptionContext.Provider
       value={{
+        forgetMessage,
         icon,
         ANALYTICSGOOGLE,
         initialSEOData,
