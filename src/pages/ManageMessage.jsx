@@ -9,7 +9,7 @@ import Spinner from "../ui/Spinner";
 import { useParams } from "react-router";
 import toast from "react-hot-toast";
 import { CiSquareInfo } from "react-icons/ci";
-import PopupMessage from "../serv/account/PopUpMessage";
+import PopupMessage from "../serv/account/PopupMessage";
 
 function formatDate(isoString) {
   const date = new Date(isoString);

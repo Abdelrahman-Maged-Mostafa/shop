@@ -64,7 +64,7 @@ const StyledP = styled.p`
 `;
 
 const ManageTickets = () => {
-  const { login, cookies } = useLogin();
+  const { cookies } = useLogin();
   const [searchParams] = useSearchParams();
   const { initialSEOData, numItems } = useOptions();
   const { data: ticketsData, isLoading } = useQuery({
@@ -87,8 +87,8 @@ const ManageTickets = () => {
   const endItem = page * numItemInPage;
   const numPages = Math.ceil(dataFiltred?.length / numItemInPage);
   const tickets = dataFiltred?.slice(startItem, endItem);
+  if (!cookies.jwt) return <StyledP>Please Login to see your tickets.</StyledP>;
   if (isLoading) return <Spinner />;
-  if (!login) return <StyledP>Please Login to see your tickets.</StyledP>;
   return (
     <PageContainer>
       <HelmetProvider>
