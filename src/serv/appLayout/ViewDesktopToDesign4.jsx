@@ -26,6 +26,9 @@ const NavLinks = styled.div`
       color: var(--color-grey-900);
     }
   }
+  @media screen and (max-width: 920px) {
+    gap: 11px;
+  }
 `;
 
 const StyledLogout = styled.button`
@@ -73,13 +76,13 @@ const DesktopView = ({ handleLogout, darkMode, setDarkMode }) => {
         <NavLink to="/cart">Cart</NavLink>
         <NavLink to="/wishList">Wishlist</NavLink>
         <NavLink to="/account">Account</NavLink>
+        <NavLink to="/customerServies">Customer servies</NavLink>
         <NavLink to="/AboutUs">About Us</NavLink>
         <StyledLogout onClick={handleLogout}>
           {login ? "Logout" : "Login"}
         </StyledLogout>
         <StyledToggle onClick={() => setDarkMode(!darkMode)}>
           {darkMode ? <HiOutlineSun size={24} /> : <HiOutlineMoon size={24} />}
-          <span>{darkMode ? "Light Mode" : "Dark Mode"}</span>
         </StyledToggle>
       </NavLinks>
     </DesktopNav>

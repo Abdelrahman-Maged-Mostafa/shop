@@ -129,6 +129,7 @@ const MobileView = ({
         transition={{ type: "spring", stiffness: 300 }}
       >
         <NavLink to="/account">Account</NavLink>
+        <NavLink to="/customerServies">Customer servies</NavLink>
         <NavLink to="/AboutUs">About Us</NavLink>
         <StyledLogout onClick={handleLogout}>
           {login ? "Logout" : "Login"}

@@ -170,6 +170,7 @@ const Design3 = () => {
             <NavLink to="/cart">cart</NavLink>
             <NavLink to="/wishList">wishlist</NavLink>
             <NavLink to="/account">account</NavLink>
+            <NavLink to="/customerServies">Customer servies</NavLink>
             <NavLink to="/AboutUs">AboutUs</NavLink>
             <StyledLogout onClick={handleLogout}>
               {login ? "Logout" : "Login"}
@@ -190,6 +191,7 @@ const Design3 = () => {
                 <NavLink to="/cart">cart</NavLink>
                 <NavLink to="/wishList">wishlist</NavLink>
                 <NavLink to="/account">account</NavLink>
+                <NavLink to="/customerServies">Customer servies</NavLink>
                 <NavLink to="/AboutUs">AboutUs</NavLink>
                 <StyledLogout onClick={handleLogout}>
                   {login ? "Logout" : "Login"}

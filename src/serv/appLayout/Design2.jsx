@@ -207,6 +207,7 @@ function Design2() {
             <NavLink to="/cart">cart</NavLink>
             <NavLink to="/wishList">wishlist</NavLink>
             <NavLink to="/account">account</NavLink>
+            <NavLink to="/customerServies">Customer servies</NavLink>
             <NavLink to="/AboutUs">AboutUs</NavLink>
           </StyledLinks>
         </StyledNav>
@@ -272,6 +273,7 @@ function Design2() {
               <NavLink to="/cart">cart</NavLink>
               <NavLink to="/wishList">wishlist</NavLink>
               <NavLink to="/account">account</NavLink>
+              <NavLink to="/customerServies">Customer servies</NavLink>
               <NavLink to="/aboutUs">AboutUs</NavLink>
             </MenuContent>
           </StyledMenu>

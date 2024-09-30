@@ -14,11 +14,14 @@ import Account from "./pages/Account";
 import AnalyticsGoogle from "./pages/AnalyticsGoogle";
 import ManageAnalytics from "./pages/ManageAnalytics";
 import Icon from "./hooks/Icone";
-import ChangeStyle from "./pages/ChangeStyle";
 
 const ManageForgetPasswordMessage = lazy(() =>
   import("./pages/ManageForgetPasswordMessage")
 );
+const ChangeStyle = lazy(() => import("./pages/ChangeStyle"));
+const MessagePage = lazy(() => import("./pages/MessagePage"));
+const TicketsPage = lazy(() => import("./pages/TicketsPage"));
+const NewTicket = lazy(() => import("./pages/NewTicket"));
 const ManageAboutUsInfo = lazy(() => import("./pages/ManageAboutUsInfo"));
 const SettingsNumber = lazy(() => import("./pages/SettingsNumber"));
 const ManageOffersLine = lazy(() => import("./pages/ManageOffersLine"));
@@ -116,6 +119,30 @@ function App() {
                 element={
                   <Suspense fallback={<SkeletonScreen />}>
                     <Cart />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="customerServies"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <TicketsPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="customerServies/:id"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <MessagePage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="customerServies/new"
+                element={
+                  <Suspense fallback={<SkeletonScreen />}>
+                    <NewTicket />
                   </Suspense>
                 }
               />

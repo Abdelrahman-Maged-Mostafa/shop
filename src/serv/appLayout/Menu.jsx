@@ -84,6 +84,7 @@ function Menu() {
         <NavLink to="/cart">cart</NavLink>
         <NavLink to="/wishList">wishlist</NavLink>
         <NavLink to="/account">account</NavLink>
+        <NavLink to="/customerServies">Customer servies</NavLink>
         <NavLink to="/aboutUs">AboutUs</NavLink>
       </StyledLinks>
     </StyledMenu>

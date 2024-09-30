@@ -10,7 +10,9 @@ import { getMe } from "../api/user";
 import { useLogin } from "../context/useLogin";
 import { useOptions } from "../context/useOptions";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-
+const StyledP = styled.p`
+  text-align: center;
+`;
 const StyledDashboard = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
@@ -30,7 +32,7 @@ function WishList() {
     queryKey: ["items"],
     queryFn: getAllItems,
   });
-  const { cookies } = useLogin();
+  const { cookies, login } = useLogin();
   const { data: userData } = useQuery({
     queryKey: ["user"],
     queryFn: () => getMe(cookies.jwt),
@@ -69,6 +71,8 @@ function WishList() {
   const myData = filterData?.slice(startItem, endItem);
 
   if (isLoading) return <Spinner />;
+  if (!login || !userData?.data?.doc)
+    return <StyledP>Please Login to see your wishlist items.</StyledP>;
   return (
     <>
       <HelmetProvider>

@@ -219,6 +219,17 @@ const SettingsNumber = () => {
           )}
         />
       </InputGroup>
+      <InputGroup>
+        <label htmlFor="numTicketsInPage">Number of Tickets in Page</label>
+        <Controller
+          name="numTicketsInPage"
+          control={control}
+          defaultValue={numItems?.numTicketsInPage}
+          render={({ field }) => (
+            <input type="number" id="numTicketsInPage" {...field} required />
+          )}
+        />
+      </InputGroup>
       <SaveButton
         type="submit"
         whileHover={{ scale: 1.1 }}
