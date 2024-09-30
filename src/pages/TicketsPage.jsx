@@ -85,8 +85,9 @@ const TicketsPage = () => {
   const numPages = Math.ceil(ticketsData?.data?.length / numItemInPage);
   const tickets = ticketsData?.data?.slice(startItem, endItem);
 
+  if (!cookies?.jwt)
+    return <StyledP>Please Login to see your tickets.</StyledP>;
   if (isLoading) return <Spinner />;
-  if (!login) return <StyledP>Please Login to see your tickets.</StyledP>;
   return (
     <PageContainer>
       <HelmetProvider>
