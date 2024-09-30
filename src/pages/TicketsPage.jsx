@@ -70,7 +70,7 @@ const StyledP = styled.p`
 `;
 
 const TicketsPage = () => {
-  const { login, cookies } = useLogin();
+  const { cookies } = useLogin();
   const { initialSEOData, numItems } = useOptions();
   const { data: ticketsData, isLoading } = useQuery({
     queryKey: ["tickets"],
