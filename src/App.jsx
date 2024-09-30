@@ -14,6 +14,8 @@ import Account from "./pages/Account";
 import AnalyticsGoogle from "./pages/AnalyticsGoogle";
 import ManageAnalytics from "./pages/ManageAnalytics";
 import Icon from "./hooks/Icone";
+import ManageTickets from "./pages/ManageTickets";
+import ManageMessage from "./pages/ManageMessage";
 
 const ManageForgetPasswordMessage = lazy(() =>
   import("./pages/ManageForgetPasswordMessage")
@@ -215,6 +217,26 @@ function App() {
                     <Suspense fallback={<SkeletonScreen />}>
                       <ProtectRoute>
                         <ManageItems />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="manage-tickets"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ManageTickets />
+                      </ProtectRoute>
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="manage-tickets/:id"
+                  element={
+                    <Suspense fallback={<SkeletonScreen />}>
+                      <ProtectRoute>
+                        <ManageMessage />
                       </ProtectRoute>
                     </Suspense>
                   }

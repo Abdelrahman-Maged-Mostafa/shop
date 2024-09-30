@@ -9,6 +9,7 @@ import { GoNumber } from "react-icons/go";
 import { IoAnalytics, IoColorPaletteOutline } from "react-icons/io5";
 import {
   MdCategory,
+  MdContactPhone,
   MdManageAccounts,
   MdOutlineRateReview,
   MdPayments,
@@ -88,6 +89,10 @@ const Sidebar = ({ user }) => {
       {user.role === "admin" ? (
         <>
           <p>Admin list</p>
+          <NavLink to="/account/manage-tickets">
+            <MdContactPhone />
+            <span>Manage Tickets</span>
+          </NavLink>
           <NavLink to="/account/manage-items">
             <MdProductionQuantityLimits />
             <span>Manage items</span>

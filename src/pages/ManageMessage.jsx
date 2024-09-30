@@ -2,12 +2,14 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { getAllUserTickets, updateTicket } from "../api/tickets";
+import { getAllAdminTickets, updateTicket } from "../api/tickets";
 import { useLogin } from "../context/useLogin";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Spinner from "../ui/Spinner";
 import { useParams } from "react-router";
 import toast from "react-hot-toast";
+import { CiSquareInfo } from "react-icons/ci";
+import PopupMessage from "../serv/account/PopUpMessage";
 
 function formatDate(isoString) {
   const date = new Date(isoString);
@@ -76,6 +78,16 @@ const StyledTimeBoard = styled.span`
 const StyledP = styled.p`
   text-align: center;
 `;
+const StyledInfo = styled.div`
+  cursor: pointer;
+  position: absolute;
+  right: 50px;
+  font-size: 30px;
+  color: var(--color-grey-500);
+  &:hover {
+    color: var(--color-brand-500);
+  }
+`;
 const TextArea = styled.textarea`
   margin-bottom: 20px;
   border: none;
@@ -96,7 +108,8 @@ const TextArea = styled.textarea`
   }
 `;
 
-const MessagePage = () => {
+const ManageMessage = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const { login, cookies } = useLogin();
   const { id } = useParams();
   const boardRef = useRef(null);
@@ -105,7 +118,7 @@ const MessagePage = () => {
   const queryClient = useQueryClient();
   const { data: ticketsData, isLoading } = useQuery({
     queryKey: ["tickets"],
-    queryFn: () => getAllUserTickets(cookies.jwt),
+    queryFn: () => getAllAdminTickets(cookies.jwt),
     enabled: !!cookies.jwt,
   });
   const { isLoading: isUpdated, mutate } = useMutation({
@@ -118,6 +131,9 @@ const MessagePage = () => {
       toast.error(err.message);
     },
   });
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
   const ticket = ticketsData?.data?.find((tic) => tic._id === id);
   useEffect(() => {
     if (boardRef.current && lastElementRef.current) {
@@ -141,6 +157,14 @@ const MessagePage = () => {
   if (!login) return <StyledP>Please Login to see your tickets.</StyledP>;
   return (
     <PageContainer>
+      <StyledInfo onClick={togglePopup}>
+        <CiSquareInfo />
+      </StyledInfo>
+      <PopupMessage
+        isOpen={isOpen}
+        togglePopup={togglePopup}
+        user={ticket?.user}
+      />
       <Title>Title: {ticket?.title}</Title>
       <StyledTime>{formatDate(ticket?.createdAt)}</StyledTime>
       <Board
@@ -181,4 +205,4 @@ const MessagePage = () => {
   );
 };
 
-export default MessagePage;
+export default ManageMessage;

@@ -26,6 +26,18 @@ export async function getAllUserTickets(token) {
   return data;
 }
 
+export async function getAllAdminTickets(token) {
+  //send req
+  const res = await fetch(`${URL}/api/v1/tickets`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message);
+  return data;
+}
+
 export async function updateTicket(id, body, token) {
   //send req
   const res = await fetch(`${URL}/api/v1/tickets/${id}`, {
