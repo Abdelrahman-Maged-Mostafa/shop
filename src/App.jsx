@@ -1,6 +1,5 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import styled from "styled-components";
 import { Toaster } from "react-hot-toast";
 
 import DarkModeProvider from "./context/DarkModeContext";
@@ -58,11 +57,6 @@ const ManagePayments = lazy(() => import("./pages/ManagePayments"));
 const ColorManager = lazy(() => import("./pages/ManageStyle"));
 const LogoChange = lazy(() => import("./pages/LogoChange"));
 const IconChange = lazy(() => import("./pages/IconChange"));
-
-const Tryed = styled.div`
-  color: var(--color-brand-50);
-  background-color: var(--color-brand-900);
-`;
 
 function App() {
   return (
@@ -156,8 +150,6 @@ function App() {
                   </Suspense>
                 }
               />
-              <Route path="users" element={<Tryed>users...</Tryed>} />
-              <Route path="settings" element={<Tryed>settings...</Tryed>} />
               <Route path="account" element={<Account />}>
                 <Route
                   path="active-orders/:orderId"
@@ -546,6 +538,7 @@ function App() {
               padding: "16px 24px",
               backgroundColor: "var(--color-grey-0)",
               color: "var(--color-grey-700)",
+              zIndex: "9999999",
             },
           }}
         />
