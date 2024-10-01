@@ -137,6 +137,9 @@ const EditItem = () => {
         images: curItem?.images,
         imageCover: curItem?.imageCover,
         category: curItem?.category?.join("-"),
+        SEOtitle: curItem?.SEOtitle,
+        SEOdescription: curItem?.SEOdescription,
+        SEOkeywords: curItem?.SEOkeywords,
       });
     }
   }, [curItem, reset]);
