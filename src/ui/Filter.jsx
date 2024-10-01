@@ -44,7 +44,7 @@ const FilterButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
-function Filter({ filterField, options }) {
+function Filter({ filterField, options, classCss = "" }) {
   const [searchParams, setSearchParams] = useSearchParams();
   function handleClick(value) {
     searchParams.set(filterField, value);
@@ -54,7 +54,7 @@ function Filter({ filterField, options }) {
   const filterValue = searchParams.get(filterField) || options[0].value;
 
   return (
-    <StyledFilter>
+    <StyledFilter className={classCss}>
       {options.map((option) => (
         <FilterButton
           onClick={() => handleClick(option.value)}

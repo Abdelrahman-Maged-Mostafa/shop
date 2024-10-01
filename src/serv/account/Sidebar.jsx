@@ -182,6 +182,36 @@ const Sidebar = ({ user }) => {
           </NavLink>
         </>
       )}
+      {user.role === "managerItems" && (
+        <>
+          <p>Manager items</p>
+          <NavLink to="/account/manage-items">
+            <MdProductionQuantityLimits />
+            <span>Manage items</span>
+          </NavLink>
+          <NavLink to="/account/change-categorys">
+            <MdCategory style={{ verticalAlign: "middle" }} />
+            <span>Manage categorys</span>
+          </NavLink>
+          <NavLink to="/account/change-offers">
+            <BiSolidOffer style={{ verticalAlign: "middle" }} />
+            <span>Manage offers</span>
+          </NavLink>
+          <NavLink to="/account/manage-offers-line">
+            <BiSolidOffer style={{ verticalAlign: "middle" }} />
+            <span>Manage offers Line</span>
+          </NavLink>
+        </>
+      )}
+      {user.role === "managerReviews" && (
+        <>
+          <p>Manager reviews</p>
+          <NavLink to="/account/manage-reviews">
+            <MdOutlineRateReview style={{ verticalAlign: "middle" }} />
+            <span>Manage reviews</span>
+          </NavLink>
+        </>
+      )}
     </SidebarStyled>
   );
 };

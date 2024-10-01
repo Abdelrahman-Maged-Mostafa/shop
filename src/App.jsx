@@ -215,7 +215,7 @@ function App() {
                   path="manage-items"
                   element={
                     <Suspense fallback={<SkeletonScreen />}>
-                      <ProtectRoute>
+                      <ProtectRoute role={["admin", "managerItems"]}>
                         <ManageItems />
                       </ProtectRoute>
                     </Suspense>
@@ -245,7 +245,7 @@ function App() {
                   path="manage-items/editItem/:itemId"
                   element={
                     <Suspense fallback={<SkeletonScreen />}>
-                      <ProtectRoute>
+                      <ProtectRoute role={["admin", "managerItems"]}>
                         <EditItem />
                       </ProtectRoute>
                     </Suspense>
@@ -255,7 +255,7 @@ function App() {
                   path="manage-items/addItem"
                   element={
                     <Suspense fallback={<SkeletonScreen />}>
-                      <ProtectRoute>
+                      <ProtectRoute role={["admin", "managerItems"]}>
                         <AddItem />
                       </ProtectRoute>
                     </Suspense>
@@ -265,7 +265,7 @@ function App() {
                   path="manage-reviews"
                   element={
                     <Suspense fallback={<SkeletonScreen />}>
-                      <ProtectRoute>
+                      <ProtectRoute role={["admin", "managerReviews"]}>
                         <ManageReviews />
                       </ProtectRoute>
                     </Suspense>
@@ -275,7 +275,7 @@ function App() {
                   path="manage-reviews/reviews-item/:itemId"
                   element={
                     <Suspense fallback={<SkeletonScreen />}>
-                      <ProtectRoute>
+                      <ProtectRoute role={["admin", "managerReviews"]}>
                         <ItemReview />
                       </ProtectRoute>
                     </Suspense>
@@ -365,7 +365,7 @@ function App() {
                   path="change-categorys"
                   element={
                     <Suspense fallback={<SkeletonScreen />}>
-                      <ProtectRoute>
+                      <ProtectRoute role={["admin", "managerItems"]}>
                         <ManageCategories />
                       </ProtectRoute>
                     </Suspense>
@@ -375,7 +375,7 @@ function App() {
                   path="change-offers"
                   element={
                     <Suspense fallback={<SkeletonScreen />}>
-                      <ProtectRoute>
+                      <ProtectRoute role={["admin", "managerItems"]}>
                         <ManageOffers />
                       </ProtectRoute>
                     </Suspense>
@@ -445,7 +445,7 @@ function App() {
                   path="manage-offers-line"
                   element={
                     <Suspense fallback={<SkeletonScreen />}>
-                      <ProtectRoute>
+                      <ProtectRoute role={["admin", "managerItems"]}>
                         <ManageOffersLine />
                       </ProtectRoute>
                     </Suspense>

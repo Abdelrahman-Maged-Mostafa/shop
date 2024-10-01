@@ -107,3 +107,17 @@ export async function unBanUser(id, token) {
   if (data.status !== "success") throw new Error(data.message);
   return data;
 }
+
+export async function updateRole(id, body, token) {
+  const res = await fetch(`${URL}/api/v1/users/rol/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message);
+  return data;
+}
