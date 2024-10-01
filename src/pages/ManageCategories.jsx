@@ -138,7 +138,7 @@ function ManageCategories() {
             type="file"
             onChange={(event) => handlePhotoChange(index, event)}
           />
-          <Warning>Image needs to be 300px * 200px</Warning>
+          <Warning>Image needs to be 1200px * 800px</Warning>
         </CategoryCard>
       ))}
       <SaveButton onClick={handleSavePhoto} disabled={isLoading}>
