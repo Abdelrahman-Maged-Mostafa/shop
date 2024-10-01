@@ -6,9 +6,13 @@ import { useOptions } from "../../context/useOptions";
 
 const Container = styled.div`
   position: relative;
-  width: 100%;
+  left: -40px;
+  width: calc(100% + 80px);
   height: 300px;
   overflow: hidden;
+  @media screen and (max-width: 767px) {
+    height: 200px;
+  }
 `;
 
 const Slide = styled(motion.div)`
