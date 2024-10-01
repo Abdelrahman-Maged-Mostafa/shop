@@ -32,6 +32,7 @@ const Slide = styled(motion.div)`
   margin: 10px 0;
   background-size: cover;
   background-position: center;
+  border-radius: 10px;
   cursor: pointer;
   transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
 
@@ -43,13 +44,13 @@ const Slide = styled(motion.div)`
   @media (max-width: 768px) {
     min-width: 200px;
     max-width: 200px;
-    height: 150px;
+    height: 135px;
   }
 
   @media (max-width: 480px) {
     min-width: 100%;
     max-width: 100%;
-    height: 300px;
+    height: 200px;
   }
 `;
 const Slide2 = styled(motion.div)`
@@ -62,7 +63,9 @@ const Slide2 = styled(motion.div)`
   background-position: center;
   cursor: pointer;
   transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
-
+  h2 {
+    font-size: 16px;
+  }
   &:hover {
     transform: scale(1.1);
     filter: brightness(1.2) contrast(1.1);
@@ -239,6 +242,7 @@ const CategorySlider = ({ categories }) => {
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
+                      borderRadius: "10px",
                     }}
                   />
                   <SlideContent>
