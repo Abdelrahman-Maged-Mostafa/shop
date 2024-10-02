@@ -26,8 +26,6 @@ const StyledPhoto = styled.div`
       height: 100px;
       cursor: pointer;
       box-shadow: var(--shadow-md);
-      padding: 0 4px 4px;
-      border-radius: var(--border-radius-lg);
       border: 1px solid var(--color-grey-400);
       img {
         height: 100%;
@@ -62,7 +60,7 @@ function Photos({ curItem }) {
         {curItem?.images?.map((el, i) => (
           <div
             style={{
-              border: photo === el ? "1px solid var(--color-grey-400)" : "none",
+              border: photo === el ? "3px solid var(--color-grey-400)" : "none",
             }}
             onClick={() => {
               setPhoto(el);

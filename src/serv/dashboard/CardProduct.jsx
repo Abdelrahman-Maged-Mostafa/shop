@@ -10,7 +10,7 @@ import { FaHeart } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { getMe } from "../../api/user";
 
-const StyledCard = styled(motion.div)`
+const StyledCard = styled(motion(Link))`
   display: grid;
   position: relative;
   grid-template-rows: auto 1fr;
@@ -25,7 +25,7 @@ const StyledCard = styled(motion.div)`
     transform: translateY(-5px);
   }
   .product-image img {
-    padding: 10px;
+    /* padding: 10px; */
     width: 100%;
     height: auto;
     /* height: 300px; */
@@ -54,6 +54,7 @@ const StyledCard = styled(motion.div)`
     font-size: 1.2em;
     color: var(--color-grey-900);
     margin: 10px 0;
+    font-weight: bold;
   }
 
   .button {
@@ -127,7 +128,8 @@ function CardProduct({ data, index }) {
       toast.error(err.message);
     },
   });
-  function handelAddToCart() {
+  function handelAddToCart(e) {
+    e.preventDefault();
     setIsLoading(true);
     mutate({
       body: { item: data.id, properties: { price: data.price } },
@@ -135,7 +137,8 @@ function CardProduct({ data, index }) {
     });
     setIsLoading(false);
   }
-  function handleWishList() {
+  function handleWishList(e) {
+    e.preventDefault();
     handleList({
       id: data.id,
       token: cookies.jwt,
@@ -146,6 +149,7 @@ function CardProduct({ data, index }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: index / 3 }}
+      to={`/dashboard/${data.id}`}
     >
       {
         <FaHeart

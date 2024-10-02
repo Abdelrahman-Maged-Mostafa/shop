@@ -190,7 +190,17 @@ const EditItem = () => {
         <Input
           disabled={isUpdated}
           type="text"
-          {...register("name", { required: "This field is required " })}
+          {...register("name", {
+            required: "This field is required ",
+            minLength: {
+              value: 3,
+              message: "A item name must have more than 3 characters",
+            },
+            maxLength: {
+              value: 40,
+              message: "A item name must have less than 41 characters",
+            },
+          })}
         />
         <ColorSizeForm
           item={curItem}

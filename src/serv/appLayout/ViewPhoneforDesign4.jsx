@@ -55,6 +55,7 @@ const SettingsMenu = styled(motion.div)`
   z-index: 999999;
   a {
     font-weight: bold;
+    margin-bottom: 10px;
     text-transform: capitalize;
     color: var(--color-grey-500);
     cursor: pointer;
@@ -128,16 +129,19 @@ const MobileView = ({
         animate={{ y: 5 }}
         transition={{ type: "spring", stiffness: 300 }}
       >
-        <NavLink to="/account">Account</NavLink>
-        <NavLink to="/customerServies">Customer servies</NavLink>
-        <NavLink to="/AboutUs">About Us</NavLink>
-        <StyledLogout onClick={handleLogout}>
-          {login ? "Logout" : "Login"}
-        </StyledLogout>
-        <StyledToggle onClick={() => setDarkMode(!darkMode)}>
+        <StyledToggle
+          onClick={() => setDarkMode(!darkMode)}
+          style={{ marginBottom: "10px" }}
+        >
           {darkMode ? <HiOutlineSun size={24} /> : <HiOutlineMoon size={24} />}
           <span>{darkMode ? "Light Mode" : "Dark Mode"}</span>
         </StyledToggle>
+        <NavLink to="/customerServies">Customer servies</NavLink>
+        <NavLink to="/AboutUs">About Us</NavLink>
+        <NavLink to="/account">Account</NavLink>
+        <StyledLogout onClick={handleLogout}>
+          {login ? "Logout" : "Login"}
+        </StyledLogout>
       </SettingsMenu>
     )}
   </>
