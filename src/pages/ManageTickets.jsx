@@ -136,6 +136,7 @@ const ManageTickets = () => {
           <Link key={ticket._id} to={`/account/manage-tickets/${ticket._id}`}>
             <TicketCard whileHover={{ scale: 1.05 }}>
               <CardTitle>{ticket.title}</CardTitle>
+              <CardTitle>From : {ticket?.user?.email}</CardTitle>
               <CardText>Created At: {formatDate(ticket.createdAt)}</CardText>
             </TicketCard>
           </Link>

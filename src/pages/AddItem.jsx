@@ -8,6 +8,7 @@ import { createOneItems } from "../api/items";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import ColorSizeForm from "../serv/account/ColorSizeForm";
+import { useOptions } from "../context/useOptions";
 
 // Styled components
 const Container = styled.div`
@@ -18,7 +19,25 @@ const Container = styled.div`
   background-color: var(--color-grey-100);
   min-height: 100vh;
 `;
-
+const StyledCategory = styled.div`
+  border: 1px solid var(--color-grey-100);
+  background-color: var(--color-grey-0);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--border-radius-sm);
+  padding: 0.4rem;
+  margin-bottom: 25px;
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  span {
+    cursor: pointer;
+    text-transform: capitalize;
+    margin-left: 15px;
+    &:hover {
+      color: var(--color-brand-500);
+    }
+  }
+`;
 const Form = styled.form`
   background: var(--color-grey-0);
   box-shadow: var(--shadow-md);
@@ -90,7 +109,13 @@ const Warn = styled.div`
 `;
 
 function AddItem() {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const { categories } = useOptions();
   const [isPriceAndStock, setIsPriceAndStock] = useState(true);
   const navigate = useNavigate();
   const { cookies } = useLogin();
@@ -127,6 +152,9 @@ function AddItem() {
 
     mutate({ body: data, token: cookies.jwt });
   }
+  function handleClickCatogry(name) {
+    reset({ category: name });
+  }
   return (
     <Container>
       <Form onSubmit={handleSubmit(submitSuccess)}>
@@ -149,9 +177,7 @@ function AddItem() {
               })}
               onChange={(e) => handleImageChange(e, index)}
             />
-            <Warn>
-              This photo should be 500 px * 500 px and background TRANSPARENT
-            </Warn>
+            <Warn>This photo should be 500 px * 500 px</Warn>
           </div>
         ))}
         <Label>Name</Label>
@@ -170,6 +196,7 @@ function AddItem() {
             },
           })}
         />
+        {errors?.name?.message && <Warn>{errors?.name?.message}</Warn>}
         <ColorSizeForm
           setProperties={setProperties}
           setIsPriceAndStock={setIsPriceAndStock}
@@ -191,6 +218,11 @@ function AddItem() {
           placeholder="popular-elctrons-game"
           {...register("category", { required: "This field is required " })}
         />
+        <StyledCategory>
+          {categories?.map((cat) => (
+            <span onClick={() => handleClickCatogry(cat.name)}>{cat.name}</span>
+          ))}
+        </StyledCategory>
         <Label>Short Description</Label>
         <TextArea
           disabled={isUpdated}

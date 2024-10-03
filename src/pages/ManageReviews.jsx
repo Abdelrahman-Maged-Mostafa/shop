@@ -6,12 +6,17 @@ import Card from "../serv/manage-items/Card";
 import Pagination from "../serv/dashboard/Pagination";
 import { useState } from "react";
 import { useOptions } from "../context/useOptions";
+import Filter from "../ui/Filter";
+import { useSearchParams } from "react-router-dom";
 
 // Styled components
 const StyledAll = styled.div`
   position: relative;
   background-color: var(--color-grey-100);
   height: 100%;
+  .filter {
+    flex-wrap: wrap;
+  }
 `;
 
 const Container = styled.div`
@@ -35,14 +40,23 @@ const Fotter = styled.div`
 `;
 
 function ManageReviews({ user }) {
+  const { numItems, categories } = useOptions();
+  const [searchParams] = useSearchParams();
+  const filterValue = searchParams.get("category");
   const { data: items, isLoading } = useQuery({
     queryKey: ["items"],
     queryFn: getAllItems,
   });
-  const curItems = items?.data?.sort((a, b) => {
+  const curItemsNow = items?.data?.sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
-  const { numItems } = useOptions();
+  const curItems = curItemsNow?.filter((item) => {
+    if (!filterValue) {
+      return true;
+    } else {
+      return item.category.includes(filterValue);
+    }
+  });
 
   const [page, setPage] = useState(1);
   const numItemInPage = numItems?.numItemsInManageReviewsPage;
@@ -53,6 +67,16 @@ function ManageReviews({ user }) {
   if (isLoading) return <Spinner />;
   return (
     <StyledAll>
+      <Filter
+        classCss="filter"
+        filterField="category"
+        options={[
+          { value: "", label: "All" },
+          ...categories?.map((cat) => {
+            return { value: cat.name, label: cat.name };
+          }),
+        ]}
+      />
       <Container>
         {myData.map((item, i) => (
           <Card item={item} key={i} type="review" />

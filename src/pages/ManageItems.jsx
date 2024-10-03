@@ -15,6 +15,9 @@ const StyledAll = styled.div`
   position: relative;
   background-color: var(--color-grey-100);
   height: 100%;
+  .filter {
+    flex-wrap: wrap;
+  }
 `;
 
 const Container = styled.div`
@@ -48,7 +51,6 @@ function ManageItems({ user }) {
   const curItemsNow = items?.data?.sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
-  console.log(curItemsNow?.[0]?.category, filterValue);
   const curItems = curItemsNow?.filter((item) => {
     if (!filterValue) {
       return true;
@@ -66,6 +68,7 @@ function ManageItems({ user }) {
   return (
     <StyledAll>
       <Filter
+        classCss="filter"
         filterField="category"
         options={[
           { value: "", label: "All" },
