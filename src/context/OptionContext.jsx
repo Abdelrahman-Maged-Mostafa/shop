@@ -26,7 +26,6 @@ function OptionProvider({ children }) {
   const forgetMessage = options?.data?.[0]?.forgetMessage;
   const headerStyle = options?.data?.[0]?.headerStyle;
   const dashboardStyle = options?.data?.[0]?.dashboardStyle;
-
   useEffect(() => setColorsObj(options?.data?.[0]?.colors || {}), [options]);
 
   return (

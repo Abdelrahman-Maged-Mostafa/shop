@@ -44,6 +44,9 @@ function DetailsItem({ curItem }) {
   const [isLoading, setIsLoading] = useState(false);
   const [curColor, setCurColor] = useState(0);
   const [curSize, setCurSize] = useState(0);
+  const reviewRate =
+    curItem?.reviews?.reduce((cur, rev) => (cur += rev.rating), 0) /
+    curItem?.reviews?.length;
   const [price, setPrice] = useState(curItem?.price);
   const [stock, setStock] = useState(curItem?.stock);
   const { cookies } = useLogin();
@@ -110,7 +113,7 @@ function DetailsItem({ curItem }) {
       <h1>{curItem?.name}</h1>
       <StarRating
         size={20}
-        defaultRating={curItem?.ratingsAverage}
+        defaultRating={reviewRate?.toFixed(1)}
         color={"var(--color-yellow-700)"}
       />
       <h1>${price}</h1>
