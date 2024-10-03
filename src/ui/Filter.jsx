@@ -61,6 +61,7 @@ function Filter({ filterField, options, classCss = "" }) {
           key={option.value}
           active={option.value === filterValue ? "yes" : ""}
           disabled={option.value === filterValue}
+          style={{ textTransform: "capitalize" }}
         >
           {option.label}
         </FilterButton>

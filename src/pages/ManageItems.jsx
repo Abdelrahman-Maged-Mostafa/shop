@@ -6,8 +6,9 @@ import Card from "../serv/manage-items/Card";
 import Pagination from "../serv/dashboard/Pagination";
 import { useState } from "react";
 import Button from "../ui/Button";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useOptions } from "../context/useOptions";
+import Filter from "../ui/Filter";
 
 // Styled components
 const StyledAll = styled.div`
@@ -41,9 +42,19 @@ function ManageItems({ user }) {
     queryKey: ["items"],
     queryFn: getAllItems,
   });
-  const { numItems } = useOptions();
-  const curItems = items?.data?.sort((a, b) => {
+  const { numItems, categories } = useOptions();
+  const [searchParams] = useSearchParams();
+  const filterValue = searchParams.get("category");
+  const curItemsNow = items?.data?.sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+  console.log(curItemsNow?.[0]?.category, filterValue);
+  const curItems = curItemsNow?.filter((item) => {
+    if (!filterValue) {
+      return true;
+    } else {
+      return item.category.includes(filterValue);
+    }
   });
   const [page, setPage] = useState(1);
   const numItemInPage = numItems?.numItemsInManageItemsPage;
@@ -54,6 +65,15 @@ function ManageItems({ user }) {
   if (isLoading) return <Spinner />;
   return (
     <StyledAll>
+      <Filter
+        filterField="category"
+        options={[
+          { value: "", label: "All" },
+          ...categories?.map((cat) => {
+            return { value: cat.name, label: cat.name };
+          }),
+        ]}
+      />
       <Container>
         {myData?.map((item, i) => (
           <Card item={item} key={i} />
