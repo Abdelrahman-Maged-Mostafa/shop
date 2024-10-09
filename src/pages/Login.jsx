@@ -104,6 +104,14 @@ const Login = () => {
     },
   });
   const navigate = useNavigate();
+  useEffect(
+    () =>
+      reset({
+        email: "admin@ad.com",
+        password: "11112222",
+      }),
+    [reset]
+  );
   useEffect(() => {
     function handleAddCartItem() {
       mutate({
